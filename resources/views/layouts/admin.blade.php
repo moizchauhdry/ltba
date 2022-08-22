@@ -10,27 +10,28 @@
     <title>LTBA - Dashboard</title>
 
     <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="{{asset('public/admin/plugins/fontawesome-free/css/all.min.css')}}">
+    <link rel="stylesheet" href="{{asset('public/portal/plugins/fontawesome-free/css/all.min.css')}}">
     <!-- Theme style -->
-    <link rel="stylesheet" href="{{asset('public/admin/dist/css/adminlte.min.css')}}">
+    <link rel="stylesheet" href="{{asset('public/portal/dist/css/adminlte.min.css')}}">
     <!-- overlayScrollbars -->
-    <link rel="stylesheet" href="{{asset('public/admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
+    <link rel="stylesheet" href="{{asset('public/portal/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
     <!-- DataTables -->
-    <link rel="stylesheet" href="{{asset('public/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{asset('public/portal/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet"
-        href="{{asset('public/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+        href="{{asset('public/portal/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css">
     <!-- Select2 -->
-    <link rel="stylesheet" href="{{asset('public/admin/plugins/select2/css/select2.min.css')}}">
-    <link rel="stylesheet" href="{{asset('public/admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{asset('public/portal/plugins/select2/css/select2.min.css')}}">
+    <link rel="stylesheet"
+        href="{{asset('public/portal/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
 
     <!-- Bootstrap Toggel -->
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link rel=" stylesheet" href="{{asset('public/admin/custom.css')}}">
+    <link rel=" stylesheet" href="{{asset('public/portal/custom.css')}}">
 
     @yield('styles')
 
@@ -61,21 +62,21 @@
     <!-- REQUIRED SCRIPTS -->
 
     <!-- jQuery -->
-    <script src="{{asset('public/admin/plugins/jquery/jquery.min.js')}}"></script>
+    <script src="{{asset('public/portal/plugins/jquery/jquery.min.js')}}"></script>
     <!-- Bootstrap 4 -->
-    <script src="{{asset('public/admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{asset('public/portal/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <!-- overlayScrollbars -->
-    <script src="{{asset('public/admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}">
+    <script src="{{asset('public/portal/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}">
     </script>
     <!-- Admin App-->
-    <script src="{{asset('public/admin/dist/js/adminlte.min.js')}}"></script>
+    <script src="{{asset('public/portal/dist/js/adminlte.min.js')}}"></script>
 
     <!-- DataTables -->
-    <script src="{{asset('public/admin/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset('public/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('public/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}">
+    <script src="{{asset('public/portal/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('public/portal/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('public/portal/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}">
     </script>
-    <script src="{{asset('public/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}">
+    <script src="{{asset('public/portal/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}">
     </script>
 
     <!-- DataTables Export Buttons Download -->
@@ -88,7 +89,7 @@
     <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
 
     <!-- Select2 -->
-    <script src="{{asset('public/admin/plugins/select2/js/select2.full.min.js')}}"></script>
+    <script src="{{asset('public/portal/plugins/select2/js/select2.full.min.js')}}"></script>
 
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
