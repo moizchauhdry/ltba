@@ -1,0 +1,12 @@
+.required-star {
+    color: #f00;
+}
+.span-red {
+    color: #f00;
+}
+.fas.fa-star {
+    color: #ffd700;
+}
+select[disabled] {
+    cursor: not-allowed !important;
+}
