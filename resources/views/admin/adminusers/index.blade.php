@@ -30,7 +30,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">
-                            Admins List (Total Admins : {{$adminUsers->count()}})
+                            Admins List (Total Admins : )
                         </h3>
                     </div>
                     <!-- /.card-header -->
@@ -48,30 +48,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @php $count=1; @endphp
-                                @foreach ($adminUsers as $user)
-                                <tr>
-                                    <td>{{$count++}}</td>
-                                    <td>{{$user->name}}</td>
-                                    <td>{{$user->email}}</td>
-                                    <td>{{$user->phone}}</td>
-                                    <td>
-                                        {{($user->getAdminPermissions() == '') ? '--' : $user->getAdminPermissions()}}
-                                    </td>
-                                    <td>
-                                        @if ($user->status == 1)
-                                        <span class="badge badge-success">Active</span>
-                                        @else
-                                        <span class="badge badge-danger">Suspended</span>
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="{{route('admins.edit',$user->id)}}">
-                                            <i class="far fa-edit" aria-hidden="true"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                @endforeach
+                               
                             </tbody>
                         </table>
                     </div>
@@ -90,12 +67,31 @@
 @endsection
 
 @section('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+
 <script>
-    $(function () {
-      $("#admin_users").DataTable({
-        "responsive": true,
-        "autoWidth": false,
-      });
-    });
+    var table;
+        $(document).ready( function () {
+            table  = $('#admin_users').DataTable({
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('admins.index') }}",
+                order:[[0,"desc"]],
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'name', name: 'name'},
+                    {data: 'email', name: 'email'},
+                    {data: 'phone', name: 'phone'},
+                    {data: 'permissions', name: 'permissions'},
+                    {data: 'status', name: 'status'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false},
+                ],
+                drawCallback: function (response) {
+                    $('#countTotal').empty();
+                    $('#countTotal').append(response['json'].recordsTotal);
+                }
+            });
+        });
 </script>
 @endsection

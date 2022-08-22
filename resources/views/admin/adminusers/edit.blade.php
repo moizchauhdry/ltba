@@ -1,5 +1,6 @@
 @extends('layouts.admin')
 
+
 @section('content')
 
 <!-- Content Header (Page header) -->
@@ -35,27 +36,42 @@
                         {{ csrf_field() }}
                         <div class="card-body">
                             <div class="row">
-                                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group col-md-6">
                                     <label>Name <span class="required-star">*</span></label>
                                     <input type="text" class="form-control" name="name" value="{{$admin->name}}"
                                         required>
+                                    @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
                                 </div>
-                                <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-group col-md-6">
                                     <label>Email <span class="required-star">*</span></label>
                                     <input type="email" class="form-control" name="email" value="{{$admin->email}}"
                                         readonly required>
+                                    @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
                                 </div>
-                                <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                                    <label>Phone <span class="required-star">*</span></label>
-                                    <input type="text" id="phone" class="form-control" name="phone"
-                                        value="{{$admin->phone}}" required>
+                                <div class="form-group col-md-6">
+                                    <label>Contact Number <span class="required-star">*</span></label>
+                                    <input type="text" id="contact_no" class="form-control contact_no" name="contact_no"
+                                        value="{{$admin->contact_no}}" required>
+                                    @error('contact_no')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Permissions</label>
                                     <div class="select2-purple">
                                         <select class="select2" multiple="multiple" data-placeholder="Nothing Selected"
                                             name="permissions[]" data-dropdown-css-class="select2-purple"
-                                            style="width: 100%;">
+                                            style="width: 100%;" required>
                                             @foreach ($permissions as $permission)
                                             <option @foreach ($admin->permissions as $perm)
                                                 @if ($perm->id == $permission->id) selected @endif @endforeach
@@ -63,28 +79,49 @@
                                             </option>
                                             @endforeach
                                         </select>
+                                        @error('permissions')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
                                     </div>
                                 </div>
-                                <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                                    <label>Password </label>
-                                    <input type="password" id="password" class="form-control" name="password"
-                                        placeholder="********">
+
+                                <div class="container row">
+                                    <div class="col-md-12">
+                                        <input type="checkbox" class="change_password" name="change_password_checkbox"
+                                            id="change_password_checkbox" value="1" onchange="changePassword()">
+                                        <label class="create-group">Do you want to change password?</label>
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                                    <label>Confirm Password </label>
-                                    <input id="password_confirm" type="password" class="form-control"
-                                        placeholder="********" name="password_confirmation">
+
+                                <div class="col-md-12" id="change_password_section" style="display:none ">
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label>New Password <span class="required-star">*</span> </label>
+                                            <input type="password" id="password" class="form-control" name="password"
+                                                placeholder="********">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>Confirm New Password <span class="required-star">*</span> </label>
+                                            <input id="password_confirm" type="password" class="form-control"
+                                                placeholder="********" name="password_confirmation">
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-6 mt-4">
-                                    <label class="checkbox-inline">Suspend Account <span
-                                            class="required-star">*</span></label>
-                                    @if ($admin->is_active == "0")
-                                    <input name="status" type="checkbox" class="" checked data-toggle="toggle">
-                                    <input type="hidden" name="status" id="status" value="{{$admin->status}}">
-                                    @else
-                                    <input name="status" type="checkbox" class="" data-toggle="toggle">
-                                    <input type="hidden" name="status" id="status" value="{{$admin->status}}">
-                                    @endif
+
+                                <div class="col-md-12">
+                                    <div class="form-group col-md-6 mt-4">
+                                        <label class="checkbox-inline">Status </label>
+                                        @if ($admin->status == "0")
+                                        <input name="statusCheckBox" type="checkbox" class="" checked
+                                            data-toggle="toggle">
+                                        <input type="hidden" name="status" id="status" value="{{$admin->status}}">
+                                        @else
+                                        <input name="statusCheckBox" type="checkbox" class="" data-toggle="toggle">
+                                        <input type="hidden" name="status" id="status" value="{{$admin->status}}">
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -109,18 +146,62 @@
 <!-- /.content -->
 
 @endsection
-
-
 @section('scripts')
 <script>
-    $('input[name="status"]').change(function () {
-    if ($(this).is(":checked")) {
-        $('input#status').val('0');
-    } else {
-        $('input#status').val('1');
-    }
-    });
     //Initialize Select2 Elements
     $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+</script>
+<script>
+    $('input[name="statusCheckBox"]').click(function () {
+        if ($(this).is(":checked")) {
+            $('#status').val('0');
+        } else {
+            $('#status').val('1');
+        }
+    });
+
+    $("#show_password").on('click', function () {
+        var status = $(this).data('status');
+        if (status == 'hidden') {
+            $("#password").attr('type', 'text');
+            $(this).data('status', 'shown');
+            $(this).find('.fa').removeClass("fa-eye-slash").addClass("fa-eye");
+        } else {
+            $("#password").attr('type', 'password');
+            $(this).data('status', 'hidden');
+            $(this).find('.fa').addClass("fa-eye-slash").removeClass("fa-eye");
+        }
+    });
+
+    $("#show_password_confirm").on('click', function () {
+        var status = $(this).data('status');
+        if (status == 'hidden') {
+            $("#password_confirm").attr('type', 'text');
+            $(this).data('status', 'shown');
+            $(this).find('.fa').removeClass("fa-eye-slash").addClass("fa-eye");
+        } else {
+            $("#password_confirm").attr('type', 'password');
+            $(this).data('status', 'hidden');
+            $(this).find('.fa').addClass("fa-eye-slash").removeClass("fa-eye");
+        }
+    });
+
+    function changePassword() {
+        if($('.change_password').is(":checked")){
+            $("#change_password_section").show();
+            $('#password').prop('required',true);
+            $('#password_confirm').prop('required',true);
+        }   
+        else {
+            $("#change_password_section").hide();
+            $('#password').prop('required',false);
+            $('#password_confirm').prop('required',false);
+        }
+    }
 </script>
 @endsection
