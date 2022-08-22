@@ -14,13 +14,13 @@ class AdminSeeder extends Seeder
     public function run()
     {
         Admin::insert([
-            [   
-                'name' =>'Admin',
-                'email' =>'admin@admin.com',
-                'password'=>Hash::make('password'),
-                'phone'=>'03204650584',
-                'created_at'=>Carbon::now(),
-                'updated_at'=>Carbon::now(),
+            [
+                'name' => 'LTBA ADMIN',
+                'email' => 'admin@ltba.com',
+                'password' => Hash::make('1234567890'),
+                'phone' => '03204650584',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
         ]);
     }

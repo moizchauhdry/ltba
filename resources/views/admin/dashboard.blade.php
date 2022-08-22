@@ -21,7 +21,7 @@
                 <div class="small-box bg-info">
                     <div class="inner">
                         <h3>0</h3>
-                        <p>Total Applications</p>
+                        <p>Total Operators</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>
@@ -45,7 +45,7 @@
                 <div class="small-box bg-warning">
                     <div class="inner">
                         <h3>0</h3>
-                        <p>Total Patients</p>
+                        <p>Total Members</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>
@@ -57,7 +57,7 @@
                 <div class="small-box bg-danger">
                     <div class="inner">
                         <h3>0</h3>
-                        <p>Total Applications</p>
+                        <p>Total Election Seats</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>

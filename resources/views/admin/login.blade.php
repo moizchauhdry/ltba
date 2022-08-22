@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>App Name - Login</title>
+    <title>LTBA - Login</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -23,13 +23,12 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            {{-- <a href="#"><b>Admin&nbsp;</b>EYEZONE</a> --}}
             <img src="{{asset('public/images/logo.png')}}" alt="App Logo" class="w-50">
         </div>
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <p class="login-box-msg"><b>Admin Login</b></p>
+                <p class="login-box-msg"><b>LTBA LOGIN</b></p>
 
                 @if (Session::has('error_message'))
                 <div class="alert alert-danger" role="alert">
