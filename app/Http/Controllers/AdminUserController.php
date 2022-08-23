@@ -158,16 +158,16 @@ class AdminUserController extends Controller
             'permissions' => 'required|array'
         ];
 
-        if (!empty($request->password) || !empty($request->password_confirmation)) {
-            $rules['password'] = 'required|string|min:6|max:32|confirmed';
-        }
-
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors(),
             ], 400);
+        }
+
+        if (!empty($request->password) || !empty($request->password_confirmation)) {
+            $rules['password'] = 'required|string|min:6|max:32|confirmed';
         }
 
         $userData = [
@@ -188,7 +188,7 @@ class AdminUserController extends Controller
 
         $admin->update($userData);
 
-         return response()->json([ 'status' => 1, 'message' => 'success']);
+        return response()->json([ 'status' => 1, 'message' => 'success']);
     }
 
     /**
