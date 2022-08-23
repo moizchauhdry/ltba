@@ -19,7 +19,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         return view('admin.login');
     });
 
-    Route::prefix('portal')->group(function () {
+    Route::prefix('admin')->group(function () {
         Route::match(['get', 'post'], '/login', 'AdminController@login')->name('admin.login');
 
         Route::group(['middleware' => ['adminCheckSuspend']], function () {

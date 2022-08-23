@@ -21,41 +21,38 @@ class AdminUserController extends Controller
     {
         $user = Auth::guard('admin')->user();
         if ($request->ajax()) {
-            $data = Admin::where('id','!=',$user->id)->where('id','!=','1')->orderBy('id','desc')->get();
+            $data = Admin::where('id', '!=', $user->id)->where('id', '!=', '1')->orderBy('id', 'desc');
             return Datatables::of($data)
                 ->addIndexColumn()
-                ->addColumn('permissions', function(Admin $data) {
+                ->addColumn('permissions', function (Admin $data) {
                     $permissions = $data->permissions()->get();
                     $printIT = "";
-                    foreach ($permissions as $permission)
-                    {
-                        $printIT .= '<span class="badge badge-success">'.$permission->name.'</span>';
+                    foreach ($permissions as $permission) {
+                        $printIT .= '<span class="badge badge-success">' . $permission->name . '</span>';
                     }
                     return $printIT;
                 })
-                ->addColumn('status', function(Admin $data){
+                ->addColumn('status', function (Admin $data) {
 
-                    if($data->status == 1){
+                    if ($data->status == 1) {
                         $status = '<span class="badge badge-success">Active</span>';
-                    }
-                    else{
+                    } else {
                         $status = '<span class="badge badge-danger">Inactive</span>';
                     }
                     return $status;
                 })
-                ->addColumn('action', function(Admin $data){
+                ->addColumn('action', function (Admin $data) {
 
-                    $btn = '<a href="'.route('admins.edit', $data->id).'" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Edit </a>
-                            <a onclick="deleteUser('.$data->id.')" href="javascript:void(0)" class="btn btn-sm btn-danger">Delete</a>';
-                    if($data->status == 1){
-                        $status = '<a onclick="changeStatus('.$data->id.',0)" href="javascript:void(0)" class="btn btn-sm btn-danger mt-1">Deactivate</a>';
+                    $btn = '<a href="' . route('admins.edit', $data->id) . '" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Edit </a>
+                            <a onclick="deleteUser(' . $data->id . ')" href="javascript:void(0)" class="btn btn-sm btn-danger">Delete</a>';
+                    if ($data->status == 1) {
+                        $status = '<a onclick="changeStatus(' . $data->id . ',0)" href="javascript:void(0)" class="btn btn-sm btn-danger mt-1">Deactivate</a>';
+                    } else {
+                        $status = '<a onclick="changeStatus(' . $data->id . ',1)" href="javascript:void(0)" class="btn btn-sm btn-success mt-1">Activate</a>';
                     }
-                    else{
-                        $status = '<a onclick="changeStatus('.$data->id.',1)" href="javascript:void(0)" class="btn btn-sm btn-success mt-1">Activate</a>';
-                    }
-                    return $btn." ".$status;
+                    return $btn . " " . $status;
                 })
-                ->rawColumns(['action','permissions','status'])
+                ->rawColumns(['action', 'permissions', 'status'])
                 ->make(true);
         }
         return view('admin.adminusers.index');
@@ -69,7 +66,7 @@ class AdminUserController extends Controller
     public function create()
     {
         $permissions = Permission::all();
-        return view ('admin.adminusers.create',compact('permissions'));
+        return view('admin.adminusers.create', compact('permissions'));
     }
 
     /**
@@ -96,7 +93,7 @@ class AdminUserController extends Controller
         ];
 
         $adminUser = Admin::create($adminUserData);
-        
+
         if ($request->has('permissions')) {
             $permissions = Permission::whereIn('id', $request->permissions)->get();
             $adminUser->permissions()->attach($permissions);
@@ -129,7 +126,7 @@ class AdminUserController extends Controller
             return redirect()->back()->with('error', 'No Record Found.');
         }
         $permissions = Permission::all();
-        return view('admin.adminusers.edit',compact('admin','permissions'));
+        return view('admin.adminusers.edit', compact('admin', 'permissions'));
     }
 
     /**
@@ -148,7 +145,7 @@ class AdminUserController extends Controller
 
         $rules = [
             'name' => 'required|string|max:150',
-            'email' => 'required|email|unique:admins,email,'.$admin->id,
+            'email' => 'required|email|unique:admins,email,' . $admin->id,
             'phone' => 'required',
             'permissions' => 'required|array'
         ];
@@ -156,7 +153,7 @@ class AdminUserController extends Controller
         if (!empty($request->password) || !empty($request->password_confirmation)) {
             $rules['password'] = 'required|string|min:6|max:32|confirmed';
         }
-       
+
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
