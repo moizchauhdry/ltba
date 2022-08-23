@@ -34,6 +34,8 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                         Route::post('/store', 'AdminUserController@store')->name('admins.store');
                         Route::get('/edit/{id}', 'AdminUserController@edit')->name('admins.edit');
                         Route::post('/update/{id}', 'AdminUserController@update')->name('admins.update');
+                        Route::post('/destroy', 'AdminUserController@destroy')->name('admins.destroy');
+                        Route::post('/status', 'AdminUserController@status')->name('admins.status');
                     });
                 });
             });

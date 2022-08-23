@@ -77,13 +77,21 @@ class AdminUserController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $rules = [
             'name' => 'required|string|max:50',
             'email' => 'required|string|email|max:50|unique:admins',
             'phone' => 'required|numeric|digits_between:10,15',
             'password' => 'required|string|min:6|confirmed|max:32',
             'permissions' => 'required',
-        ]);
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ], 400);
+        }
 
         $adminUserData = [
             'name' => $request->input('name'),
@@ -99,7 +107,7 @@ class AdminUserController extends Controller
             $adminUser->permissions()->attach($permissions);
         }
 
-        return redirect()->route('admins.index')->with('success', 'Record Added Successfully.');
+        return response()->json([ 'status' => 1, 'message' => 'success']);
     }
 
     /**
@@ -157,7 +165,9 @@ class AdminUserController extends Controller
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return Redirect()->back()->withErrors($validator)->withInput($request->all());
+            return response()->json([
+                'errors' => $validator->errors(),
+            ], 400);
         }
 
         $userData = [
@@ -175,9 +185,10 @@ class AdminUserController extends Controller
             $permissions = Permission::whereIn('id', $request->permissions)->get();
             $admin->permissions()->attach($permissions);
         }
+
         $admin->update($userData);
 
-        return redirect()->route('admins.index')->with('success', 'Record Updated Successfully.');
+         return response()->json([ 'status' => 1, 'message' => 'success']);
     }
 
     /**
@@ -186,8 +197,31 @@ class AdminUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    
+    public function destroy(Request $request)
     {
-        //
+        try {
+            $admin = Admin::findOrFail((int)$request->id);
+            if ($admin == null) {
+                return redirect()->back()->with('error', 'No Record Found To Delete.');
+            }
+
+            $admin->permissions()->detach();
+            $admin->delete();
+            return response()->json(['status' => 1, 'message' => 'Record deleted successfully.']);
+
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 1, 'message' => 'The record could not be deleted.']);
+        }
+    }
+
+    public function status(Request $request)
+    {
+        $admin = Admin::findOrFail($request->id);
+        if ($admin == null) {
+            return redirect()->back()->with('error', 'No Record Found');
+        }
+        $admin->update(['status'=> $request->input('status')]);
+        return response()->json(['status'=>'1','message'=>'Status Changed Successfully']);
     }
 }

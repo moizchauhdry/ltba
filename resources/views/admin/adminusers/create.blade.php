@@ -138,7 +138,7 @@
                 $(".custom-loader").addClass('hidden');
                 $("#error_message").removeClass('hidden');
             }
-          });
+        });
       });
     });
 

@@ -91,6 +91,51 @@
                         $('#countTotal').append(response['json'].recordsTotal);
                     }
                 });
-            }); 
+            });
+            
+        // ADMIN USER DELETE SCRIPT
+        function deleteUser(id,event) {
+            var result = window.confirm('Are you sure you want to delete this User?  This action cannot be undone. Proceed?');
+            if (result == false) {
+                e.preventDefault();
+            }else{
+
+                $.ajax({
+                    method: "POST",
+                    url: "{{ route('admins.destroy') }}",
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        'id': id
+                    },
+                    success: function (response) {
+                        $('#admin_users').DataTable().ajax.reload();
+                    }
+                });
+            }
+        };
+
+        //ADMIN USER STATUS CHANGE SCRIPTS
+        function changeStatus(id,status) {
+            var result = window.confirm('Are you sure you want to change status ?');
+            if (result == false) {
+                e.preventDefault();
+            }else{
+                $.ajax({
+                    method: "POST",
+                    url: '{{ route('admins.status') }}',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        'id': id,
+                        'status': status
+                    },
+                    success: function (response) {
+                        if(response.status)
+                        {
+                            $('#admin_users').DataTable().ajax.reload();
+                        }
+                    }
+                });
+            }
+        };
     </script>
 @endsection

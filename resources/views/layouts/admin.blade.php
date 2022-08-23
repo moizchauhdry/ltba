@@ -39,6 +39,19 @@
         .hidden {
             display: none !important;
         }
+        .custom-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            z-index: 999;
+            opacity: 0.9;
+        }
     </style>
 
 </head>
@@ -52,6 +65,10 @@
         <div class="content-wrapper">
             @include('admin.includes._notifications')
             @yield('content')
+
+            <div class="custom-loader hidden">
+                <img src="{{asset('public/images/loader.gif')}}" style="width:100px;height:100px">
+            </div>
         </div>
 
         @include('admin.includes.footer')

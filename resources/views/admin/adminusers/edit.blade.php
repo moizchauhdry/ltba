@@ -32,7 +32,7 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form action="{{route('admins.update',$admin->id)}}" method="POST" enctype="multipart/form-data">
+                    <form action="#" id="update_admin_user_form" method="POST"> @csrf
                         {{ csrf_field() }}
                         <div class="card-body">
                             <div class="row">
@@ -58,9 +58,9 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Contact Number <span class="required-star">*</span></label>
-                                    <input type="text" id="contact_no" class="form-control contact_no" name="contact_no"
-                                        value="{{$admin->contact_no}}" required>
-                                    @error('contact_no')
+                                    <input type="text" id="phone" class="form-control phone" name="phone"
+                                        value="{{$admin->phone}}" required>
+                                    @error('phone')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -155,8 +155,8 @@
     $('.select2bs4').select2({
       theme: 'bootstrap4'
     })
-</script>
-<script>
+
+    //STATUS CHECKBOX SCRIPTS
     $('input[name="statusCheckBox"]').click(function () {
         if ($(this).is(":checked")) {
             $('#status').val('0');
@@ -165,6 +165,7 @@
         }
     });
 
+    //PASSWORD HIDE AND SHOW SCRIPTS
     $("#show_password").on('click', function () {
         var status = $(this).data('status');
         if (status == 'hidden') {
@@ -203,5 +204,41 @@
             $('#password_confirm').prop('required',false);
         }
     }
+
+    //ADMIN USERS UPDATE FORM AJAX SCRIPTS
+    jQuery(document).ready(function () {
+        App.init();
+    });
+
+    $(document).ready(function(){
+      $("#update_admin_user_form").on("submit", function(event){
+          event.preventDefault();
+          $('span.text-success').remove();
+          $('span.invalid-feedback').remove();
+          $('input.is-invalid').removeClass('is-invalid');
+          var formData = new FormData(this);
+          $.ajax({
+            method: "POST",
+            data: formData,
+            url: '{{route('admins.update',$admin->id)}}',
+            processData: false,
+            contentType: false,
+            cache: false,
+            beforeSend: function(){
+                $(".custom-loader").removeClass('hidden');
+            },
+            success: function (response) {
+                if (response.status == 1) {
+                    window.location.href = '{{route('admins.index')}}';
+                }
+            },
+            error : function (errors) {
+                errorsGet(errors.responseJSON.errors)
+                $(".custom-loader").addClass('hidden');
+                $("#error_message").removeClass('hidden');
+            }
+          });
+      });
+    });
 </script>
 @endsection
