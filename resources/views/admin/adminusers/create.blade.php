@@ -31,7 +31,7 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form action="{{route('admins.store')}}" method="POST">
+                    <form action="#" id="store_admin_user_form" method="POST"> @csrf
                         {{ csrf_field() }}
                         <div class="card-body">
                             <div class="row">
@@ -76,7 +76,7 @@
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="submit" class="btn btn-success float-right">Save & Submit</button>
                         </div>
                     </form>
                 </div>
@@ -93,11 +93,11 @@
     </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
-
 @endsection
 
 
 @section('scripts')
+<script src="{{asset('public/js/app.js')}}"></script>
 <script>
     //Initialize Select2 Elements
     $('.select2').select2()
@@ -106,6 +106,42 @@
     $('.select2bs4').select2({
       theme: 'bootstrap4'
     })
+
+    //ADMIN USERS CREATE FORM AJAX
+    jQuery(document).ready(function () {
+        App.init();
+    });
+    $(document).ready(function(){
+      $("#store_admin_user_form").on("submit", function(event){
+          event.preventDefault();
+          $('span.text-success').remove();
+          $('span.invalid-feedback').remove();
+          $('input.is-invalid').removeClass('is-invalid');
+          var formData = new FormData(this);
+          $.ajax({
+            method: "POST",
+            data: formData,
+            url: '{{route('admins.store')}}',
+            processData: false,
+            contentType: false,
+            cache: false,
+            beforeSend: function(){
+                $(".custom-loader").removeClass('hidden');
+            },
+            success: function (response) {
+                if (response.status == 1) {
+                    window.location.href = '{{route('admins.index')}}';
+                }
+            },
+            error : function (errors) {
+                errorsGet(errors.responseJSON.errors)
+                $(".custom-loader").addClass('hidden');
+                $("#error_message").removeClass('hidden');
+            }
+          });
+      });
+    });
+
 </script>
 
 @endsection

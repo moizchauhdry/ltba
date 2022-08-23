@@ -67,31 +67,30 @@
 @endsection
 
 @section('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
-
-<script>
-    var table;
-        $(document).ready( function () {
-            table  = $('#admin_users').DataTable({
-                responsive: true,
-                processing: true,
-                serverSide: true,
-                ajax: "{{ route('admins.index') }}",
-                order:[[0,"desc"]],
-                columns: [
-                    {data: 'id', name: 'id'},
-                    {data: 'name', name: 'name'},
-                    {data: 'email', name: 'email'},
-                    {data: 'phone', name: 'phone'},
-                    {data: 'permissions', name: 'permissions'},
-                    {data: 'status', name: 'status'},
-                    {data: 'action', name: 'action', orderable: false, searchable: false},
-                ],
-                drawCallback: function (response) {
-                    $('#countTotal').empty();
-                    $('#countTotal').append(response['json'].recordsTotal);
-                }
-            });
-        });
-</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+    <script>
+        var table;
+            $(document).ready( function () {
+                table  = $('#admin_users').DataTable({
+                    responsive: true,
+                    processing: true,
+                    serverSide: true,
+                    ajax: "{{ route('admins.index') }}",
+                    order:[[0,"desc"]],
+                    columns: [
+                        {data: 'id', name: 'id'},
+                        {data: 'name', name: 'name'},
+                        {data: 'email', name: 'email'},
+                        {data: 'phone', name: 'phone'},
+                        {data: 'permissions', name: 'permissions'},
+                        {data: 'status', name: 'status'},
+                        {data: 'action', name: 'action', orderable: false, searchable: false},
+                    ],
+                    drawCallback: function (response) {
+                        $('#countTotal').empty();
+                        $('#countTotal').append(response['json'].recordsTotal);
+                    }
+                });
+            }); 
+    </script>
 @endsection
