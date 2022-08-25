@@ -10,7 +10,7 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{asset('public/admin/dist/img/AdminLTELogo.png')}}" class="img-circle elevation-2">
+                <img src="{{asset('public/portal/dist/img/AdminLTELogo.png')}}" class="img-circle elevation-2">
             </div>
             <div class="info">
                 <a href="javascript:void(0)" class="d-block">{{Auth::guard('admin')->user()->name}}</a>
