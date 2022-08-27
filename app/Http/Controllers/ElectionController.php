@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Validator;
 use App\Election;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
 class ElectionController extends Controller
@@ -17,28 +17,28 @@ class ElectionController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Election::orderBy('id','DESC');
+            $data = Election::orderBy('id', 'DESC');
             return Datatables::of($data)
-            ->addIndexColumn()
-            ->addColumn('status', function (Election $data) {
-                if ($data->status == 1) {
-                    $status = '<span class="badge badge-success">Active</span>';
-                } else {
-                    $status = '<span class="badge badge-danger">Inactive</span>';
-                }
-                return $status;
-            })
-            ->addColumn('action', function (Election $data) {
-                $btn ='<a href="' . route('elections.edit', $data->id) . '" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Edit </a>';
-                if ($data->status == 1) {
-                    $status = '<a onclick="changeStatus(' . $data->id . ',0)" href="javascript:void(0)" class="btn btn-sm btn-danger mt-1">Deactivate</a>';
-                } else {
-                    $status = '<a onclick="changeStatus(' . $data->id . ',1)" href="javascript:void(0)" class="btn btn-sm btn-success mt-1">Activate</a>';
-                }
-                return $btn . " " . $status;
-            })
-            ->rawColumns(['action','status'])
-            ->make(true);
+                ->addIndexColumn()
+                ->addColumn('status', function (Election $data) {
+                    if ($data->status == 1) {
+                        $status = '<span class="badge badge-success">Active</span>';
+                    } else {
+                        $status = '<span class="badge badge-danger">Inactive</span>';
+                    }
+                    return $status;
+                })
+                ->addColumn('action', function (Election $data) {
+                    $btn = '<a href="' . route('elections.edit', $data->id) . '" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Edit </a>';
+                    if ($data->status == 1) {
+                        $status = '<a onclick="changeStatus(' . $data->id . ',0)" href="javascript:void(0)" class="btn btn-sm btn-danger mt-1">Deactivate</a>';
+                    } else {
+                        $status = '<a onclick="changeStatus(' . $data->id . ',1)" href="javascript:void(0)" class="btn btn-sm btn-success mt-1">Activate</a>';
+                    }
+                    return $btn . " " . $status;
+                })
+                ->rawColumns(['action', 'status'])
+                ->make(true);
         }
 
         return view('admin.elections.index');
@@ -65,46 +65,22 @@ class ElectionController extends Controller
         $rules = [
             'name' => 'required|string|max:50|unique:elections',
             'start_date' => 'required',
+            'end_date' => 'required_if:election_end_checkbox,==,1'
         ];
 
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return response()->json([
-                'errors' => $validator->errors(),
-            ], 400);
-        }
-        if($request->election_end_checkbox == 1)
-        {
-            $rules = [
-                'end_date' => 'required',
-            ];
-
-            $validator = Validator::make($request->all(), $rules);
-
-            if ($validator->fails()) {
-                return response()->json([
-                    'errors' => $validator->errors(),
-                ], 400);
-            }
-
-            $endDate = $request->input('end_date');
-            $checkbox = 1;
-        }else{
-            $endDate = null;
-            $checkbox = 0;
+            return response()->json(['errors' => $validator->errors()], 400);
         }
 
-        $electionData = [
+        Election::create([
             'name' => $request->input('name'),
             'start_date' => $request->input('start_date'),
-            'election_end_checkbox' => $checkbox,
-            'end_date' => $endDate,
-        ];
+            'end_date' => $request->input('start_date'),
+        ]);
 
-        $election = Election::create($electionData);
-
-        return response()->json([ 'status' => 1, 'message' => 'success']);
+        return response()->json(['status' => 1, 'message' => 'success']);
     }
 
     /**
@@ -130,7 +106,7 @@ class ElectionController extends Controller
         if ($election == null) {
             return redirect()->back()->with('error', 'No Record Found.');
         }
-        
+
         return view('admin.elections.edit', compact('election'));
     }
 
@@ -162,8 +138,7 @@ class ElectionController extends Controller
             ], 400);
         }
 
-        if($request->election_end_checkbox == 1)
-        {
+        if ($request->election_end_checkbox == 1) {
             $rules = [
                 'end_date' => 'required',
             ];
@@ -178,7 +153,7 @@ class ElectionController extends Controller
 
             $endDate = $request->input('end_date');
             $checkbox = 1;
-        }else{
+        } else {
             $endDate = null;
             $checkbox = 0;
         }
@@ -192,7 +167,7 @@ class ElectionController extends Controller
 
         $election->update($electionData);
 
-        return response()->json([ 'status' => 1, 'message' => 'success']);
+        return response()->json(['status' => 1, 'message' => 'success']);
     }
 
     /**
