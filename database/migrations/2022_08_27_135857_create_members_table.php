@@ -24,7 +24,7 @@ class CreateMembersTable extends Migration
             $table->string('city');
             $table->string('contact_no')->unique();
             $table->string('address');
-            $table->string('member_based_on');
+            // $table->string('member_based_on');
             $table->string('select_member_ship');
             $table->boolean('member_ship_fee_paid')->default(false); 
             $table->string('member_ship_fee_submission');
