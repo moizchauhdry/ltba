@@ -10,12 +10,12 @@ class Admin extends Authenticatable
 {
     use Notifiable;
 
-    protected $fillable = ['name','email','phone','status','password'];
+    protected $fillable = ['name', 'email', 'phone', 'status', 'password'];
 
     protected $hidden = [
         'password', 'remember_token',
     ];
-    
+
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
@@ -25,14 +25,16 @@ class Admin extends Authenticatable
         return $this->belongsToMany(Permission::class, 'admin_permissions');
     }
 
-    public function hasPermission($permission) {
-        return (bool) $this->permissions->where('slug', $permission)->count();
+    public function hasPermission($permission)
+    {
+        return (bool) $this->permissions->where('name', $permission)->count();
     }
 
-    public function getAdminPermissions() {
+    public function getAdminPermissions()
+    {
         $perm = '';
         foreach ($this->permissions as $permission) {
-            $perm .=$permission->name .", ";
+            $perm .= $permission->name . ", ";
         }
         return rtrim(trim($perm), ',');
     }

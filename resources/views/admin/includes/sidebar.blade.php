@@ -31,7 +31,7 @@
                     </a>
                 </li>
 
-                @if (Auth::guard('admin')->user()->hasPermission('manage-admin-users'))
+                @if (Auth::guard('admin')->user()->hasPermission('manage_operators'))
                 <li
                     class="nav-item has-treeview {{(Route::currentRouteName() == 'admins.create' || Route::currentRouteName() == 'admins.index'|| Route::currentRouteName() == 'admins.edit' ) ? 'menu-open' : ''}}">
                     <a href="#"
@@ -61,7 +61,7 @@
                 </li>
                 @endif
 
-                @if (Auth::guard('admin')->user()->hasPermission('manage-members'))
+                @if (Auth::guard('admin')->user()->hasPermission('manage_members'))
                 <li
                     class="nav-item has-treeview {{(Route::currentRouteName() == 'members.create' || Route::currentRouteName() == 'members.index'|| Route::currentRouteName() == 'members.edit' ) ? 'menu-open' : ''}}">
                     <a href="#"
@@ -91,7 +91,7 @@
                 </li>
                 @endif
 
-                @if (Auth::guard('admin')->user()->hasPermission('manage-elections'))
+                @if (Auth::guard('admin')->user()->hasPermission('manage_elections'))
                 <li
                     class="nav-item has-treeview {{(Route::currentRouteName() == 'elections.create' || Route::currentRouteName() == 'elections.index'|| Route::currentRouteName() == 'elections.edit' ) ? 'menu-open' : ''}}">
                     <a href="#"
@@ -121,7 +121,7 @@
                 </li>
                 @endif
 
-                @if (Auth::guard('admin')->user()->hasPermission('manage-seats'))
+                @if (Auth::guard('admin')->user()->hasPermission('manage_seats'))
                 <li
                     class="nav-item has-treeview {{(Route::currentRouteName() == 'seats.create' || Route::currentRouteName() == 'seats.index'|| Route::currentRouteName() == 'seats.edit' ) ? 'menu-open' : ''}}">
                     <a href="#"

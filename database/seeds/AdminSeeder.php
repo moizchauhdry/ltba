@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 use App\Admin;
+use Illuminate\Support\Facades\Hash;
 
 class AdminSeeder extends Seeder
 {
@@ -13,7 +14,7 @@ class AdminSeeder extends Seeder
      */
     public function run()
     {
-        Admin::insert([
+        $admin_array = [
             [
                 'name' => 'LTBA ADMIN',
                 'email' => 'admin@ltba.com',
@@ -22,6 +23,10 @@ class AdminSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
-        ]);
+        ];
+
+        foreach ($admin_array as $admin) {
+            Admin::updateOrCreate(['email' => $admin['email']], $admin);
+        }
     }
 }
