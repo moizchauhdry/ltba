@@ -38,6 +38,42 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                         Route::post('/status', 'AdminUserController@status')->name('admins.status');
                     });
                 });
+
+                Route::group(['middleware' => ['permission:manage-members']], function () {
+                    Route::group(['prefix' => 'members'], function () {
+                        Route::get('/', 'MemberController@index')->name('members.index');
+                        Route::get('/create', 'MemberController@create')->name('members.create');
+                        Route::post('/store', 'MemberController@store')->name('members.store');
+                        Route::get('/edit/{id}', 'MemberController@edit')->name('members.edit');
+                        Route::post('/update/{id}', 'MemberController@update')->name('members.update');
+                        Route::post('/destroy', 'MemberController@destroy')->name('members.destroy');
+                        Route::post('/status', 'MemberController@status')->name('members.status');
+                    });
+                });
+
+                Route::group(['middleware' => ['permission:manage-elections']], function () {
+                    Route::group(['prefix' => 'elections'], function () {
+                        Route::get('/', 'ElectionController@index')->name('elections.index');
+                        Route::get('/create', 'ElectionController@create')->name('elections.create');
+                        Route::post('/store', 'ElectionController@store')->name('elections.store');
+                        Route::get('/edit/{id}', 'ElectionController@edit')->name('elections.edit');
+                        Route::post('/update/{id}', 'ElectionController@update')->name('elections.update');
+                        Route::post('/destroy', 'ElectionController@destroy')->name('elections.destroy');
+                        Route::post('/status', 'ElectionController@status')->name('elections.status');
+                    });
+                });
+
+                Route::group(['middleware' => ['permission:manage-seats']], function () {
+                    Route::group(['prefix' => 'seats'], function () {
+                        Route::get('/', 'SeatController@index')->name('seats.index');
+                        Route::get('/create', 'SeatController@create')->name('seats.create');
+                        Route::post('/store', 'SeatController@store')->name('seats.store');
+                        Route::get('/edit/{id}', 'SeatController@edit')->name('seats.edit');
+                        Route::post('/update/{id}', 'SeatController@update')->name('seats.update');
+                        Route::post('/destroy', 'SeatController@destroy')->name('seats.destroy');
+                        Route::post('/status', 'SeatController@status')->name('seats.status');
+                    });
+                });
             });
         });
     });
