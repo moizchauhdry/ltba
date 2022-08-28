@@ -110,6 +110,32 @@
                                 </div>
                             </fieldset>
                             <div class="row">
+                                <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                                    <label>Membership Based-on<span class="required-star">*</span></label>
+                                    <select class="form-control" name="membership_based_on" id="membership_based_on">
+                                        <option selected disabled>Select Membership Based-on</option>
+                                        <option {{ (Request::input("membership_based_on")=="adv" ? "selected" :"") }}
+                                            value="adv">ADV</option>
+                                        <option {{ (Request::input("membership_based_on")=="ca" ? "selected" :"") }}
+                                            value="ca">CA</option>
+                                        <option {{ (Request::input("membership_based_on")=="itp" ? "selected" :"") }}
+                                            value="itp">ITP</option>
+                                        <option {{ (Request::input("membership_based_on")=="aca" ? "selected" :"") }}
+                                            value="aca">ACA</option>
+                                        <option {{ (Request::input("membership_based_on")=="fca" ? "selected" :"") }}
+                                            value="fca">FCA</option>
+                                        <option {{ (Request::input("membership_based_on")=="cma" ? "selected" :"") }}
+                                            value="cma">CMA</option>
+                                        <option {{ (Request::input("membership_based_on")=="acca" ? "selected" :"") }}
+                                            value="acca">ACCA</option>
+                                        <option {{ (Request::input("membership_based_on")=="acma" ? "selected" :"") }}
+                                            value="acma">ACMA</option>
+                                        <option {{ (Request::input("membership_based_on")=="cma" ? "selected" :"") }}
+                                            value="cma">CMA</option>
+                                        <option {{ (Request::input("membership_based_on")=="fcma" ? "selected" :"") }}
+                                            value="fcma">FCMA</option>
+                                    </select>
+                                </div>
                                 <div class="form-group col-md-4 col-sm-6 col-xs-12">
                                     <label>Select Membership <span class="required-star">*</span></label>
                                     <select class="form-control" name="select_member_ship" id="select_member_ship">
