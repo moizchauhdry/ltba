@@ -20,6 +20,7 @@ class AdminSeeder extends Seeder
                 'email' => 'admin@ltba.com',
                 'password' => Hash::make('1234567890'),
                 'phone' => '03204650584',
+                'status' => TRUE,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
