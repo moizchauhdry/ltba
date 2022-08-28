@@ -65,6 +65,7 @@ class ElectionController extends Controller
         $rules = [
             'name' => 'required|string|max:50|unique:elections',
             'start_date' => 'required',
+            'end_date' => 'required_if:election_end_checkbox,==,1',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -74,32 +75,11 @@ class ElectionController extends Controller
                 'errors' => $validator->errors(),
             ], 400);
         }
-        if($request->election_end_checkbox == 1)
-        {
-            $rules = [
-                'end_date' => 'required',
-            ];
-
-            $validator = Validator::make($request->all(), $rules);
-
-            if ($validator->fails()) {
-                return response()->json([
-                    'errors' => $validator->errors(),
-                ], 400);
-            }
-
-            $endDate = $request->input('end_date');
-            $checkbox = 1;
-        }else{
-            $endDate = null;
-            $checkbox = 0;
-        }
 
         $electionData = [
             'name' => $request->input('name'),
             'start_date' => $request->input('start_date'),
-            'election_end_checkbox' => $checkbox,
-            'end_date' => $endDate,
+            'end_date' => $request->input('end_date'),
         ];
 
         $election = Election::create($electionData);
@@ -143,7 +123,6 @@ class ElectionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request->all());
         $election = Election::find($id);
         if ($election == null) {
             return redirect()->back()->with('error', 'No Record Found.');
@@ -152,6 +131,7 @@ class ElectionController extends Controller
         $rules = [
             'name' => 'required|string|max:50|unique:elections,name,' . $election->id,
             'start_date' => 'required',
+            'end_date' => 'required_if:election_end_checkbox,==,1',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -162,32 +142,10 @@ class ElectionController extends Controller
             ], 400);
         }
 
-        if($request->election_end_checkbox == 1)
-        {
-            $rules = [
-                'end_date' => 'required',
-            ];
-
-            $validator = Validator::make($request->all(), $rules);
-
-            if ($validator->fails()) {
-                return response()->json([
-                    'errors' => $validator->errors(),
-                ], 400);
-            }
-
-            $endDate = $request->input('end_date');
-            $checkbox = 1;
-        }else{
-            $endDate = null;
-            $checkbox = 0;
-        }
-
         $electionData = [
             'name' => $request->input('name'),
             'start_date' => $request->input('start_date'),
-            'election_end_checkbox' => $checkbox,
-            'end_date' => $endDate,
+            'end_date' => $request->input('end_date'),
         ];
 
         $election->update($electionData);

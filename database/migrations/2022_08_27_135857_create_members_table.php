@@ -15,22 +15,21 @@ class CreateMembersTable extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->id();
-            $table->string('MEM#')->unique();
+            $table->string('mem_id')->unique();
             $table->string('name');
-            $table->string('father_name');
-            $table->string('gender');
-            $table->string('CNIC_NO')->unique();
-            $table->string('date_of_birth');
-            $table->string('city');
-            $table->string('contact_no')->unique();
-            $table->string('address');
-            // $table->string('member_based_on');
-            $table->string('select_member_ship');
-            $table->boolean('member_ship_fee_paid')->default(false); 
-            $table->string('member_ship_fee_submission');
-            $table->longText('remarks');
+            $table->string('father_name')->nullable();
+            $table->string('gender')->nullable();
+            $table->string('cnic_no')->unique();
+            $table->string('date_of_birth')->nullable();
+            $table->string('city')->nullable();
+            $table->string('contact_no')->unique()->nullable();
+            $table->string('address')->nullable();
+            $table->string('membership_based_on')->nullable();
+            $table->string('select_member_ship')->nullable();
+            $table->string('member_ship_fee_submission')->nullable();
+            $table->longText('remarks')->nullable();
             $table->boolean('member_ship_status')->default(true); 
-            $table->string('member_ship_reg_date');
+            $table->string('member_ship_reg_date')->nullable();
             $table->timestamps();
         });
     }

@@ -17,7 +17,6 @@ class CreateElectionsTable extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('start_date');
-            $table->boolean('election_end_checkbox')->default(false);
             $table->string('end_date')->nullable();
             $table->boolean('status')->default(true); 
             $table->timestamps();

@@ -1,11 +1,5 @@
 @extends('layouts.admin')
-@section('styles')
-<!-- daterange picker -->
-<link rel="stylesheet" href="{{asset('public/portal/plugins/daterangepicker/daterangepicker.css')}}">
-<!-- Tempusdominus Bbootstrap 4 -->
-<link rel="stylesheet"
-    href="{{asset('public/portal/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
-@endsection
+
 @section('content')
 
 <!-- Content Header (Page header) -->
@@ -106,25 +100,8 @@
 <!-- /.content -->
 @endsection
 @section('scripts')
-<!-- InputMask -->
-<script src="{{asset('public/portal/plugins/moment/moment.min.js')}}"></script>
-<!-- date-range-picker -->
-<script src="{{asset('public/portal/plugins/daterangepicker/daterangepicker.js')}}"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="{{asset('public/portal/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}">
-</script>
 <script src="{{asset('public/js/app.js')}}"></script>
 <script>
-    //Event Start Date
-    $('#start_date').datetimepicker({
-        format: 'L',
-        minDate: new Date()
-    });
-    $('#end_date').datetimepicker({
-        format: 'L',
-        minDate: new Date()
-    });
-    //
     function electionEnd() {
         if($('.election_end').is(":checked")){
             $("#election_end_section").show();
@@ -135,8 +112,6 @@
             $('#end_date').prop('required',false);
         }
     }
-</script>
-<script>
     //ADMIN ELECTION CREATE FORM AJAX
     jQuery(document).ready(function () {
         App.init();

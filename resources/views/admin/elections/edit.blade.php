@@ -1,12 +1,4 @@
 @extends('layouts.admin')
-@section('styles')
-<!-- daterange picker -->
-<link rel="stylesheet" href="{{asset('public/portal/plugins/daterangepicker/daterangepicker.css')}}">
-<!-- Tempusdominus Bbootstrap 4 -->
-<link rel="stylesheet"
-    href="{{asset('public/portal/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
-@endsection
-
 
 @section('content')
 
@@ -51,11 +43,11 @@
                                 <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                     <label class="control-label">Start Date<span
                                             class="required-star">*</span></label>
-                                    <div class="input-group date" id="start_date" data-target-input="nearest">
+                                    <div class="input-group date" id="edit_start_date" data-target-input="nearest">
                                         <input type="text" name="start_date"
-                                            class="form-control datetimepicker-input" data-target="#start_date"
+                                            class="form-control datetimepicker-input" data-target="#edit_start_date"
                                             value="{{ $election->start_date }}" placeholder="Enter Start Date" required />
-                                        <div class="input-group-append" data-target="#start_date"
+                                        <div class="input-group-append" data-target="#edit_start_date"
                                             data-toggle="datetimepicker">
                                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                         </div>
@@ -63,12 +55,12 @@
                                 </div>
                                 <div class="container row">
                                     <div class="col-md-12">
-                                        @if($election->election_end_checkbox == 1)
+                                        @if($election->end_date != null)
                                             <input type="checkbox" class="election_end" name="election_end_checkbox" checked
-                                                id="election_end_checkbox" value="{{ $election->election_end_checkbox }}" onchange="electionEnd()">
+                                                id="election_end_checkbox" value="1" onchange="electionEnd()">
                                         @else
                                             <input type="checkbox" class="election_end" name="election_end_checkbox"
-                                                id="election_end_checkbox" value="1" onchange="electionEnd()">
+                                                id="election_end_checkbox" value="0" onchange="electionEnd()">
                                         @endif
 
                                         <label class="create-group">Election End?</label>
@@ -79,11 +71,11 @@
                                         <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                             <label class="control-label">End Date<span
                                                     class="required-star">*</span></label>
-                                            <div class="input-group date" id="end_date" data-target-input="nearest">
+                                            <div class="input-group date" id="edit_end_date" data-target-input="nearest">
                                                 <input type="text" name="end_date"
-                                                    class="form-control datetimepicker-input" data-target="#end_date"
+                                                    class="form-control datetimepicker-input" data-target="#edit_end_date"
                                                     value="{{ $election->end_date }}" placeholder="Enter End Date"/>
-                                                <div class="input-group-append" data-target="#end_date"
+                                                <div class="input-group-append" data-target="#edit_end_date"
                                                     data-toggle="datetimepicker">
                                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                 </div>
@@ -115,25 +107,8 @@
 
 @endsection
 @section('scripts')
-<!-- InputMask -->
-<script src="{{asset('public/portal/plugins/moment/moment.min.js')}}"></script>
-<!-- date-range-picker -->
-<script src="{{asset('public/portal/plugins/daterangepicker/daterangepicker.js')}}"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="{{asset('public/portal/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}">
-</script>
 <script src="{{asset('public/js/app.js')}}"></script>
 <script>
-    //Event Start Date
-    $('#start_date').datetimepicker({
-        format: 'L',
-       
-    });
-    $('#end_date').datetimepicker({
-        format: 'L',
-       
-    });
-    //
     function electionEnd() {
         if($('.election_end').is(":checked")){
             $("#election_end_section").show();
@@ -144,8 +119,6 @@
             $('#end_date').prop('required',false);
         }
     }
-</script>
-<script>
     //ELECTION UPDATE FORM AJAX SCRIPTS
     jQuery(document).ready(function () {
         App.init();

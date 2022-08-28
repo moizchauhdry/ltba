@@ -1,11 +1,5 @@
 @extends('layouts.admin')
-@section('styles')
-<!-- daterange picker -->
-<link rel="stylesheet" href="{{asset('public/portal/plugins/daterangepicker/daterangepicker.css')}}">
-<!-- Tempusdominus Bbootstrap 4 -->
-<link rel="stylesheet"
-    href="{{asset('public/portal/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
-@endsection
+
 @section('content')
 
 <!-- Content Header (Page header) -->
@@ -45,8 +39,8 @@
                                 <div class="row">
                                     <div class="form-group col-md-3 col-sm-6 col-xs-12">
                                         <label>MEM# <span class="required-star">*</span></label>
-                                        <input type="text" maxlength="50" class="form-control" name="MEM#"
-                                            placeholder="Enter MEM#" value="{{ old('MEM#') }}" required>
+                                        <input type="text" maxlength="50" class="form-control" name="mem_id"
+                                            placeholder="Enter MEM#" value="{{ old('mem_id') }}" required>
                                     </div>
                                     <div class="form-group col-md-3 col-sm-6 col-xs-12">
                                         <label>Name <span class="required-star">*</span></label>
@@ -72,12 +66,11 @@
                                     </div>
                                     <div class="form-group col-md-4 col-sm-6 col-xs-12">
                                         <label>CNIC No <span class="required-star">*</span></label>
-                                        <input type="text" maxlength="100" class="form-control" name="CNIC_NO"
-                                            placeholder="Enter CNIC NO" value="{{ old('CNIC_NO') }}" required>
+                                        <input type="text" class="form-control"  data-inputmask="'mask': '99999-9999999-9'"  placeholder="XXXXX-XXXXXXX-X"  name="cnic_no" value="{{ old('cnic_no') }}" required>
                                     </div>
                                     <div class="form-group col-md-4 col-sm-6 col-xs-12">
                                         <label>Contact No <span class="required-star">*</span></label>
-                                        <input type="text" maxlength="100" class="form-control" name="contact_no"
+                                        <input type="text" class="form-control"  data-inputmask="'mask': '0399-99999999'" type = "number" maxlength = "12" name="contact_no"
                                             placeholder="Enter Contact No" value="{{ old('contact_no') }}" required>
                                     </div>
                                     <div class="form-group col-md-4 col-sm-6 col-xs-12">
@@ -106,7 +99,23 @@
                                 </div>
                             </fieldset>
                             <div class="row">
-                                <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                                <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                                    <label>Membership Based-on<span class="required-star">*</span></label>
+                                    <select class="form-control" name="membership_based_on" id="membership_based_on">
+                                        <option selected disabled>Select Membership Based-on</option>
+                                        <option {{ (Request::input("membership_based_on") == "adv"? "selected":"") }} value="adv">ADV</option>
+                                        <option {{ (Request::input("membership_based_on") == "ca"? "selected":"") }} value="ca">CA</option>
+                                        <option {{ (Request::input("membership_based_on") == "itp"? "selected":"") }} value="itp">ITP</option>
+                                        <option {{ (Request::input("membership_based_on") == "aca"? "selected":"") }} value="aca">ACA</option>
+                                        <option {{ (Request::input("membership_based_on") == "fca"? "selected":"") }} value="fca">FCA</option>
+                                        <option {{ (Request::input("membership_based_on") == "cma"? "selected":"") }} value="cma">CMA</option>
+                                        <option {{ (Request::input("membership_based_on") == "acca"? "selected":"") }} value="acca">ACCA</option>
+                                        <option {{ (Request::input("membership_based_on") == "acma"? "selected":"") }} value="acma">ACMA</option>
+                                        <option {{ (Request::input("membership_based_on") == "cma"? "selected":"") }} value="cma">CMA</option>
+                                        <option {{ (Request::input("membership_based_on") == "fcma"? "selected":"") }} value="fcma">FCMA</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3 col-sm-6 col-xs-12">
                                     <label>Select Membership <span class="required-star">*</span></label>
                                     <select class="form-control" name="select_member_ship" id="select_member_ship">
                                         <option selected disabled>Select Membership</option>
@@ -116,7 +125,7 @@
                                         </option>
                                     </select>
                                 </div>
-                                <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                                <div class="form-group col-md-3 col-sm-6 col-xs-12">
                                     <label>Membership Status <span class="required-star">*</span></label>
                                     <select class="form-control" name="member_ship_status" id="member_ship_status">
                                         <option selected disabled>Select Membership Status</option>
@@ -127,7 +136,7 @@
                                         </option>
                                     </select>
                                 </div>
-                                <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                                <div class="form-group col-md-3 col-sm-6 col-xs-12">
                                     <label class="control-label">Membership RegDate<span
                                             class="required-star">*</span></label>
                                     <div class="input-group date" id="member_ship_reg_date" data-target-input="nearest">
@@ -191,28 +200,9 @@
 <!-- /.content -->
 @endsection
 @section('scripts')
-<!-- InputMask -->
-<script src="{{asset('public/portal/plugins/moment/moment.min.js')}}"></script>
-<!-- date-range-picker -->
-<script src="{{asset('public/portal/plugins/daterangepicker/daterangepicker.js')}}"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="{{asset('public/portal/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}">
-</script>
+
 <script src="{{asset('public/js/app.js')}}"></script>
 <script>
-    $('#date_of_birth').datetimepicker({
-        format: 'L',
-        maxDate: new Date()
-    });
-    $('#member_ship_reg_date').datetimepicker({
-        format: 'L',
-        minDate: new Date()
-    });
-    $('#member_ship_fee_submission').datetimepicker({
-        format: 'L',
-        minDate: new Date()
-    });
-
     function memberShipFee() {
         if($('.member_ship_fee_paid').is(":checked")){
             $("#member_ship_section").show();
