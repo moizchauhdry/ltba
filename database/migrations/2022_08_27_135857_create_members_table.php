@@ -20,16 +20,16 @@ class CreateMembersTable extends Migration
             $table->string('father_name')->nullable();
             $table->string('gender')->nullable();
             $table->string('cnic_no')->unique();
-            $table->date('date_of_birth')->nullable();
+            $table->string('birth_date')->nullable();
             $table->string('city')->nullable();
             $table->string('contact_no')->unique()->nullable();
             $table->string('address')->nullable();
             $table->string('membership_based_on')->nullable();
-            $table->string('member_ship')->nullable();
-            $table->date('member_ship_fee_submission')->nullable();
+            $table->string('mem')->nullable();
+            $table->boolean('mem_status')->default(true);
+            $table->string('mem_reg_date')->nullable();
+            $table->string('mem_fee_submission_date')->nullable();
             $table->longText('remarks')->nullable();
-            $table->boolean('member_ship_status')->default(true);
-            $table->date('member_ship_reg_date')->nullable();
             $table->timestamps();
         });
     }

@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Seat extends Model
 {
-    protected $fillable = ['name','status'];
+    protected $guarded = [];
 }

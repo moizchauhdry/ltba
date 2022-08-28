@@ -10,7 +10,7 @@
     'locale' => 'en',
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
-    'key' => 'base64:KVOag44EFKqKIX2OaJNVj6UGKwyX0bavldCsbYdF27k=',
+    'key' => 'base64:P6EjoWd6vbuflBJGDTmAfTJpIcqfZMEx/X7hMndlEfE=',
     'cipher' => 'AES-256-CBC',
     'providers' => 
     array (
@@ -189,7 +189,7 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'C:\\laragon\\www\\tax-bar\\storage\\framework/cache/data',
+        'path' => 'C:\\xampp\\htdocs\\tax-bar\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -266,7 +266,7 @@
       array (
         'driver' => 'sqlite',
         'url' => NULL,
-        'database' => 'ltba',
+        'database' => 'tax-bar',
         'prefix' => '',
         'foreign_key_constraints' => true,
       ),
@@ -276,7 +276,7 @@
         'url' => NULL,
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'ltba',
+        'database' => 'tax-bar',
         'username' => 'root',
         'password' => '',
         'unix_socket' => '',
@@ -296,7 +296,7 @@
         'url' => NULL,
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'ltba',
+        'database' => 'tax-bar',
         'username' => 'root',
         'password' => '',
         'charset' => 'utf8',
@@ -311,7 +311,7 @@
         'url' => NULL,
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'ltba',
+        'database' => 'tax-bar',
         'username' => 'root',
         'password' => '',
         'charset' => 'utf8',
@@ -405,12 +405,12 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\laragon\\www\\tax-bar\\storage\\app',
+        'root' => 'C:\\xampp\\htdocs\\tax-bar\\storage\\app',
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\laragon\\www\\tax-bar\\storage\\app/public',
+        'root' => 'C:\\xampp\\htdocs\\tax-bar\\storage\\app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
       ),
@@ -427,7 +427,7 @@
     ),
     'links' => 
     array (
-      'C:\\laragon\\www\\tax-bar\\public\\storage' => 'C:\\laragon\\www\\tax-bar\\storage\\app/public',
+      'C:\\xampp\\htdocs\\tax-bar\\public\\storage' => 'C:\\xampp\\htdocs\\tax-bar\\storage\\app/public',
     ),
   ),
   'hashing' => 
@@ -461,13 +461,13 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\laragon\\www\\tax-bar\\storage\\logs/laravel.log',
+        'path' => 'C:\\xampp\\htdocs\\tax-bar\\storage\\logs/laravel.log',
         'level' => 'debug',
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'C:\\laragon\\www\\tax-bar\\storage\\logs/laravel.log',
+        'path' => 'C:\\xampp\\htdocs\\tax-bar\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
       ),
@@ -517,7 +517,7 @@
       ),
       'emergency' => 
       array (
-        'path' => 'C:\\laragon\\www\\tax-bar\\storage\\logs/laravel.log',
+        'path' => 'C:\\xampp\\htdocs\\tax-bar\\storage\\logs/laravel.log',
       ),
     ),
   ),
@@ -574,7 +574,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'C:\\laragon\\www\\tax-bar\\resources\\views/vendor/mail',
+        0 => 'C:\\xampp\\htdocs\\tax-bar\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -653,7 +653,7 @@
     'lifetime' => '120',
     'expire_on_close' => true,
     'encrypt' => false,
-    'files' => 'C:\\laragon\\www\\tax-bar\\storage\\framework/sessions',
+    'files' => 'C:\\xampp\\htdocs\\tax-bar\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -673,9 +673,9 @@
   array (
     'paths' => 
     array (
-      0 => 'C:\\laragon\\www\\tax-bar\\resources\\views',
+      0 => 'C:\\xampp\\htdocs\\tax-bar\\resources\\views',
     ),
-    'compiled' => 'C:\\laragon\\www\\tax-bar\\storage\\framework\\views',
+    'compiled' => 'C:\\xampp\\htdocs\\tax-bar\\storage\\framework\\views',
   ),
   'flare' => 
   array (

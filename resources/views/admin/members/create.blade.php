@@ -41,7 +41,7 @@
                                     <div class="form-group col-md-2">
                                         <label>MEM # <span class="required-star">*</span></label>
                                         <input type="text" maxlength="50" class="form-control" name="mem_no"
-                                            placeholder="Enter MEM #" value="{{ old('MEM#') }}" required>
+                                            placeholder="Enter MEM #" value="{{ old('mem_no') }}" required>
                                     </div>
                                     <div class="form-group col-md-5">
                                         <label>Name <span class="required-star">*</span></label>
@@ -86,9 +86,9 @@
                                     <div class="form-group col-md-3">
                                         <label>Date of Birth: <span class="text-danger">*</span></label>
                                         <div class="input-group date" id="birth_date" data-target-input="nearest">
-                                            <input type="text" value="{{ old('date_of_birth') }}"
+                                            <input type="text" value="{{ old('birth_date') }}"
                                                 class="form-control datetimepicker-input" data-target="#birth_date"
-                                                name="date_of_birth" required autocomplete="off"
+                                                name="birth_date" required autocomplete="off"
                                                 data-toggle="datetimepicker" />
                                             <div class="input-group-append" data-target="#birth_date"
                                                 data-toggle="datetimepicker">
@@ -114,7 +114,7 @@
                                 <legend class="w-auto">Member Information</legend>
                                 <div class="row">
                                     <div class="form-group col-md-4">
-                                        <label>Membership Based-on<span class="required-star">*</span></label>
+                                        <label>Membership Based-on <span class="required-star">*</span></label>
                                         <select class="form-control custom-select" name="membership_based_on"
                                             id="membership_based_on">
                                             <option selected disabled>Select Membership Based-on</option>
@@ -142,41 +142,38 @@
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Select Membership <span class="required-star">*</span></label>
-                                        <select class="form-control custom-select" name="member_ship" id="member_ship">
+                                        <select class="form-control custom-select" name="mem" id="mem">
                                             <option selected disabled>Select Membership</option>
-                                            <option {{ (Request::input("member_ship")=="member" ? "selected" :"") }}
+                                            <option {{ (Request::input("mem")=="member" ? "selected" :"") }}
                                                 value="member">Member
                                             </option>
-                                            <option {{ (Request::input("member_ship")=="life-time-member" ? "selected"
+                                            <option {{ (Request::input("mem")=="life-time-member" ? "selected"
                                                 :"") }} value="life-time-member">Life Time Member
                                             </option>
                                         </select>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Membership Status <span class="required-star">*</span></label>
-                                        <select class="form-control custom-select" name="member_ship_status"
-                                            id="member_ship_status">
+                                        <select class="form-control custom-select" name="mem_status"
+                                            id="mem_status">
                                             <option selected disabled>Select Membership Status</option>
-                                            <option {{ (Request::input("member_ship_status")=="1" ? "selected" :"") }}
+                                            <option {{ (Request::input("mem_status")=="1" ? "selected" :"") }}
                                                 value="1">Active
                                             </option>
-                                            <option {{ (Request::input("member_ship_status")=="0" ? "selected" :"") }}
+                                            <option {{ (Request::input("mem_status")=="0" ? "selected" :"") }}
                                                 value="0">In-
                                                 Active
                                             </option>
                                         </select>
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label class="control-label">Membership Reg Date<span
-                                                class="required-star">*</span></label>
-                                        <div class="input-group date" id="member_ship_reg_date"
-                                            data-target-input="nearest">
-                                            <input type="text" name="member_ship_reg_date"
-                                                class="form-control datetimepicker-input"
-                                                data-target="#member_ship_reg_date"
-                                                value="{{old('member_ship_reg_date')}}" placeholder="Enter Start Date"
-                                                required />
-                                            <div class="input-group-append" data-target="#member_ship_reg_date"
+                                        <label>Membership Reg Date <span class="text-danger">*</span></label>
+                                        <div class="input-group date" id="mem_reg_date" data-target-input="nearest">
+                                            <input type="text" value="{{ old('mem_reg_date') }}"
+                                                class="form-control datetimepicker-input" data-target="#mem_reg_date"
+                                                name="mem_reg_date" required autocomplete="off"
+                                                data-toggle="datetimepicker" />
+                                            <div class="input-group-append" data-target="#mem_reg_date"
                                                 data-toggle="datetimepicker">
                                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                             </div>
@@ -187,26 +184,21 @@
                                             <input type="checkbox" class="member_ship_fee_paid"
                                                 name="member_ship_fee_paid" id="member_ship_fee_paid_checkbox" value="1"
                                                 onchange="memberShipFee()">
-                                            <label class="create-group">Membership Fee Paid</label>
+                                            <label class="create-group">Membership Fee Paid </label>
                                         </div>
                                     </div>
                                     <div class="col-md-12" id="member_ship_section" style="display:none">
                                         <div class="row">
                                             <div class="form-group col-md-6">
-                                                <label class="control-label">Fee Submission<span
-                                                        class="required-star">*</span></label>
-                                                <div class="input-group date" id="member_ship_fee_submission"
-                                                    data-target-input="nearest">
-                                                    <input type="text" name="member_ship_fee_submission"
-                                                        class="form-control datetimepicker-input"
-                                                        data-target="#member_ship_fee_submission"
-                                                        value="{{old('member_ship_fee_submission')}}"
-                                                        placeholder="Enter Fee Submission" />
-                                                    <div class="input-group-append"
-                                                        data-target="#member_ship_fee_submission"
+                                                <label>Fee Submission Date <span class="text-danger">*</span></label>
+                                                <div class="input-group date" id="mem_fee_submission_date" data-target-input="nearest">
+                                                    <input type="text" value="{{ old('mem_fee_submission_date') }}"
+                                                        class="form-control datetimepicker-input" data-target="#mem_fee_submission_date"
+                                                        name="mem_fee_submission_date" autocomplete="off"
+                                                        data-toggle="datetimepicker" />
+                                                    <div class="input-group-append" data-target="#mem_fee_submission_date"
                                                         data-toggle="datetimepicker">
-                                                        <div class="input-group-text"><i class="fa fa-calendar"></i>
-                                                        </div>
+                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -219,7 +211,6 @@
                                     </div>
                                 </div>
                             </fieldset>
-
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
@@ -269,7 +260,7 @@
                 },
                 success: function (response) {
                     if (response.status == 1) {
-                        window.location.href = '{{route('seats.index')}}';
+                        window.location.href = '{{route('members.index')}}';
                     }
                 },
                 error : function (errors) {
@@ -285,29 +276,29 @@
         size: 'large',
         format: 'DD-MM-YYYY',
         maxDate: new Date(),
-        });
+    });
 
-        $('#member_ship_reg_date').datetimepicker({
+    $('#mem_reg_date').datetimepicker({
         size: 'large',
         format: 'DD-MM-YYYY',
-        maxDate: new Date()
-        });
+        minDate: new Date()
+    });
 
-        $('#member_ship_fee_submission').datetimepicker({
+    $('#mem_fee_submission_date').datetimepicker({
         size: 'large',
         format: 'DD-MM-YYYY',
-        maxDate: new Date()
-        });
+        minDate: new Date()
+    });
 
-        function memberShipFee() {
+    function memberShipFee() {
         if($('.member_ship_fee_paid').is(":checked")){
-        $("#member_ship_section").show();
-        $('#member_ship_fee_submission').prop('required',true);
+            $("#member_ship_section").show();
+            $('#mem_fee_submission_date').prop('required',true);
         }
         else {
-        $("#member_ship_section").hide();
-        $('#member_ship_fee_submission').prop('required',false);
+            $("#member_ship_section").hide();
+            $('#mem_fee_submission_date').prop('required',false);
         }
-        }
+    }
 </script>
 @endsection

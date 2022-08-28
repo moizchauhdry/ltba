@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Validator;
 use App\Member;
+use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\DataTables;
 
 class MemberController extends Controller
 {
@@ -13,9 +14,34 @@ class MemberController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $data = Member::orderBy('id', 'DESC');
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('mem_status', function (Member $data) {
+                    if ($data->mem_status == 1) {
+                        $status = '<span class="badge badge-success">Active</span>';
+                    } else {
+                        $status = '<span class="badge badge-danger">Inactive</span>';
+                    }
+                    return $status;
+                })
+                ->addColumn('action', function (Member $data) {
+                    $btn = '<a href="' . route('members.edit', $data->id) . '" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Edit </a>';
+                    if ($data->mem_status == 1) {
+                        $status = '<a onclick="changeStatus(' . $data->id . ',0)" href="javascript:void(0)" class="btn btn-sm btn-danger mt-1">Deactivate</a>';
+                    } else {
+                        $status = '<a onclick="changeStatus(' . $data->id . ',1)" href="javascript:void(0)" class="btn btn-sm btn-success mt-1">Activate</a>';
+                    }
+                    return $btn . " " . $status;
+                })
+                ->rawColumns(['action', 'mem_status'])
+                ->make(true);
+        }
+
+        return view('admin.members.index');
     }
 
     /**
@@ -43,14 +69,14 @@ class MemberController extends Controller
             'gender' => 'required',
             'cnic_no' => 'required|unique:members',
             'contact_no' => 'required|unique:members',
-            'date_of_birth' => 'required',
+            'birth_date' => 'required',
             'city' => 'required',
             'address' => 'required',
             'membership_based_on' => 'required',
-            'member_ship' => 'required',
-            'member_ship_status' => 'required',
-            'member_ship_reg_date' => 'required',
-            'member_ship_fee_submission' => 'required_if:member_ship_fee_paid,==,1',
+            'mem' => 'required',
+            'mem_status' => 'required',
+            'mem_reg_date' => 'required',
+            'mem_fee_submission_date' => 'required_if:member_ship_fee_paid,==,1',
             'remarks' => 'required_if:member_ship_fee_paid,==,1',
 
         ];
@@ -70,14 +96,14 @@ class MemberController extends Controller
             'gender' => $request->input('gender'),
             'cnic_no' => $request->input('cnic_no'),
             'contact_no' => $request->input('contact_no'),
-            'date_of_birth' => $request->input('date_of_birth'),
+            'birth_date' => $request->input('birth_date'),
             'city' => $request->input('city'),
             'address' => $request->input('address'),
             'membership_based_on' => $request->input('membership_based_on'),
-            'member_ship' => $request->input('member_ship'),
-            'member_ship_status' => $request->input('member_ship_status'),
-            'member_ship_reg_date' => $request->input('member_ship_reg_date'),
-            'member_ship_fee_submission' => $request->input('member_ship_fee_submission'),
+            'mem' => $request->input('mem'),
+            'mem_status' => $request->input('mem_status'),
+            'mem_reg_date' => $request->input('mem_reg_date'),
+            'mem_fee_submission_date' => $request->input('mem_fee_submission_date'),
             'remarks' => $request->input('remarks'),
         ];
 
@@ -105,7 +131,8 @@ class MemberController extends Controller
      */
     public function edit($id)
     {
-        //
+        $member = Member::findOrFail($id);
+        return view('admin.members.edit', compact('member'));
     }
 
     /**
@@ -117,7 +144,57 @@ class MemberController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $member = Member::findOrFail($id);
+
+        $rules = [
+            'mem_no' => 'required|unique:members,mem_no,'. $member->id,
+            'name' => 'required|string|max:50',
+            'father_name' => 'required|string|max:50',
+            'gender' => 'required',
+            'cnic_no' => 'required|unique:members,cnic_no,'. $member->id,
+            'contact_no' => 'required|unique:members,contact_no,'. $member->id,
+            'birth_date' => 'required',
+            'city' => 'required',
+            'address' => 'required',
+            'membership_based_on' => 'required',
+            'mem' => 'required',
+            'mem_status' => 'required',
+            'mem_reg_date' => 'required',
+            'mem_fee_submission_date' => 'required_if:member_ship_fee_paid,==,1',
+            'remarks' => 'required_if:member_ship_fee_paid,==,1',
+
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ], 400);
+        }
+
+        $data = [
+            'mem_no' => $request->input('mem_no'),
+            'name' => $request->input('name'),
+            'father_name' => $request->input('father_name'),
+            'gender' => $request->input('gender'),
+            'cnic_no' => $request->input('cnic_no'),
+            'contact_no' => $request->input('contact_no'),
+            'birth_date' => $request->input('birth_date'),
+            'city' => $request->input('city'),
+            'address' => $request->input('address'),
+            'membership_based_on' => $request->input('membership_based_on'),
+            'mem' => $request->input('mem'),
+            'mem_status' => $request->input('mem_status'),
+            'mem_reg_date' => $request->input('mem_reg_date'),
+            'mem_fee_submission_date' => $request->input('mem_fee_submission_date'),
+            'remarks' => $request->input('remarks'),
+        ];
+
+
+        $member->update($data);
+
+        return response()->json(['status' => 1, 'message' => 'success']);
     }
 
     /**
