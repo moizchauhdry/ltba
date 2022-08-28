@@ -76,13 +76,13 @@ class ElectionController extends Controller
             ], 400);
         }
 
-        $electionData = [
+        $data = [
             'name' => $request->input('name'),
             'start_date' => $request->input('start_date'),
             'end_date' => $request->input('end_date'),
         ];
 
-        Election::create($electionData);
+        Election::create($data);
 
         return response()->json(['status' => 1, 'message' => 'success']);
     }
@@ -106,11 +106,7 @@ class ElectionController extends Controller
      */
     public function edit($id)
     {
-        $election = Election::find($id);
-        if ($election == null) {
-            return redirect()->back()->with('error', 'No Record Found.');
-        }
-
+        $election = Election::findOrFail($id);
         return view('admin.elections.edit', compact('election'));
     }
 
@@ -139,13 +135,13 @@ class ElectionController extends Controller
             ], 400);
         }
 
-        $electionData = [
+        $data = [
             'name' => $request->input('name'),
             'start_date' => $request->input('start_date'),
             'end_date' => $request->input('end_date'),
         ];
 
-        $election->update($electionData);
+        $election->update($data);
 
         return response()->json(['status' => 1, 'message' => 'success']);
     }
