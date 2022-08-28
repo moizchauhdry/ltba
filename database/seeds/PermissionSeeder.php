@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Carbon\Carbon;
 use App\Permission;
 use App\AdminPermission;
 
@@ -14,36 +13,38 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
-        Permission::insert([
-            ['name'=>'Manage Admin Users',
-            'slug'=>'manage-admin-users',
-            'created_at'=>Carbon::now(),
-            'updated_at'=>Carbon::now(),
+        $permission_array = [
+            [
+                'name' => 'manage_operators',
+                'type' => 'parent',
+                'order' => 1,
             ],
-            ['name'=>'Manage Members',
-            'slug'=>'manage-members',
-            'created_at'=>Carbon::now(),
-            'updated_at'=>Carbon::now(),
+            [
+                'name' => 'manage_members',
+                'type' => 'parent',
+                'order' => 2,
             ],
-            ['name'=>'Manage Elections',
-            'slug'=>'manage-elections',
-            'created_at'=>Carbon::now(),
-            'updated_at'=>Carbon::now(),
+            [
+                'name' => 'manage_elections',
+                'type' => 'parent',
+                'order' => 3,
             ],
-            ['name'=>'Manage Seats',
-            'slug'=>'manage-seats',
-            'created_at'=>Carbon::now(),
-            'updated_at'=>Carbon::now(),
+            [
+                'name' => 'manage_seats',
+                'type' => 'parent',
+                'order' => 4,
             ],
-        ]);
+        ];
 
-        for ($i=1; $i <= 4 ; $i++) { 
-            AdminPermission::insert([
-                ['admin_id'=>'1',
-                'permission_id'=>$i,
-                'created_at'=>Carbon::now(),
-                'updated_at'=>Carbon::now(),
-                ],
+        foreach ($permission_array as $permission_arr) {
+            Permission::updateOrCreate(['name' => $permission_arr['name']], $permission_arr);
+        }
+
+        $permissions = Permission::all();
+        foreach ($permissions as $permission) {
+            AdminPermission::updateOrCreate(['admin_id' => 1, 'permission_id' => $permission->id], [
+                'admin_id' => 1,
+                'permission_id' => $permission->id
             ]);
         }
     }

@@ -27,7 +27,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 Route::get('/dashboard', 'AdminController@dashboard')->name('admin.dashboard');
                 Route::get('/logout', 'AdminController@logout')->name('admin.logout');
 
-                Route::group(['middleware' => ['permission:manage-admin-users']], function () {
+                Route::group(['middleware' => ['permission:manage_operators']], function () {
                     Route::group(['prefix' => 'admin-users'], function () {
                         Route::get('/', 'AdminUserController@index')->name('admins.index');
                         Route::get('/create', 'AdminUserController@create')->name('admins.create');
@@ -39,7 +39,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                     });
                 });
 
-                Route::group(['middleware' => ['permission:manage-members']], function () {
+                Route::group(['middleware' => ['permission:manage_members']], function () {
                     Route::group(['prefix' => 'members'], function () {
                         Route::get('/', 'MemberController@index')->name('members.index');
                         Route::get('/create', 'MemberController@create')->name('members.create');
@@ -51,7 +51,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                     });
                 });
 
-                Route::group(['middleware' => ['permission:manage-elections']], function () {
+                Route::group(['middleware' => ['permission:manage_elections']], function () {
                     Route::group(['prefix' => 'elections'], function () {
                         Route::get('/', 'ElectionController@index')->name('elections.index');
                         Route::get('/create', 'ElectionController@create')->name('elections.create');
@@ -63,7 +63,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                     });
                 });
 
-                Route::group(['middleware' => ['permission:manage-seats']], function () {
+                Route::group(['middleware' => ['permission:manage_seats']], function () {
                     Route::group(['prefix' => 'seats'], function () {
                         Route::get('/', 'SeatController@index')->name('seats.index');
                         Route::get('/create', 'SeatController@create')->name('seats.create');
