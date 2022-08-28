@@ -61,6 +61,96 @@
                 </li>
                 @endif
 
+                @if (Auth::guard('admin')->user()->hasPermission('manage-members'))
+                <li
+                    class="nav-item has-treeview {{(Route::currentRouteName() == 'members.create' || Route::currentRouteName() == 'members.index'|| Route::currentRouteName() == 'members.edit' ) ? 'menu-open' : ''}}">
+                    <a href="#"
+                        class="nav-link {{(Route::currentRouteName() == 'members.create' || Route::currentRouteName() == 'members.index' || Route::currentRouteName() == 'members.edit' ) ? 'active' : ''}}">
+                        <i class="fas fa-users"></i>
+                        <p>
+                            Manage Members
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('members.create')}}"
+                                class="nav-link {{(Route::currentRouteName() == 'members.create') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Create Member</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('members.index')}}"
+                                class="nav-link {{(Route::currentRouteName() == 'members.index' || Route::currentRouteName() == 'members.edit' ) ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>List Members</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @endif
+
+                @if (Auth::guard('admin')->user()->hasPermission('manage-elections'))
+                <li
+                    class="nav-item has-treeview {{(Route::currentRouteName() == 'elections.create' || Route::currentRouteName() == 'elections.index'|| Route::currentRouteName() == 'elections.edit' ) ? 'menu-open' : ''}}">
+                    <a href="#"
+                        class="nav-link {{(Route::currentRouteName() == 'elections.create' || Route::currentRouteName() == 'elections.index' || Route::currentRouteName() == 'elections.edit' ) ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-person-booth"></i>
+                        <p>
+                            Manage Elections
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('elections.create')}}"
+                                class="nav-link {{(Route::currentRouteName() == 'elections.create') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Create Election</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('elections.index')}}"
+                                class="nav-link {{(Route::currentRouteName() == 'elections.index' || Route::currentRouteName() == 'elections.edit' ) ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>List Elections</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @endif
+
+                @if (Auth::guard('admin')->user()->hasPermission('manage-seats'))
+                <li
+                    class="nav-item has-treeview {{(Route::currentRouteName() == 'seats.create' || Route::currentRouteName() == 'seats.index'|| Route::currentRouteName() == 'seats.edit' ) ? 'menu-open' : ''}}">
+                    <a href="#"
+                        class="nav-link {{(Route::currentRouteName() == 'seats.create' || Route::currentRouteName() == 'seats.index' || Route::currentRouteName() == 'seats.edit' ) ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-chair"></i>
+                        <p>
+                            Manage Seats
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('seats.create')}}"
+                                class="nav-link {{(Route::currentRouteName() == 'seats.create') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Create Seat</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('seats.index')}}"
+                                class="nav-link {{(Route::currentRouteName() == 'seats.index' || Route::currentRouteName() == 'seats.edit' ) ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>List Seats</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @endif
+
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
