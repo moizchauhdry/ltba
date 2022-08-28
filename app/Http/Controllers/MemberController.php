@@ -37,7 +37,7 @@ class MemberController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'mem_id' => 'required|unique:members',
+            'mem_no' => 'required|unique:members',
             'name' => 'required|string|max:50',
             'father_name' => 'required|string|max:50',
             'gender' => 'required',
@@ -47,12 +47,12 @@ class MemberController extends Controller
             'city' => 'required',
             'address' => 'required',
             'membership_based_on' => 'required',
-            'select_member_ship' => 'required',
+            'member_ship' => 'required',
             'member_ship_status' => 'required',
             'member_ship_reg_date' => 'required',
             'member_ship_fee_submission' => 'required_if:member_ship_fee_paid,==,1',
             'remarks' => 'required_if:member_ship_fee_paid,==,1',
-            
+
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -64,7 +64,7 @@ class MemberController extends Controller
         }
 
         $data = [
-            'mem_id' => $request->input('mem_id'),
+            'mem_no' => $request->input('mem_no'),
             'name' => $request->input('name'),
             'father_name' => $request->input('father_name'),
             'gender' => $request->input('gender'),
@@ -74,7 +74,7 @@ class MemberController extends Controller
             'city' => $request->input('city'),
             'address' => $request->input('address'),
             'membership_based_on' => $request->input('membership_based_on'),
-            'select_member_ship' => $request->input('select_member_ship'),
+            'member_ship' => $request->input('member_ship'),
             'member_ship_status' => $request->input('member_ship_status'),
             'member_ship_reg_date' => $request->input('member_ship_reg_date'),
             'member_ship_fee_submission' => $request->input('member_ship_fee_submission'),
@@ -83,7 +83,7 @@ class MemberController extends Controller
 
         $member = Member::create($data);
 
-        return response()->json([ 'status' => 1, 'message' => 'success']);
+        return response()->json(['status' => 1, 'message' => 'success']);
     }
 
     /**
