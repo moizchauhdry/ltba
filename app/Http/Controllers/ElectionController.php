@@ -106,11 +106,7 @@ class ElectionController extends Controller
      */
     public function edit($id)
     {
-        $election = Election::find($id);
-        if ($election == null) {
-            return redirect()->back()->with('error', 'No Record Found.');
-        }
-
+        $election = Election::findOrFail($id);
         return view('admin.elections.edit', compact('election'));
     }
 
