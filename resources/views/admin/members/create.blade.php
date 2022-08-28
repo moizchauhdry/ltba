@@ -1,11 +1,5 @@
 @extends('layouts.admin')
-@section('styles')
-<!-- daterange picker -->
-<link rel="stylesheet" href="{{asset('public/portal/plugins/daterangepicker/daterangepicker.css')}}">
-<!-- Tempusdominus Bbootstrap 4 -->
-<link rel="stylesheet"
-    href="{{asset('public/portal/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
-@endsection
+
 @section('content')
 
 <!-- Content Header (Page header) -->
@@ -17,7 +11,8 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{ route('members.index') }}" class="btn btn-dark">Back</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('members.index') }}" class="btn btn-dark">Back</a>
+                    </li>
                 </ol>
             </div>
         </div>
@@ -62,37 +57,46 @@
                                         <label>Gender <span class="required-star">*</span></label>
                                         <select class="form-control" name="gender" id="gender">
                                             <option selected disabled>Select Gender</option>
-                                            <option {{ (Request::input("gender") == "Male"? "selected":"") }} value="Male">Male
+                                            <option {{ (Request::input("gender")=="Male" ? "selected" :"") }}
+                                                value="Male">Male
                                             </option>
-                                            <option {{ (Request::input("gender") == "Fe-Male"? "selected":"") }} value="Fe-Male">Fe-male
+                                            <option {{ (Request::input("gender")=="Fe-Male" ? "selected" :"") }}
+                                                value="Fe-Male">Fe-male
                                             </option>
-                                            <option {{ (Request::input("gender") == "others"? "selected":"") }} value="others">others
+                                            <option {{ (Request::input("gender")=="others" ? "selected" :"") }}
+                                                value="others">others
                                             </option>
                                         </select>
                                     </div>
+
                                     <div class="form-group col-md-4 col-sm-6 col-xs-12">
                                         <label>CNIC No <span class="required-star">*</span></label>
-                                        <input type="text" maxlength="100" class="form-control" name="CNIC_NO"
-                                            placeholder="Enter CNIC NO" value="{{ old('CNIC_NO') }}" required>
+                                        <input type="text" class="form-control"
+                                            data-inputmask="'mask': '99999-9999999-9'" placeholder="XXXXX-XXXXXXX-X"
+                                            name="cnic_no" value="{{ old('cnic_no') }}" required>
                                     </div>
+
                                     <div class="form-group col-md-4 col-sm-6 col-xs-12">
                                         <label>Contact No <span class="required-star">*</span></label>
-                                        <input type="text" maxlength="100" class="form-control" name="contact_no"
+                                        <input type="text" class="form-control" data-inputmask="'mask': '0399-99999999'"
+                                            type="number" maxlength="12" name="contact_no"
                                             placeholder="Enter Contact No" value="{{ old('contact_no') }}" required>
                                     </div>
-                                    <div class="form-group col-md-4 col-sm-6 col-xs-12">
-                                        <label class="control-label">Date of birth<span
-                                            class="required-star">*</span></label>
-                                        <div class="input-group date" id="date_of_birth" data-target-input="nearest">
-                                            <input type="text" name="date_of_birth"
-                                                class="form-control datetimepicker-input" data-target="#date_of_birth"
-                                                value="{{old('date_of_birth')}}" placeholder="Enter Date Of Birth" required />
-                                            <div class="input-group-append" data-target="#date_of_birth"
+
+                                    <div class="form-group col-md-3">
+                                        <label>Date of Birth: <span class="text-danger">*</span></label>
+                                        <div class="input-group date" id="birth_date" data-target-input="nearest">
+                                            <input type="text" value="{{ old('date_of_birth') }}"
+                                                class="form-control datetimepicker-input" data-target="#birth_date"
+                                                name="date_of_birth" required autocomplete="off"
+                                                data-toggle="datetimepicker" />
+                                            <div class="input-group-append" data-target="#birth_date"
                                                 data-toggle="datetimepicker">
                                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                         <label>City <span class="required-star">*</span></label>
                                         <input type="text" maxlength="50" class="form-control" name="city"
@@ -110,9 +114,11 @@
                                     <label>Select Membership <span class="required-star">*</span></label>
                                     <select class="form-control" name="select_member_ship" id="select_member_ship">
                                         <option selected disabled>Select Membership</option>
-                                        <option {{ (Request::input("select_member_ship") == "member"? "selected":"") }} value="member">Member
+                                        <option {{ (Request::input("select_member_ship")=="member" ? "selected" :"") }}
+                                            value="member">Member
                                         </option>
-                                        <option {{ (Request::input("select_member_ship") == "life-time-member"? "selected":"") }} value="life-time-member">Life Time Member
+                                        <option {{ (Request::input("select_member_ship")=="life-time-member"
+                                            ? "selected" :"") }} value="life-time-member">Life Time Member
                                         </option>
                                     </select>
                                 </div>
@@ -120,9 +126,11 @@
                                     <label>Membership Status <span class="required-star">*</span></label>
                                     <select class="form-control" name="member_ship_status" id="member_ship_status">
                                         <option selected disabled>Select Membership Status</option>
-                                        <option {{ (Request::input("member_ship_status") == "1"? "selected":"") }} value="1">Active
+                                        <option {{ (Request::input("member_ship_status")=="1" ? "selected" :"") }}
+                                            value="1">Active
                                         </option>
-                                        <option {{ (Request::input("member_ship_status") == "0"? "selected":"") }} value="0">In-
+                                        <option {{ (Request::input("member_ship_status")=="0" ? "selected" :"") }}
+                                            value="0">In-
                                             Active
                                         </option>
                                     </select>
@@ -132,8 +140,9 @@
                                             class="required-star">*</span></label>
                                     <div class="input-group date" id="member_ship_reg_date" data-target-input="nearest">
                                         <input type="text" name="member_ship_reg_date"
-                                            class="form-control datetimepicker-input" data-target="#member_ship_reg_date"
-                                            value="{{old('member_ship_reg_date')}}" placeholder="Enter Start Date" required />
+                                            class="form-control datetimepicker-input"
+                                            data-target="#member_ship_reg_date" value="{{old('member_ship_reg_date')}}"
+                                            placeholder="Enter Start Date" required />
                                         <div class="input-group-append" data-target="#member_ship_reg_date"
                                             data-toggle="datetimepicker">
                                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
@@ -151,12 +160,15 @@
                                     <div class="row">
                                         <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                             <label class="control-label">Fee Submission<span
-                                                class="required-star">*</span></label>
-                                            <div class="input-group date" id="member_ship_fee_submission" data-target-input="nearest">
-                                                <input type="text" name="member_ship_fee_submission"
-                                                    class="form-control datetimepicker-input" data-target="#member_ship_fee_submission"
-                                                    value="{{old('member_ship_fee_submission')}}" placeholder="Enter Fee Submission"/>
-                                                <div class="input-group-append" data-target="#member_ship_fee_submission"
+                                                    class="required-star">*</span></label>
+                                            <div class="input-group date" id="mem_fee_submission_date"
+                                                data-target-input="nearest">
+                                                <input type="text" name="mem_fee_submission_date"
+                                                    class="form-control datetimepicker-input"
+                                                    data-target="#mem_fee_submission_date"
+                                                    value="{{old('mem_fee_submission_date')}}"
+                                                    placeholder="Enter Fee Submission" />
+                                                <div class="input-group-append" data-target="#mem_fee_submission_date"
                                                     data-toggle="datetimepicker">
                                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                 </div>
@@ -164,7 +176,8 @@
                                         </div>
                                         <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                             <label>Remarks <span class="required-star">*</span></label>
-                                            <textarea class="form-control" name="remarks" id="remarks" cols="10" rows="2"></textarea>
+                                            <textarea class="form-control" name="remarks" id="remarks" cols="10"
+                                                rows="2"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -190,43 +203,44 @@
 </section>
 <!-- /.content -->
 @endsection
+
 @section('scripts')
-<!-- InputMask -->
-<script src="{{asset('public/portal/plugins/moment/moment.min.js')}}"></script>
-<!-- date-range-picker -->
-<script src="{{asset('public/portal/plugins/daterangepicker/daterangepicker.js')}}"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="{{asset('public/portal/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}">
-</script>
+
 <script src="{{asset('public/js/app.js')}}"></script>
 <script>
-    $('#date_of_birth').datetimepicker({
-        format: 'L',
+    $('#birth_date').datetimepicker({
+        size: 'large',
+        format: 'DD-MM-YYYY',
+        maxDate: new Date(),
+    });
+
+    $('#member_ship_reg_date').datetimepicker({
+        size: 'large',
+        format: 'DD-MM-YYYY',
         maxDate: new Date()
     });
-    $('#member_ship_reg_date').datetimepicker({
-        format: 'L',
-        minDate: new Date()
-    });
-    $('#member_ship_fee_submission').datetimepicker({
-        format: 'L',
-        minDate: new Date()
+
+    $('#mem_fee_submission_date').datetimepicker({
+        size: 'large',
+        format: 'DD-MM-YYYY',
+        maxDate: new Date()
     });
 
     function memberShipFee() {
         if($('.member_ship_fee_paid').is(":checked")){
             $("#member_ship_section").show();
-            $('#member_ship_fee_submission').prop('required',true);
-        }   
+            $('#mem_fee_submission_date').prop('required',true);
+        }
         else {
             $("#member_ship_section").hide();
-            $('#member_ship_fee_submission').prop('required',false);
+            $('#mem_fee_submission_date').prop('required',false);
         }
     }
-    //ADMIN ELECTION CREATE FORM AJAX
+
     jQuery(document).ready(function () {
         App.init();
     });
+
     $(document).ready(function(){
         $("#store_member_form").on("submit", function(event){
             event.preventDefault();
