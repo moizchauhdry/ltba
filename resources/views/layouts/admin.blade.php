@@ -33,12 +33,19 @@
     <!-- Custom CSS -->
     <link rel=" stylesheet" href="{{asset('public/portal/custom.css')}}">
 
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="{{asset('public/portal/plugins/daterangepicker/daterangepicker.css')}}">
+    <!-- Tempusdominus Bbootstrap 4 -->
+    <link rel="stylesheet"
+        href="{{asset('public/portal/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+
     @yield('styles')
 
     <style>
         .hidden {
             display: none !important;
         }
+
         .custom-loader {
             position: fixed;
             top: 0;
@@ -53,11 +60,6 @@
             opacity: 0.9;
         }
     </style>
-
-    <!-- daterange picker -->
-    <link rel="stylesheet" href="{{asset('public/portal/plugins/daterangepicker/daterangepicker.css')}}">
-    <!-- Tempusdominus Bbootstrap 4 -->
-    <link rel="stylesheet" href="{{asset('public/portal/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
 
 </head>
 
@@ -128,7 +130,6 @@
                 dismiss_alerts();
             });
     </script>
-    @yield('scripts')
 
     <!-- InputMask -->
     <script src="{{asset('public/portal/plugins/moment/moment.min.js')}}"></script>
@@ -137,41 +138,13 @@
     <!-- Tempusdominus Bootstrap 4 -->
     <script src="{{asset('public/portal/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}">
     </script>
-    <script>
-        //Event Start Date
-        $('#start_date').datetimepicker({
-            format: 'L',
-            minDate: new Date()
-        });
-        $('#end_date').datetimepicker({
-            format: 'L',
-            minDate: new Date()
-        });
-        $('#edit_start_date').datetimepicker({
-            format: 'L',
-        });
-        $('#edit_end_date').datetimepicker({
-            format: 'L',
-        });
-        $('#date_of_birth').datetimepicker({
-            format: 'L',
-            maxDate: new Date()
-        });
-        $('#member_ship_reg_date').datetimepicker({
-            format: 'L',
-            minDate: new Date()
-        });
-        $('#member_ship_fee_submission').datetimepicker({
-            format: 'L',
-            minDate: new Date()
-        });
 
-        $(":input").inputmask();
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/jquery.inputmask.bundle.js"></script>
     <script>
         $(":input").inputmask();
     </script>
+    @yield('scripts')
+
 </body>
+
 </html>
