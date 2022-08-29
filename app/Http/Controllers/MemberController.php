@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Member;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
+use Illuminate\Http\File;
+use Illuminate\Support\Facades\Storage;
 
 class MemberController extends Controller
 {
@@ -65,20 +67,21 @@ class MemberController extends Controller
         $rules = [
             'mem_no' => 'required|unique:members',
             'name' => 'required|string|max:50',
+            'image_url' => 'required|image|mimes:jpeg,jpg,png',
             'father_name' => 'required|string|max:50',
             'gender' => 'required',
             'cnic_no' => 'required|unique:members',
             'contact_no' => 'required|unique:members',
             'birth_date' => 'required',
             'city' => 'required',
-            'address' => 'required',
+            'qualification' => 'required',
+            'office_address' => 'required',
+            'residential_address' => 'required',
             'membership_based_on' => 'required',
             'mem' => 'required',
-            'mem_status' => 'required',
             'mem_reg_date' => 'required',
             'mem_fee_submission_date' => 'required_if:member_ship_fee_paid,==,1',
             'remarks' => 'required_if:member_ship_fee_paid,==,1',
-
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -98,16 +101,29 @@ class MemberController extends Controller
             'contact_no' => $request->input('contact_no'),
             'birth_date' => $request->input('birth_date'),
             'city' => $request->input('city'),
-            'address' => $request->input('address'),
+            'residential_address' => $request->input('residential_address'),
+            'office_address' => $request->input('office_address'),
+            'qualification' => $request->input('qualification'),
             'membership_based_on' => $request->input('membership_based_on'),
             'mem' => $request->input('mem'),
-            'mem_status' => $request->input('mem_status'),
             'mem_reg_date' => $request->input('mem_reg_date'),
             'mem_fee_submission_date' => $request->input('mem_fee_submission_date'),
             'remarks' => $request->input('remarks'),
         ];
 
         $member = Member::create($data);
+
+        $memberImageDirectory = 'memberImages';
+        if ($request->hasFile('image_url')) {
+            
+            $fileName = $request->file('image_url')->getClientOriginalName();
+
+            if(!Storage::exists($memberImageDirectory)){
+                Storage::makeDirectory($memberImageDirectory);
+            }
+            $imageUrl = Storage::putFile($memberImageDirectory, new File($request->file('image_url')));
+            $member->update(['image_url'=> $imageUrl]);
+        }
 
         return response()->json(['status' => 1, 'message' => 'success']);
     }
@@ -145,24 +161,24 @@ class MemberController extends Controller
     public function update(Request $request, $id)
     {
         $member = Member::findOrFail($id);
-
         $rules = [
-            'mem_no' => 'required|unique:members,mem_no,'. $member->id,
+            'mem_no' => 'required|unique:members'. $member->id,
             'name' => 'required|string|max:50',
+            'image_url' => 'nullable|image|mimes:jpeg,jpg,png',
             'father_name' => 'required|string|max:50',
             'gender' => 'required',
-            'cnic_no' => 'required|unique:members,cnic_no,'. $member->id,
-            'contact_no' => 'required|unique:members,contact_no,'. $member->id,
+            'cnic_no' => 'required|unique:members'. $member->id,
+            'contact_no' => 'required|unique:members'. $member->id,
             'birth_date' => 'required',
             'city' => 'required',
-            'address' => 'required',
+            'qualification' => 'required',
+            'office_address' => 'required',
+            'residential_address' => 'required',
             'membership_based_on' => 'required',
             'mem' => 'required',
-            'mem_status' => 'required',
             'mem_reg_date' => 'required',
             'mem_fee_submission_date' => 'required_if:member_ship_fee_paid,==,1',
             'remarks' => 'required_if:member_ship_fee_paid,==,1',
-
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -182,14 +198,26 @@ class MemberController extends Controller
             'contact_no' => $request->input('contact_no'),
             'birth_date' => $request->input('birth_date'),
             'city' => $request->input('city'),
-            'address' => $request->input('address'),
+            'residential_address' => $request->input('residential_address'),
+            'office_address' => $request->input('office_address'),
+            'qualification' => $request->input('qualification'),
             'membership_based_on' => $request->input('membership_based_on'),
             'mem' => $request->input('mem'),
-            'mem_status' => $request->input('mem_status'),
             'mem_reg_date' => $request->input('mem_reg_date'),
             'mem_fee_submission_date' => $request->input('mem_fee_submission_date'),
             'remarks' => $request->input('remarks'),
         ];
+
+        $memberImageDirectory = 'memberImages';
+        if ($request->hasFile('image_url')) {
+            
+            if(!Storage::exists($memberImageDirectory)){
+                Storage::makeDirectory($memberImageDirectory);
+            }
+            Storage::delete('/'.$member->image_url);
+            $imageUrl = Storage::putFile($memberImageDirectory, new File($request->file('image_url')));
+            $data['image_url'] = $imageUrl;
+        }
 
 
         $member->update($data);
@@ -206,5 +234,15 @@ class MemberController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function status(Request $request)
+    {
+        $member = Member::findOrFail($request->id);
+        if ($member == null) {
+            return redirect()->back()->with('error', 'No Record Found');
+        }
+        $member->update(['mem_status'=> $request->input('mem_status')]);
+        return response()->json(['status'=>'1','message'=>'Status Changed Successfully']);
     }
 }

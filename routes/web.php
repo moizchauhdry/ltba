@@ -74,6 +74,15 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                         Route::post('/status', 'SeatController@status')->name('seats.status');
                     });
                 });
+
+
+                Route::group(['middleware' => ['permission:manage_inquires']], function () {
+                    Route::group(['prefix' => 'inquires'], function () {
+                        Route::get('/', 'InquiryController@index')->name('inquires.index');
+                        Route::get('/edit/{id}', 'InquiryController@edit')->name('inquires.edit');
+                        Route::post('/update/{id}', 'InquiryController@update')->name('inquires.update');
+                    });
+                });
             });
         });
     });

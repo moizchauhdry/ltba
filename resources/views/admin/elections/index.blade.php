@@ -89,7 +89,7 @@
                 });
             });
         
-        //ADMIN USER STATUS CHANGE SCRIPTS
+        //ELECTION  STATUS CHANGE SCRIPTS
         function changeStatus(id,status) {
             var result = window.confirm('Are you sure you want to change status ?');
             if (result == false) {
@@ -97,7 +97,7 @@
             }else{
                 $.ajax({
                     method: "POST",
-                    url: '{{ route('admins.status') }}',
+                    url: '{{ route('elections.status') }}',
                     data: {
                         _token: $('meta[name="csrf-token"]').attr('content'),
                         'id': id,
@@ -106,7 +106,7 @@
                     success: function (response) {
                         if(response.status)
                         {
-                            $('#admin_users').DataTable().ajax.reload();
+                            $('#elections').DataTable().ajax.reload();
                         }
                     }
                 });

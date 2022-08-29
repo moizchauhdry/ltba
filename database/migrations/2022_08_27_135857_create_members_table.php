@@ -17,13 +17,16 @@ class CreateMembersTable extends Migration
             $table->id();
             $table->string('mem_no')->unique();
             $table->string('name');
+            $table->string('image_url')->nullable();
             $table->string('father_name')->nullable();
             $table->string('gender')->nullable();
             $table->string('cnic_no')->unique();
             $table->string('birth_date')->nullable();
             $table->string('city')->nullable();
             $table->string('contact_no')->unique()->nullable();
-            $table->string('address')->nullable();
+            $table->string('qualification')->nullable();
+            $table->string('office_address')->nullable();
+            $table->string('residential_address')->nullable();
             $table->string('membership_based_on')->nullable();
             $table->string('mem')->nullable();
             $table->boolean('mem_status')->default(true);

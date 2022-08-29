@@ -161,4 +161,14 @@ class SeatController extends Controller
     {
         //
     }
+
+    public function status(Request $request)
+    {
+        $seat = Seat::findOrFail($request->id);
+        if ($seat == null) {
+            return redirect()->back()->with('error', 'No Record Found');
+        }
+        $seat->update(['status'=> $request->input('status')]);
+        return response()->json(['status'=>'1','message'=>'Status Changed Successfully']);
+    }
 }

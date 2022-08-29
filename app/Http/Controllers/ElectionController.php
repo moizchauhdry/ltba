@@ -156,4 +156,14 @@ class ElectionController extends Controller
     {
         //
     }
+
+    public function status(Request $request)
+    {
+        $election = Election::findOrFail($request->id);
+        if ($election == null) {
+            return redirect()->back()->with('error', 'No Record Found');
+        }
+        $election->update(['status'=> $request->input('status')]);
+        return response()->json(['status'=>'1','message'=>'Status Changed Successfully']);
+    }
 }

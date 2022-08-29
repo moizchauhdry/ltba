@@ -68,22 +68,19 @@
                                             </option>
                                         </select>
                                     </div>
-
                                     <div class="form-group col-md-5">
                                         <label>CNIC No <span class="required-star">*</span></label>
                                         <input type="text" class="form-control"
                                             data-inputmask="'mask': '99999-9999999-9'" placeholder="XXXXX-XXXXXXX-X"
                                             name="cnic_no" value="{{ old('cnic_no') }}" required>
                                     </div>
-
                                     <div class="form-group col-md-4">
                                         <label>Contact No <span class="required-star">*</span></label>
                                         <input type="text" class="form-control" data-inputmask="'mask': '0399-99999999'"
                                             type="number" maxlength="12" name="contact_no"
                                             placeholder="Enter Contact No" value="{{ old('contact_no') }}" required>
                                     </div>
-
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-4">
                                         <label>Date of Birth: <span class="text-danger">*</span></label>
                                         <div class="input-group date" id="birth_date" data-target-input="nearest">
                                             <input type="text" value="{{ old('birth_date') }}"
@@ -96,20 +93,40 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                                        <label>Image <span class="required-star">*</span></label>
+                                        <div class="input-group mb-3">
+                                            <div class="custom-file">
+                                                <input type="file" id="image_url" class="custom-file-input" name="image_url"
+                                                    accept=".png, .jpg, .jpeg" required>
+                                                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                            </div>
+                                        </div>
+                                        <img src="" id="image" class="hidden w-25" />
+                                    </div>
 
+                                    <div class="form-group col-md-4">
+                                        <label>Qualification <span class="required-star">*</span></label>
+                                        <input type="text" maxlength="100" class="form-control" name="qualification"
+                                            placeholder="Enter Qualification" value="{{ old('qualification') }}" required>
+                                    </div>
                                     <div class="form-group col-md-3">
                                         <label>City <span class="required-star">*</span></label>
                                         <input type="text" maxlength="50" class="form-control" name="city"
                                             placeholder="Enter City" value="{{ old('City') }}" required>
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <label>Address <span class="required-star">*</span></label>
-                                        <input type="text" maxlength="100" class="form-control" name="address"
-                                            placeholder="Enter Address" value="{{ old('address') }}" required>
+                                    <div class="form-group col-md-4">
+                                        <label>Office Address <span class="required-star">*</span></label>
+                                        <input type="text" maxlength="100" class="form-control" name="office_address"
+                                            placeholder="Enter Office Address" value="{{ old('office_address') }}" required>
                                     </div>
+                                    <div class="form-group col-md-5">
+                                        <label>Residential Address </label>
+                                        <input type="text" maxlength="100" class="form-control" name="residential_address"
+                                            placeholder="Enter Residential Address" value="{{ old('residential_address') }}">
+                                    </div>   
                                 </div>
                             </fieldset>
-
                             <fieldset class="border p-4 mb-4" id="partner">
                                 <legend class="w-auto">Member Information</legend>
                                 <div class="row">
@@ -149,20 +166,6 @@
                                             </option>
                                             <option {{ (Request::input("mem")=="life-time-member" ? "selected"
                                                 :"") }} value="life-time-member">Life Time Member
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label>Membership Status <span class="required-star">*</span></label>
-                                        <select class="form-control custom-select" name="mem_status"
-                                            id="mem_status">
-                                            <option selected disabled>Select Membership Status</option>
-                                            <option {{ (Request::input("mem_status")=="1" ? "selected" :"") }}
-                                                value="1">Active
-                                            </option>
-                                            <option {{ (Request::input("mem_status")=="0" ? "selected" :"") }}
-                                                value="0">In-
-                                                Active
                                             </option>
                                         </select>
                                     </div>
@@ -270,6 +273,32 @@
                 }
             });
         });
+    });
+
+    //IMAGE SCRIPT
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#image').attr('src', e.target.result);
+                $('#image').removeClass("hidden");
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#image_url").change(function () {
+        readURL(this);
+    });
+
+    // Get Input File Name
+    $('.custom-file input').change(function (e) {
+        var files = [];
+        for (var i = 0; i < $(this)[0].files.length; i++) {
+            files.push($(this)[0].files[i].name);
+        }
+        $(this).next('.custom-file-label').html(files.join(','));
     });
 
     $('#birth_date').datetimepicker({

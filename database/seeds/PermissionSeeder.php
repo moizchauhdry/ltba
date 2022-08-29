@@ -34,6 +34,11 @@ class PermissionSeeder extends Seeder
                 'type' => 'parent',
                 'order' => 4,
             ],
+            [
+                'name' => 'manage_inquires',
+                'type' => 'parent',
+                'order' => 5,
+            ],
         ];
 
         foreach ($permission_array as $permission_arr) {

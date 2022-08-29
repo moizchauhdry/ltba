@@ -151,6 +151,18 @@
                 </li>
                 @endif
 
+                @if (Auth::guard('admin')->user()->hasPermission('manage_inquires'))
+                <li class="nav-item">
+                    <a href="{{route('inquires.index')}}"
+                        class="nav-link {{(Route::currentRouteName() == 'inquires.index' || Route::currentRouteName() == 'inquires.edit') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-cogs"></i>
+                        <p>
+                            Inquiries
+                        </p>
+                    </a>
+                </li>
+                @endif
+
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

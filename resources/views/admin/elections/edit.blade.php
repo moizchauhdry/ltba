@@ -40,14 +40,14 @@
                                     <input type="text" maxlength="100" class="form-control" name="name"
                                         placeholder="Enter Election Name" value="{{ $election->name }}" required>
                                 </div>
-                                <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                                    <label class="control-label">Start Date<span
-                                            class="required-star">*</span></label>
-                                    <div class="input-group date" id="edit_start_date" data-target-input="nearest">
-                                        <input type="text" name="start_date"
-                                            class="form-control datetimepicker-input" data-target="#edit_start_date"
-                                            value="{{ $election->start_date }}" placeholder="Enter Start Date" required />
-                                        <div class="input-group-append" data-target="#edit_start_date"
+                                <div class="form-group  col-md-6 col-sm-6 col-xs-12">
+                                    <label>Start Date <span class="text-danger">*</span></label>
+                                    <div class="input-group date" id="start_date" data-target-input="nearest">
+                                        <input type="text" value="{{ $election->start_date }}"
+                                            class="form-control datetimepicker-input" data-target="#start_date"
+                                            name="start_date" required autocomplete="off"
+                                            data-toggle="datetimepicker" />
+                                        <div class="input-group-append" data-target="#start_date"
                                             data-toggle="datetimepicker">
                                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                         </div>
@@ -68,14 +68,14 @@
                                 </div>
                                 <div class="col-md-12" id="election_end_section" style="display:none">
                                     <div class="row">
-                                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                                            <label class="control-label">End Date<span
-                                                    class="required-star">*</span></label>
-                                            <div class="input-group date" id="edit_end_date" data-target-input="nearest">
-                                                <input type="text" name="end_date"
-                                                    class="form-control datetimepicker-input" data-target="#edit_end_date"
-                                                    value="{{ $election->end_date }}" placeholder="Enter End Date"/>
-                                                <div class="input-group-append" data-target="#edit_end_date"
+                                        <div class="form-group  col-md-6 col-sm-6 col-xs-12">
+                                            <label>End Date <span class="text-danger">*</span></label>
+                                            <div class="input-group date" id="end_date" data-target-input="nearest">
+                                                <input type="text" value="{{ $election->end_date }}"
+                                                    class="form-control datetimepicker-input" data-target="#end_date"
+                                                    name="end_date" autocomplete="off"
+                                                    data-toggle="datetimepicker" />
+                                                <div class="input-group-append" data-target="#end_date"
                                                     data-toggle="datetimepicker">
                                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                 </div>
@@ -109,16 +109,6 @@
 @section('scripts')
 <script src="{{asset('public/js/app.js')}}"></script>
 <script>
-    function electionEnd() {
-        if($('.election_end').is(":checked")){
-            $("#election_end_section").show();
-            $('#end_date').prop('required',true);
-        }   
-        else {
-            $("#election_end_section").hide();
-            $('#end_date').prop('required',false);
-        }
-    }
     //ELECTION UPDATE FORM AJAX SCRIPTS
     jQuery(document).ready(function () {
         App.init();
@@ -157,6 +147,26 @@
             }
           });
       });
+    });
+    //ELECTION END CHECKBOX
+    function electionEnd() {
+        if($('.election_end').is(":checked")){
+            $("#election_end_section").show();
+            $('#end_date').prop('required',true);
+        }   
+        else {
+            $("#election_end_section").hide();
+            $('#end_date').prop('required',false);
+        }
+    }
+
+    $('#start_date').datetimepicker({
+        size: 'large',
+        format: 'DD-MM-YYYY',
+    });
+    $('#end_date').datetimepicker({
+        size: 'large',
+        format: 'DD-MM-YYYY',
     });
 </script>
 @endsection

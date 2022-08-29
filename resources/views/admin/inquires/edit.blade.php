@@ -7,11 +7,11 @@
     <div class="container">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>{{__('Manage Members')}}</h1>
+                <h1>{{__('Manage Imquiries')}}</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{ route('members.index') }}" class="btn btn-dark">Back</a>
+                    <li class="breadcrumb-item"><a href="{{ route('inquires.index') }}" class="btn btn-dark">Back</a>
                     </li>
                 </ol>
             </div>
@@ -32,7 +32,7 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form action="#" id="edit_member_form" method="POST"> @csrf
+                    <form action="#" id="edit_inquiry_form" method="POST" enctype="multipart/form-data"> @csrf
                         {{ csrf_field() }}
                         <div class="card-body">
                             <fieldset class="border p-4 mb-4" id="partner">
@@ -48,37 +48,15 @@
                                         <input type="text" maxlength="100" class="form-control" name="name"
                                             placeholder="Enter Seat Name" value="{{ $member->name }}" required>
                                     </div>
-                                    <div class="form-group col-md-5">
-                                        <label>Father Name <span class="required-star">*</span></label>
-                                        <input type="text" maxlength="100" class="form-control" name="father_name"
-                                            placeholder="Enter Father Name" value="{{ $member->father_name }}" required>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label>Gender <span class="required-star">*</span></label>
-                                        <select class="form-control custom-select" name="gender" id="gender">
-                                            <option selected disabled>Select Gender</option>
-                                            <option {{ ($member->gender == "Male"? "selected":"") }} value="Male">Male
-                                            </option>
-                                            <option {{ ($member->gender =="Fe-Male" ? "selected" :"") }}
-                                                value="Fe-Male">Fe-male
-                                            </option>
-                                            <option {{ ($member->gender =="others" ? "selected" :"") }}
-                                                value="others">others
-                                            </option>
-                                        </select>
-                                    </div>
+                                    
+                                  
                                     <div class="form-group col-md-5">
                                         <label>CNIC No <span class="required-star">*</span></label>
                                         <input type="text" class="form-control"
                                             data-inputmask="'mask': '99999-9999999-9'" placeholder="XXXXX-XXXXXXX-X"
                                             name="cnic_no" value="{{ $member->cnic_no }}" required>
                                     </div>
-                                    <div class="form-group col-md-4">
-                                        <label>Contact No <span class="required-star">*</span></label>
-                                        <input type="text" class="form-control" data-inputmask="'mask': '0399-99999999'"
-                                            type="number" maxlength="12" name="contact_no"
-                                            placeholder="Enter Contact No" value="{{ $member->contact_no }}" required>
-                                    </div>
+                                    
                                     <div class="form-group col-md-4">
                                         <label>Date of Birth: <span class="text-danger">*</span></label>
                                         <div class="input-group date" id="birth_date" data-target-input="nearest">
@@ -110,28 +88,18 @@
                                         <input type="text" maxlength="100" class="form-control" name="qualification"
                                             placeholder="Enter Qualification" value="{{ $member->qualification }}" required>
                                     </div>
-                                    <div class="form-group col-md-3">
-                                        <label>City <span class="required-star">*</span></label>
-                                        <input type="text" maxlength="50" class="form-control" name="city"
-                                            placeholder="Enter City" value="{{ $member->city }}" required>
-                                    </div>
-                                    <div class="form-group col-md-4">
+                                   
+                                    <div class="form-group col-md-6">
                                         <label>Office Address <span class="required-star">*</span></label>
                                         <input type="text" maxlength="100" class="form-control" name="office_address"
                                             placeholder="Enter Office Address" value="{{ $member->office_address }}" required>
                                     </div>
-                                    <div class="form-group col-md-5">
+                                    <div class="form-group col-md-6">
                                         <label>Residential Address </label>
                                         <input type="text" maxlength="100" class="form-control" name="residential_address"
                                             placeholder="Enter Residential Address" value="{{ $member->residential_address }}">
                                     </div> 
-                                </div>
-                            </fieldset>
-
-                            <fieldset class="border p-4 mb-4" id="partner">
-                                <legend class="w-auto">Member Information</legend>
-                                <div class="row">
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-6">
                                         <label>Membership Based-on<span class="required-star">*</span></label>
                                         <select class="form-control custom-select" name="membership_based_on"
                                             id="membership_based_on">
@@ -158,70 +126,8 @@
                                                 }} value="fcma">FCMA</option>
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-4">
-                                        <label>Select Membership <span class="required-star">*</span></label>
-                                        <select class="form-control custom-select" name="mem" id="mem">
-                                            <option selected disabled>Select Membership</option>
-                                            <option {{ ($member->mem =="member" ? "selected" :"") }}
-                                                value="member">Member
-                                            </option>
-                                            <option {{ ($member->mem =="life-time-member" ? "selected"
-                                                :"") }} value="life-time-member">Life Time Member
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label>Membership Reg Date <span class="text-danger">*</span></label>
-                                        <div class="input-group date" id="mem_reg_date" data-target-input="nearest">
-                                            <input type="text" value="{{ $member->mem_reg_date }}"
-                                                class="form-control datetimepicker-input" data-target="#mem_reg_date"
-                                                name="mem_reg_date" required autocomplete="off"
-                                                data-toggle="datetimepicker" />
-                                            <div class="input-group-append" data-target="#mem_reg_date"
-                                                data-toggle="datetimepicker">
-                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="container row">
-                                        <div class="col-md-12">
-                                            @if($member->mem_fee_submission_date != null)
-                                                <input type="checkbox" class="member_ship_fee_paid" checked
-                                                    name="member_ship_fee_paid" id="member_ship_fee_paid_checkbox" value="1"
-                                                    onchange="memberShipFee()">
-                                            @else
-                                                <input type="checkbox" class="member_ship_fee_paid"
-                                                    name="member_ship_fee_paid" id="member_ship_fee_paid_checkbox" value="0"
-                                                    onchange="memberShipFee()">
-                                            @endif
-                                            <label class="create-group">Membership Fee Paid</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12" id="member_ship_section" style="display:none">
-                                        <div class="row">
-                                            <div class="form-group col-md-6">
-                                                <label>Fee Submission Date <span class="text-danger">*</span></label>
-                                                <div class="input-group date" id="mem_fee_submission_date" data-target-input="nearest">
-                                                    <input type="text" value="{{ $member->mem_fee_submission_date }}"
-                                                        class="form-control datetimepicker-input" data-target="#mem_fee_submission_date"
-                                                        name="mem_fee_submission_date"  autocomplete="off"
-                                                        data-toggle="datetimepicker" />
-                                                    <div class="input-group-append" data-target="#mem_fee_submission_date"
-                                                        data-toggle="datetimepicker">
-                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label>Remarks <span class="required-star">*</span></label>
-                                                <textarea class="form-control" name="remarks" id="remarks" cols="10"
-                                                    rows="2">{{ $member->remarks }}</textarea>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </fieldset>
-
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
@@ -253,10 +159,10 @@
     });
 
     $(document).ready(function(){
-        if($('.member_ship_fee_paid').is(":checked")){
-            $("#member_ship_section").show();
-        }
-        $("#edit_member_form").on("submit", function(event){
+        // if($('.member_ship_fee_paid').is(":checked")){
+        //     $("#member_ship_section").show();
+        // }
+        $("#edit_inquiry_form").on("submit", function(event){
             event.preventDefault();
             $('span.text-success').remove();
             $('span.invalid-feedback').remove();
@@ -265,7 +171,7 @@
             $.ajax({
                 method: "POST",
                 data: formData,
-                url: '{{route('members.update',$member->id)}}',
+                url: '{{route('inquires.update',$member->id)}}',
                 processData: false,
                 contentType: false,
                 cache: false,
@@ -274,7 +180,7 @@
                 },
                 success: function (response) {
                     if (response.status == 1) {
-                        window.location.href = '{{route('members.index')}}';
+                        window.location.href = '{{route('inquires.index')}}';
                     }
                 },
                 error : function (errors) {

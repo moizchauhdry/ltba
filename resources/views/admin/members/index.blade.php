@@ -49,7 +49,7 @@
                                     <th>MEM Reg Date</th>
                                     <th>MEM Submission Date</th>
                                     <th>City</th>
-                                    <th>Address</th>
+                                    <th>Office Address</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -95,7 +95,7 @@
                         {data: 'mem_reg_date', name: 'mem_reg_date'},
                         {data: 'mem_fee_submission_date', name: 'mem_fee_submission_date'},
                         {data: 'city', name: 'city'},
-                        {data: 'address', name: 'address'},
+                        {data: 'office_address', name: 'office_address'},
                         {data: 'action', name: 'action', orderable: false, searchable: false},
                     ],
                     drawCallback: function (response) {
@@ -104,5 +104,29 @@
                     }
                 });
             });
+
+        //MEMBER  STATUS CHANGE SCRIPTS
+        function changeStatus(id,mem_status) {
+            var result = window.confirm('Are you sure you want to change status ?');
+            if (result == false) {
+                e.preventDefault();
+            }else{
+                $.ajax({
+                    method: "POST",
+                    url: '{{ route('members.status') }}',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        'id': id,
+                        'mem_status': mem_status
+                    },
+                    success: function (response) {
+                        if(response.status)
+                        {
+                            $('#members').DataTable().ajax.reload();
+                        }
+                    }
+                });
+            }
+        };
     </script>
 @endsection
