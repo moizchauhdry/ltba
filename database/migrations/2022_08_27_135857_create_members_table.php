@@ -29,7 +29,7 @@ class CreateMembersTable extends Migration
             $table->string('residential_address')->nullable();
             $table->string('membership_based_on')->nullable();
             $table->string('mem')->nullable();
-            $table->boolean('mem_status')->default(true);
+            $table->integer('mem_status')->default(0);
             $table->string('mem_reg_date')->nullable();
             $table->string('mem_fee_submission_date')->nullable();
             $table->longText('remarks')->nullable();

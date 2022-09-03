@@ -183,6 +183,26 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Membership Status <span class="required-star">*</span></label>
+                                        <select class="form-control custom-select" name="mem_status"
+                                            id="mem_status">
+                                            <option selected disabled>Select Membership Status</option>
+                                            <option {{ ($member->mem_status =="1" ? "selected" :"") }}
+                                                value="1">Active
+                                            </option>
+                                            <option {{ ($member->mem_status=="2" ? "selected" :"") }}
+                                                value="2">In-
+                                                Active
+                                            </option>
+                                            <option {{ ($member->mem_status=="3" ? "selected" :"") }}
+                                                value="3">Suspended
+                                            </option>
+                                            <option {{ ($member->mem_status=="4" ? "selected" :"") }}
+                                                value="4">Late
+                                            </option>
+                                        </select>
+                                    </div>
                                     <div class="container row">
                                         <div class="col-md-12">
                                             @if($member->mem_fee_submission_date != null)
@@ -225,10 +245,6 @@
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" id="customSwitch1" name="mem_status" class="custom-control-input" {{ $member->mem_status == 1 ? 'checked' : '' }} value="1">
-                                <label class="custom-control-label" for="customSwitch1">Member Status</label>
-                            </div>
                             <button type="submit" class="btn btn-primary float-right">Update</button>
                         </div>
                     </form>
@@ -342,16 +358,5 @@
             $('#mem_fee_submission_date').prop('required',false);
         }
     }
-
-    //STATUS CHECKBOX SCRIPTS
-    $('input[name="mem_status"]').click(function () {
-        if ($(this).is(":checked")) {
-            $('#customSwitch1').val('1');
-            
-        } else {
-            $('#customSwitch1').val('0');
-        }
-    });
-
 </script>
 @endsection

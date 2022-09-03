@@ -19,25 +19,24 @@ class MemberController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Member::orderBy('id', 'DESC');
+            $data = Member::orderBy('id', 'DESC')->where('mem_status','!=',0);
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('mem_status', function (Member $data) {
                     if ($data->mem_status == 1) {
-                        $status = '<span class="badge badge-success">Approved</span>';
-                    } else {
-                        $status = '<span class="badge badge-danger">Disapproved</span>';
+                        $status = '<span class="badge badge-success">Active</span>';
+                    } else if($data->mem_status == 2) {
+                        $status = '<span class="badge badge-danger">In-active</span>';
+                    }else if($data->mem_status == 3) {
+                        $status = '<span class="badge badge-danger">Suspended</span>';
+                    }else if($data->mem_status == 4) {
+                        $status = '<span class="badge badge-primary">Late</span>';
                     }
                     return $status;
                 })
                 ->addColumn('action', function (Member $data) {
                     $btn = '<a href="' . route('members.edit', $data->id) . '" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Edit </a>';
-                    if ($data->mem_status == 1) {
-                        $status = '<a onclick="changeStatus(' . $data->id . ',0)" href="javascript:void(0)" class="btn btn-sm btn-danger mt-1">Disapproved</a>';
-                    } else {
-                        $status = '<a onclick="changeStatus(' . $data->id . ',1)" href="javascript:void(0)" class="btn btn-sm btn-success mt-1">Approved</a>';
-                    }
-                    return $btn . " " . $status;
+                    return $btn;
                 })
                 ->rawColumns(['action', 'mem_status'])
                 ->make(true);
@@ -80,6 +79,7 @@ class MemberController extends Controller
             'membership_based_on' => 'required',
             'mem' => 'required',
             'mem_reg_date' => 'required',
+            'mem_status' => 'required',
             'mem_fee_submission_date' => 'required_if:member_ship_fee_paid,==,1',
             'remarks' => 'required_if:member_ship_fee_paid,==,1',
         ];
@@ -107,6 +107,7 @@ class MemberController extends Controller
             'membership_based_on' => $request->input('membership_based_on'),
             'mem' => $request->input('mem'),
             'mem_reg_date' => $request->input('mem_reg_date'),
+            'mem_status' => $request->input('mem_status'),
             'mem_fee_submission_date' => $request->input('mem_fee_submission_date'),
             'remarks' => $request->input('remarks'),
         ];
@@ -177,6 +178,7 @@ class MemberController extends Controller
             'membership_based_on' => 'required',
             'mem' => 'required',
             'mem_reg_date' => 'required',
+            'mem_status' => 'required',
             'mem_fee_submission_date' => 'required_if:member_ship_fee_paid,==,1',
             'remarks' => 'required_if:member_ship_fee_paid,==,1',
         ];
@@ -187,13 +189,6 @@ class MemberController extends Controller
             return response()->json([
                 'errors' => $validator->errors(),
             ], 400);
-        }
-
-        if($request->mem_status == null)
-        {
-            $mem_staus = 0;
-        }else{
-            $mem_staus = 1;
         }
         
         $data = [
@@ -210,10 +205,10 @@ class MemberController extends Controller
             'qualification' => $request->input('qualification'),
             'membership_based_on' => $request->input('membership_based_on'),
             'mem' => $request->input('mem'),
+            'mem_status' => $request->input('mem_status'),
             'mem_reg_date' => $request->input('mem_reg_date'),
             'mem_fee_submission_date' => $request->input('mem_fee_submission_date'),
             'remarks' => $request->input('remarks'),
-            'mem_status' => $mem_staus,
         ];
 
         $memberImageDirectory = 'memberImages';
