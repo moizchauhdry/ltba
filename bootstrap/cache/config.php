@@ -189,7 +189,7 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'C:\\laragon\\www\\tax-bar\\storage\\framework/cache/data',
+        'path' => 'C:\\laragon\\www\\ltba\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -405,12 +405,12 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\laragon\\www\\tax-bar\\storage\\app',
+        'root' => 'C:\\laragon\\www\\ltba\\storage\\app',
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\laragon\\www\\tax-bar\\storage\\app/public',
+        'root' => 'C:\\laragon\\www\\ltba\\storage\\app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
       ),
@@ -427,7 +427,7 @@
     ),
     'links' => 
     array (
-      'C:\\laragon\\www\\tax-bar\\public\\storage' => 'C:\\laragon\\www\\tax-bar\\storage\\app/public',
+      'C:\\laragon\\www\\ltba\\public\\storage' => 'C:\\laragon\\www\\ltba\\storage\\app/public',
     ),
   ),
   'hashing' => 
@@ -461,13 +461,13 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\laragon\\www\\tax-bar\\storage\\logs/laravel.log',
+        'path' => 'C:\\laragon\\www\\ltba\\storage\\logs/laravel.log',
         'level' => 'debug',
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'C:\\laragon\\www\\tax-bar\\storage\\logs/laravel.log',
+        'path' => 'C:\\laragon\\www\\ltba\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
       ),
@@ -517,7 +517,7 @@
       ),
       'emergency' => 
       array (
-        'path' => 'C:\\laragon\\www\\tax-bar\\storage\\logs/laravel.log',
+        'path' => 'C:\\laragon\\www\\ltba\\storage\\logs/laravel.log',
       ),
     ),
   ),
@@ -574,7 +574,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'C:\\laragon\\www\\tax-bar\\resources\\views/vendor/mail',
+        0 => 'C:\\laragon\\www\\ltba\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -653,7 +653,7 @@
     'lifetime' => '120',
     'expire_on_close' => true,
     'encrypt' => false,
-    'files' => 'C:\\laragon\\www\\tax-bar\\storage\\framework/sessions',
+    'files' => 'C:\\laragon\\www\\ltba\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -673,9 +673,9 @@
   array (
     'paths' => 
     array (
-      0 => 'C:\\laragon\\www\\tax-bar\\resources\\views',
+      0 => 'C:\\laragon\\www\\ltba\\resources\\views',
     ),
-    'compiled' => 'C:\\laragon\\www\\tax-bar\\storage\\framework\\views',
+    'compiled' => 'C:\\laragon\\www\\ltba\\storage\\framework\\views',
   ),
   'flare' => 
   array (
