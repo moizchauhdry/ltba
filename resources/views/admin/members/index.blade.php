@@ -38,9 +38,10 @@
                         <table id="members" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Sr.No.</th>
+                                    <th>Action</th>
                                     <th>MEM No#</th>
                                     <th>Name</th>
+                                    <th>Image</th>
                                     <th>CNIC No</th>
                                     <th>Contact No</th>
                                     <th>MEM Status</th>
@@ -50,7 +51,6 @@
                                     <th>MEM Submission Date</th>
                                     <th>City</th>
                                     <th>Office Address</th>
-                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -84,9 +84,10 @@
                     ajax: "{{ route('members.index') }}",
                     order:[[0,"desc"]],
                     columns: [
-                        {data: 'id', name: 'id'},
+                        {data: 'action', name: 'action'},
                         {data: 'mem_no', name: 'mem_no'},
                         {data: 'name', name: 'name'},
+                        {data: 'image', name: 'image'},
                         {data: 'cnic_no', name: 'cnic_no'},
                         {data: 'contact_no', name: 'contact_no'},
                         {data: 'mem_status', name: 'mem_status'},
@@ -95,8 +96,7 @@
                         {data: 'mem_reg_date', name: 'mem_reg_date'},
                         {data: 'mem_fee_submission_date', name: 'mem_fee_submission_date'},
                         {data: 'city', name: 'city'},
-                        {data: 'office_address', name: 'office_address'},
-                        {data: 'action', name: 'action', orderable: false, searchable: false},
+                        {data: 'office_address', name: 'office_address', orderable: false, searchable: false},
                     ],
                     drawCallback: function (response) {
                         $('#countTotal').empty();

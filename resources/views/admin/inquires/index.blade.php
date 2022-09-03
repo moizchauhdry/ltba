@@ -29,8 +29,7 @@
                         <table id="inquiries" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Sr.No.</th>
-                                    <th>MEM No</th>
+                                    <th>Action</th>
                                     <th>Image</th>
                                     <th>Name</th>
                                     <th>CNIC No</th>
@@ -38,7 +37,7 @@
                                     <th>Office Address</th>
                                     <th>Residential Address</th>
                                     <th>Is Approved</th>
-                                    <th>Action</th>
+                                   
                                 </tr>
                             </thead>
                             <tbody>
@@ -72,16 +71,14 @@
                     ajax: "{{ route('inquires.index') }}",
                     order:[[0,"desc"]],
                     columns: [
-                        {data: 'id', name: 'id'},
-                        {data: 'mem_no', name: 'mem_no'},
+                        {data: 'action', name: 'action'},
                         {data: 'image', name: 'image'},
                         {data: 'name', name: 'name'},
                         {data: 'cnic_no', name: 'cnic_no'},
                         {data: 'birth_date', name: 'birth_date'},
                         {data: 'office_address', name: 'office_address'},
                         {data: 'residential_address', name: 'residential_address'},
-                        {data: 'mem_status', name: 'mem_status'},
-                        {data: 'action', name: 'action', orderable: false, searchable: false},
+                        {data: 'mem_status', name: 'mem_status',orderable: false, searchable: false},
                     ],
                     drawCallback: function (response) {
                         $('#countTotal').empty();

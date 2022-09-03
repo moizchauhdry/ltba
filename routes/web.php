@@ -45,6 +45,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                         Route::get('/create', 'MemberController@create')->name('members.create');
                         Route::post('/store', 'MemberController@store')->name('members.store');
                         Route::get('/edit/{id}', 'MemberController@edit')->name('members.edit');
+                        Route::get('/detail/{id}', 'MemberController@show')->name('members.detail');
                         Route::post('/update/{id}', 'MemberController@update')->name('members.update');
                         Route::post('/destroy', 'MemberController@destroy')->name('members.destroy');
                         Route::post('/status', 'MemberController@status')->name('members.status');

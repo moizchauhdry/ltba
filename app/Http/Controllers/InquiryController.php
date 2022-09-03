@@ -32,8 +32,7 @@ class InquiryController extends Controller
                     return $status;
                 })
                 ->addColumn('action', function (Member $data) {
-                    $btn = '<a href="' . route('members.edit', $data->id) . '" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Edit </a>';
-                   
+                    $btn = '<a href="' . route('members.edit', $data->id) . '"><i class="fas fa-edit"></i></a>';
                     return $btn;
                 })
                 ->rawColumns(['action','mem_status','image'])

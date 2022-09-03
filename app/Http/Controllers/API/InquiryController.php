@@ -14,7 +14,6 @@ class InquiryController extends Controller
     public  function inquiry(Request $request)
     {
         $rules = [
-            'mem_no' => 'required|unique:members',
             'name' => 'required|string|max:50',
             'birth_date' => 'required',
             'cnic_no' => 'required|unique:members',
@@ -22,7 +21,7 @@ class InquiryController extends Controller
             'membership_based_on' => 'required',
             'office_address' => 'required',
             'residential_address' => 'required',
-            'image_url' => 'nullable',
+            'image_url' => 'required|image|mimes:jpeg,jpg,png',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -34,7 +33,6 @@ class InquiryController extends Controller
         }
 
         $data = [
-            'mem_no' => $request->input('mem_no'),
             'name' => $request->input('name'),
             'birth_date' => $request->input('birth_date'),
             'cnic_no' => $request->input('cnic_no'),

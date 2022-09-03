@@ -22,6 +22,11 @@ class MemberController extends Controller
             $data = Member::orderBy('id', 'DESC')->where('mem_status','!=',5);
             return Datatables::of($data)
                 ->addIndexColumn()
+                ->addColumn('image', function (Member $data) {
+                    $printIT = "";
+                    $printIT .=  '<img class="w-25" src="'.asset('storage/app/public/'.$data->image_url).'">';
+                    return $printIT;
+                })
                 ->addColumn('mem_status', function (Member $data) {
                     if ($data->mem_status == 1) {
                         $status = '<span class="badge badge-success">Active</span>';
@@ -35,10 +40,11 @@ class MemberController extends Controller
                     return $status;
                 })
                 ->addColumn('action', function (Member $data) {
-                    $btn = '<a href="' . route('members.edit', $data->id) . '" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Edit </a>';
-                    return $btn;
+                    $btn = '<a href="' . route('members.edit', $data->id) . '"><i class="fas fa-edit"></i></a>';
+                    $dbtn = '<a href="'.route('members.detail', $data->id).'" ><i class="fas fa-eye"></i></a>';
+                    return $btn .' '. $dbtn;
                 })
-                ->rawColumns(['action', 'mem_status'])
+                ->rawColumns(['action', 'mem_status','image'])
                 ->make(true);
         }
 
@@ -79,7 +85,6 @@ class MemberController extends Controller
             'membership_based_on' => 'required',
             'mem' => 'required',
             'mem_reg_date' => 'required',
-            'mem_status' => 'required',
             'mem_fee_submission_date' => 'required_if:member_ship_fee_paid,==,1',
             'remarks' => 'required_if:member_ship_fee_paid,==,1',
         ];
@@ -137,7 +142,8 @@ class MemberController extends Controller
      */
     public function show($id)
     {
-        //
+        $member = Member::findOrFail($id);
+        return view('admin.members.detail', compact('member')); 
     }
 
     /**
