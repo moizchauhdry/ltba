@@ -19,7 +19,7 @@ class MemberController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Member::orderBy('id', 'DESC')->where('mem_status','!=',0);
+            $data = Member::orderBy('id', 'DESC')->where('mem_status','!=',5);
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('mem_status', function (Member $data) {
@@ -107,7 +107,7 @@ class MemberController extends Controller
             'membership_based_on' => $request->input('membership_based_on'),
             'mem' => $request->input('mem'),
             'mem_reg_date' => $request->input('mem_reg_date'),
-            'mem_status' => $request->input('mem_status'),
+            'mem_status' => 1,
             'mem_fee_submission_date' => $request->input('mem_fee_submission_date'),
             'remarks' => $request->input('remarks'),
         ];

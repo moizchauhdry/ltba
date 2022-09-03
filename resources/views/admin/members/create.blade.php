@@ -182,26 +182,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-4">
-                                        <label>Membership Status <span class="required-star">*</span></label>
-                                        <select class="form-control custom-select" name="mem_status"
-                                            id="mem_status">
-                                            <option selected disabled>Select Membership Status</option>
-                                            <option {{ (Request::input("mem_status")=="1" ? "selected" :"") }}
-                                                value="1">Active
-                                            </option>
-                                            <option {{ (Request::input("mem_status")=="2" ? "selected" :"") }}
-                                                value="2">In-
-                                                Active
-                                            </option>
-                                            <option {{ (Request::input("mem_status")=="3" ? "selected" :"") }}
-                                                value="3">Suspended
-                                            </option>
-                                            <option {{ (Request::input("mem_status")=="4" ? "selected" :"") }}
-                                                value="4">Late
-                                            </option>
-                                        </select>
-                                    </div>
                                     <div class="container row">
                                         <div class="col-md-12">
                                             <input type="checkbox" class="member_ship_fee_paid"

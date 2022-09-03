@@ -42,7 +42,7 @@ class InquiryController extends Controller
             'membership_based_on' => $request->input('membership_based_on'),
             'office_address' => $request->input('office_address'),
             'residential_address' => $request->input('residential_address'),
-            'mem_status' => 0,
+            'mem_status' => 5,
         ];
 
         $inquiry = Member::create($data);

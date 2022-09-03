@@ -201,6 +201,9 @@
                                             <option {{ ($member->mem_status=="4" ? "selected" :"") }}
                                                 value="4">Late
                                             </option>
+                                            <option {{ ($member->mem_status=="5" ? "selected" :"") }}
+                                                value="5">Pending
+                                            </option>
                                         </select>
                                     </div>
                                     <div class="container row">

@@ -15,7 +15,7 @@ class InquiryController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Member::orderBy('id', 'DESC')->where('mem_status',0);
+            $data = Member::orderBy('id', 'DESC')->where('mem_status','=',5);
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('image', function (Member $data) {
@@ -26,7 +26,7 @@ class InquiryController extends Controller
                 ->addColumn('mem_status', function (Member $data) {
                     if ($data->mem_status == 1) {
                         $status = '<span class="badge badge-success">Active</span>';
-                    } else {
+                    } else if($data->mem_status == 5) {
                         $status = '<span class="badge badge-danger">Pending</span>';
                     }
                     return $status;
