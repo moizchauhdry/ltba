@@ -89,5 +89,28 @@
                     }
                 });
             });
+        //INQUIRIES  STATUS CHANGE SCRIPTS
+        function changeStatus(id,mem_status) {
+            var result = window.confirm('Are you sure you want to change status ?');
+            if (result == false) {
+                e.preventDefault();
+            }else{
+                $.ajax({
+                    method: "POST",
+                    url: '{{ route('members.status') }}',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        'id': id,
+                        'mem_status': mem_status
+                    },
+                    success: function (response) {
+                        if(response.status)
+                        {
+                            $('#inquiries').DataTable().ajax.reload();
+                        }
+                    }
+                });
+            }
+        };
     </script>
 @endsection

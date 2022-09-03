@@ -24,18 +24,18 @@ class MemberController extends Controller
                 ->addIndexColumn()
                 ->addColumn('mem_status', function (Member $data) {
                     if ($data->mem_status == 1) {
-                        $status = '<span class="badge badge-success">Active</span>';
+                        $status = '<span class="badge badge-success">Approved</span>';
                     } else {
-                        $status = '<span class="badge badge-danger">Inactive</span>';
+                        $status = '<span class="badge badge-danger">Disapproved</span>';
                     }
                     return $status;
                 })
                 ->addColumn('action', function (Member $data) {
                     $btn = '<a href="' . route('members.edit', $data->id) . '" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Edit </a>';
                     if ($data->mem_status == 1) {
-                        $status = '<a onclick="changeStatus(' . $data->id . ',0)" href="javascript:void(0)" class="btn btn-sm btn-danger mt-1">Deactivate</a>';
+                        $status = '<a onclick="changeStatus(' . $data->id . ',0)" href="javascript:void(0)" class="btn btn-sm btn-danger mt-1">Disapproved</a>';
                     } else {
-                        $status = '<a onclick="changeStatus(' . $data->id . ',1)" href="javascript:void(0)" class="btn btn-sm btn-success mt-1">Activate</a>';
+                        $status = '<a onclick="changeStatus(' . $data->id . ',1)" href="javascript:void(0)" class="btn btn-sm btn-success mt-1">Approved</a>';
                     }
                     return $btn . " " . $status;
                 })
@@ -162,13 +162,13 @@ class MemberController extends Controller
     {
         $member = Member::findOrFail($id);
         $rules = [
-            'mem_no' => 'required|unique:members'. $member->id,
+            'mem_no' => 'required|unique:members,mem_no,'. $member->id,
             'name' => 'required|string|max:50',
             'image_url' => 'nullable|image|mimes:jpeg,jpg,png',
             'father_name' => 'required|string|max:50',
             'gender' => 'required',
-            'cnic_no' => 'required|unique:members'. $member->id,
-            'contact_no' => 'required|unique:members'. $member->id,
+            'cnic_no' => 'required|unique:members,cnic_no,'. $member->id,
+            'contact_no' => 'required|unique:members,contact_no,'. $member->id,
             'birth_date' => 'required',
             'city' => 'required',
             'qualification' => 'required',
@@ -189,6 +189,13 @@ class MemberController extends Controller
             ], 400);
         }
 
+        if($request->mem_status == null)
+        {
+            $mem_staus = 0;
+        }else{
+            $mem_staus = 1;
+        }
+        
         $data = [
             'mem_no' => $request->input('mem_no'),
             'name' => $request->input('name'),
@@ -206,6 +213,7 @@ class MemberController extends Controller
             'mem_reg_date' => $request->input('mem_reg_date'),
             'mem_fee_submission_date' => $request->input('mem_fee_submission_date'),
             'remarks' => $request->input('remarks'),
+            'mem_status' => $mem_staus,
         ];
 
         $memberImageDirectory = 'memberImages';

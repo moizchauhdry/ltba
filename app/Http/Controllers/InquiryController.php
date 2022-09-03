@@ -32,8 +32,13 @@ class InquiryController extends Controller
                     return $status;
                 })
                 ->addColumn('action', function (Member $data) {
-                    $btn = '<a href="' . route('inquires.edit', $data->id) . '" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Edit </a>';
-                    return $btn;
+                    $btn = '<a href="' . route('members.edit', $data->id) . '" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Edit </a>';
+                    if ($data->mem_status == 1) {
+                        $status = '<a onclick="changeStatus(' . $data->id . ',0)" href="javascript:void(0)" class="btn btn-sm btn-danger mt-1">Disapproved</a>';
+                    } else {
+                        $status = '<a onclick="changeStatus(' . $data->id . ',1)" href="javascript:void(0)" class="btn btn-sm btn-success mt-1">Approved</a>';
+                    }
+                    return $btn . " " . $status;
                 })
                 ->rawColumns(['action','mem_status','image'])
                 ->make(true);
@@ -60,7 +65,7 @@ class InquiryController extends Controller
             'office_address' => 'required',
             'residential_address' => 'required',
             'membership_based_on' => 'required',
-            'image_url' => 'nullable|image|mimes:jpeg,jpg,png'
+            'image_url' => 'required|image|mimes:jpeg,jpg,png',
         ];
 
         $validator = Validator::make($request->all(), $rules);

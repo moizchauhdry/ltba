@@ -38,22 +38,22 @@
                             <fieldset class="border p-4 mb-4" id="partner">
                                 <legend class="w-auto">General Information</legend>
                                 <div class="row">
-                                    <div class="form-group col-md-2">
+                                    <div class="form-group col-md-4">
                                         <label>MEM # <span class="required-star">*</span></label>
                                         <input type="text" maxlength="50" class="form-control" name="mem_no"
                                             placeholder="Enter MEM #" value="{{ old('mem_no') }}" required>
                                     </div>
-                                    <div class="form-group col-md-5">
+                                    <div class="form-group col-md-4">
                                         <label>Name <span class="required-star">*</span></label>
                                         <input type="text" maxlength="100" class="form-control" name="name"
                                             placeholder="Enter Seat Name" value="{{ old('name') }}" required>
                                     </div>
-                                    <div class="form-group col-md-5">
+                                    <div class="form-group col-md-4">
                                         <label>Father Name <span class="required-star">*</span></label>
                                         <input type="text" maxlength="100" class="form-control" name="father_name"
                                             placeholder="Enter Father Name" value="{{ old('father_name') }}" required>
                                     </div>
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-4">
                                         <label>Gender <span class="required-star">*</span></label>
                                         <select class="form-control custom-select" name="gender" id="gender">
                                             <option selected disabled>Select Gender</option>
@@ -68,7 +68,7 @@
                                             </option>
                                         </select>
                                     </div>
-                                    <div class="form-group col-md-5">
+                                    <div class="form-group col-md-4">
                                         <label>CNIC No <span class="required-star">*</span></label>
                                         <input type="text" class="form-control"
                                             data-inputmask="'mask': '99999-9999999-9'" placeholder="XXXXX-XXXXXXX-X"
@@ -110,20 +110,20 @@
                                         <input type="text" maxlength="100" class="form-control" name="qualification"
                                             placeholder="Enter Qualification" value="{{ old('qualification') }}" required>
                                     </div>
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-4">
                                         <label>City <span class="required-star">*</span></label>
                                         <input type="text" maxlength="50" class="form-control" name="city"
                                             placeholder="Enter City" value="{{ old('City') }}" required>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Office Address <span class="required-star">*</span></label>
-                                        <input type="text" maxlength="100" class="form-control" name="office_address"
-                                            placeholder="Enter Office Address" value="{{ old('office_address') }}" required>
+                                        <textarea class="form-control" name="office_address" id="remarks" cols="10"
+                                        rows="2"></textarea>
                                     </div>
-                                    <div class="form-group col-md-5">
+                                    <div class="form-group col-md-4">
                                         <label>Residential Address </label>
-                                        <input type="text" maxlength="100" class="form-control" name="residential_address"
-                                            placeholder="Enter Residential Address" value="{{ old('residential_address') }}">
+                                        <textarea class="form-control" name="residential_address" id="remarks" cols="10"
+                                        rows="2"></textarea>
                                     </div>   
                                 </div>
                             </fieldset>
@@ -205,7 +205,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-12">
                                                 <label>Remarks <span class="required-star">*</span></label>
                                                 <textarea class="form-control" name="remarks" id="remarks" cols="10"
                                                     rows="2"></textarea>

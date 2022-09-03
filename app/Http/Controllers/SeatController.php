@@ -21,11 +21,8 @@ class SeatController extends Controller
             return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('status', function (Seat $data) {
-                if ($data->status == 1) {
-                    $status = '<span class="badge badge-success">Active</span>';
-                } else {
-                    $status = '<span class="badge badge-danger">Inactive</span>';
-                }
+                $status = '';
+                
                 return $status;
             })
             ->addColumn('action', function (Seat $data) {
