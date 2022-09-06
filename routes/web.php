@@ -25,6 +25,11 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         Route::group(['middleware' => ['adminCheckSuspend']], function () {
             Route::group(['middleware' => ['admin']], function () {
                 Route::get('/dashboard', 'AdminController@dashboard')->name('admin.dashboard');
+                Route::get('/rest-password/{id}', 'AdminController@restPassword')->name('admins.reset-password');
+                Route::post('/passwordUpdate', 'AdminController@passwordUpdate')->name('admins.password-update');
+                Route::get('/getDashboardRecord', 'AdminController@mangeDashBoard')->name('admin.manage-dashboard');
+                Route::get('/profile', 'AdminController@profile')->name('admin.profile');
+                Route::post('/profile-update', 'AdminController@profileUpdate')->name('admin.profile.update');
                 Route::get('/logout', 'AdminController@logout')->name('admin.logout');
 
                 Route::group(['middleware' => ['permission:manage_operators']], function () {

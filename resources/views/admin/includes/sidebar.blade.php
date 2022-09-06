@@ -10,10 +10,15 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{asset('public/portal/dist/img/AdminLTELogo.png')}}" class="img-circle elevation-2">
+                {{-- {{ dd(Auth::guard('admin')->user()->image_url) }}; --}}
+                @if(Auth::guard('admin')->user()->image_url != null)
+                    <img src="{{ asset('storage/app/public/'.Auth::guard('admin')->user()->image_url) }}" class="img-circle elevation-2">
+                @else
+                    <img src="{{asset('public/portal/dist/img/AdminLTELogo.png')}}" class="img-circle elevation-2">
+                @endif
             </div>
             <div class="info">
-                <a href="javascript:void(0)" class="d-block">{{Auth::guard('admin')->user()->name}}</a>
+                <a href="{{ route('admin.profile') }}" class="d-block">{{Auth::guard('admin')->user()->name}}</a>
             </div>
         </div>
 

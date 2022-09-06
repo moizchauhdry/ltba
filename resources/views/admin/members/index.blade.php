@@ -30,7 +30,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">
-                            Members List (Total Members : )
+                            Members List (Total Members : <span id="countTotal">0</span>)
                         </h3>
                     </div>
                     <!-- /.card-header -->

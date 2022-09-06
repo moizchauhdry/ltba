@@ -59,7 +59,8 @@
                                 <div class="form-group col-md-6">
                                     <label>Contact Number <span class="required-star">*</span></label>
                                     <input type="text" id="phone" class="form-control phone" name="phone"
-                                        value="{{$admin->phone}}" required>
+                                    data-inputmask="'mask': '0399-99999999'"
+                                    type="number" maxlength="12" value="{{$admin->phone}}" required>
                                     @error('phone')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

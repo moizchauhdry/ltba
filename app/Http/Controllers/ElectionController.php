@@ -22,20 +22,26 @@ class ElectionController extends Controller
                 ->addIndexColumn()
                 ->addColumn('status', function (Election $data) {
                     if ($data->status == 1) {
-                        $status = '<span class="badge badge-success">Active</span>';
+                        $status = '<div class="form-group">
+                                        <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                                            <input type="checkbox" class="custom-control-input" id="customSwitch3" onclick="changeStatus(' . $data->id . ',0)" checked>
+                                            <label class="custom-control-label" for="customSwitch3"></label>
+                                        </div>
+                                    </div>';
                     } else {
-                        $status = '<span class="badge badge-danger">Inactive</span>';
+                        $status = '<div class="form-group">
+                                        <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                                            <input type="checkbox" class="custom-control-input" id="customSwitch3" onclick="changeStatus(' . $data->id . ',1)">
+                                            <label class="custom-control-label" for="customSwitch3"></label>
+                                        </div>
+                                    </div>';
                     }
                     return $status;
                 })
                 ->addColumn('action', function (Election $data) {
                     $btn = '<a href="' . route('elections.edit', $data->id) . '" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Edit </a>';
-                    if ($data->status == 1) {
-                        $status = '<a onclick="changeStatus(' . $data->id . ',0)" href="javascript:void(0)" class="btn btn-sm btn-danger mt-1">Deactivate</a>';
-                    } else {
-                        $status = '<a onclick="changeStatus(' . $data->id . ',1)" href="javascript:void(0)" class="btn btn-sm btn-success mt-1">Activate</a>';
-                    }
-                    return $btn . " " . $status;
+                   
+                    return $btn;
                 })
                 ->rawColumns(['action', 'status'])
                 ->make(true);

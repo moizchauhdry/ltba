@@ -30,7 +30,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">
-                            Admins List (Total Admins : )
+                            Admins List (Total Admins : <span id="countTotal">0</span>)
                         </h3>
                     </div>
                     <!-- /.card-header -->
@@ -55,6 +55,27 @@
                     <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
+                <div class="modal fade show" id="modal-default" aria-modal="true" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Reset Password</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
             </div>
             <!-- /.col -->
         </div>
@@ -63,7 +84,6 @@
     <!-- /.container-fluid -->
 </section>
 <!-- /.content -->
-
 @endsection
 
 @section('scripts')

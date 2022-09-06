@@ -47,7 +47,8 @@
                                 </div>
                                 <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                     <label>Phone No. <span class="required-star">*</span></label>
-                                    <input type="text" class="form-control " name="phone"
+                                    <input type="text" class="form-control" data-inputmask="'mask': '0399-99999999'"
+                                    type="number" maxlength="12" name="phone"
                                         placeholder="Enter Phone Number" value="{{ old('phone') }}" required>
                                 </div>
                                 <div class="form-group col-md-6">

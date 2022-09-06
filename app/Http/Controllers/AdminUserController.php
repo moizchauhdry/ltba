@@ -35,22 +35,30 @@ class AdminUserController extends Controller
                 ->addColumn('status', function (Admin $data) {
 
                     if ($data->status == 1) {
-                        $status = '<span class="badge badge-success">Active</span>';
+                        $status = '<div class="form-group">
+                                        <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                                            <input type="checkbox" class="custom-control-input" id="customSwitch3" onclick="changeStatus(' . $data->id . ',0)" checked>
+                                            <label class="custom-control-label" for="customSwitch3"></label>
+                                        </div>
+                                    </div>';
                     } else {
-                        $status = '<span class="badge badge-danger">Inactive</span>';
+                        $status = '<div class="form-group">
+                                        <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                                            <input type="checkbox" class="custom-control-input" id="customSwitch3" onclick="changeStatus(' . $data->id . ',1)">
+                                            <label class="custom-control-label" for="customSwitch3"></label>
+                                        </div>
+                                    </div>';
                     }
                     return $status;
                 })
                 ->addColumn('action', function (Admin $data) {
-
                     $btn = '<a href="' . route('admins.edit', $data->id) . '" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Edit </a>
                             <a onclick="deleteUser(' . $data->id . ')" href="javascript:void(0)" class="btn btn-sm btn-danger">Delete</a>';
-                    if ($data->status == 1) {
-                        $status = '<a onclick="changeStatus(' . $data->id . ',0)" href="javascript:void(0)" class="btn btn-sm btn-danger mt-1">Deactivate</a>';
-                    } else {
-                        $status = '<a onclick="changeStatus(' . $data->id . ',1)" href="javascript:void(0)" class="btn btn-sm btn-success mt-1">Activate</a>';
-                    }
-                    return $btn . " " . $status;
+                    $btn2 = '<a href="' . route('admins.reset-password', $data->id) . '" class="btn btn-default">
+                                Reset Password
+                            </a>';
+                    
+                    return $btn.' '.$btn2;
                 })
                 ->rawColumns(['action', 'permissions', 'status'])
                 ->make(true);
@@ -80,7 +88,7 @@ class AdminUserController extends Controller
         $rules = [
             'name' => 'required|string|max:50',
             'email' => 'required|string|email|max:50|unique:admins',
-            'phone' => 'required|numeric|digits_between:10,15',
+            'phone' => 'required',
             'password' => 'required|string|min:6|confirmed|max:32',
             'permissions' => 'required',
         ];

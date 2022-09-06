@@ -30,7 +30,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">
-                            Elections List (Total Elections : )
+                            Elections List (Total Elections : <span id="countTotal">0</span>)
                         </h3>
                     </div>
                     <!-- /.card-header -->

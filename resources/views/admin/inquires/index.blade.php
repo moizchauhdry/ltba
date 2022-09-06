@@ -21,7 +21,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">
-                            Inquiries List (Total Inquiries : )
+                            Inquiries List (Total Inquiries : <span id="countTotal">0</span>)
                         </h3>
                     </div>
                     <!-- /.card-header -->
