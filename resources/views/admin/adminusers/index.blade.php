@@ -115,47 +115,62 @@
             
         // ADMIN USER DELETE SCRIPT
         function deleteUser(id,event) {
-            var result = window.confirm('Are you sure you want to delete this User?  This action cannot be undone. Proceed?');
-            if (result == false) {
-                e.preventDefault();
-            }else{
+            var result =
+                Swal.fire({
+                    title: "Are you sure Delete this User?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, Do it!"
+                }).then(result => {
+                    if (result.value) {
 
-                $.ajax({
-                    method: "POST",
-                    url: "{{ route('admins.destroy') }}",
-                    data: {
-                        _token: $('meta[name="csrf-token"]').attr('content'),
-                        'id': id
-                    },
-                    success: function (response) {
-                        $('#admin_users').DataTable().ajax.reload();
+                        $.ajax({
+                            method: "POST",
+                            url: "{{ route('admins.destroy') }}",
+                            data: {
+                                _token: $('meta[name="csrf-token"]').attr('content'),
+                                'id': id
+                            },
+                            success: function (response) {
+                                Swal.fire("Done!", response.message, "success");
+                                $('#admin_users').DataTable().ajax.reload();
+                            }
+                        });
                     }
                 });
-            }
         };
 
         //ADMIN USER STATUS CHANGE SCRIPTS
         function changeStatus(id,status) {
-            var result = window.confirm('Are you sure you want to change status ?');
-            if (result == false) {
-                e.preventDefault();
-            }else{
-                $.ajax({
-                    method: "POST",
-                    url: '{{ route('admins.status') }}',
-                    data: {
-                        _token: $('meta[name="csrf-token"]').attr('content'),
-                        'id': id,
-                        'status': status
-                    },
-                    success: function (response) {
-                        if(response.status)
-                        {
-                            $('#admin_users').DataTable().ajax.reload();
-                        }
+            Swal.fire({
+                title: "Are you sure Change this Status?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, Do it!"
+                }).then(result => {
+                    if (result.value) {
+                        $.ajax({
+                            method: "POST",
+                            url: '{{ route('admins.status') }}',
+                            data: {
+                                _token: $('meta[name="csrf-token"]').attr('content'),
+                                'id': id,
+                                'status': status
+                            },
+                            success: function (response) {
+                                if(response.status)
+                                {
+                                    Swal.fire("Success!", response.message, "success");
+                                    $('#admin_users').DataTable().ajax.reload();
+                                }
+                            }
+                        });
                     }
                 });
-            }
         };
     </script>
 @endsection

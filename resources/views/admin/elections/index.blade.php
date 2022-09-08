@@ -91,26 +91,33 @@
         
         //ELECTION  STATUS CHANGE SCRIPTS
         function changeStatus(id,status) {
-            var result = window.confirm('Are you sure you want to change status ?');
-            if (result == false) {
-                e.preventDefault();
-            }else{
-                $.ajax({
-                    method: "POST",
-                    url: '{{ route('elections.status') }}',
-                    data: {
-                        _token: $('meta[name="csrf-token"]').attr('content'),
-                        'id': id,
-                        'status': status
-                    },
-                    success: function (response) {
-                        if(response.status)
-                        {
-                            $('#elections').DataTable().ajax.reload();
-                        }
+            Swal.fire({
+                title: "Are you sure Change this Status?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, Do it!"
+                }).then(result => {
+                    if (result.value) {
+                        $.ajax({
+                            method: "POST",
+                            url: '{{ route('elections.status') }}',
+                            data: {
+                                _token: $('meta[name="csrf-token"]').attr('content'),
+                                'id': id,
+                                'status': status
+                            },
+                            success: function (response) {
+                                if(response.status)
+                                {
+                                    Swal.fire("Success!", response.message, "success");
+                                    $('#elections').DataTable().ajax.reload();
+                                }
+                            }
+                        });
                     }
                 });
-            }
-        };
+            };
     </script>
 @endsection

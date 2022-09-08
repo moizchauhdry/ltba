@@ -53,12 +53,13 @@ class AdminUserController extends Controller
                 })
                 ->addColumn('action', function (Admin $data) {
                     $btn = '<a href="' . route('admins.edit', $data->id) . '" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Edit </a>
-                            <a onclick="deleteUser(' . $data->id . ')" href="javascript:void(0)" class="btn btn-sm btn-danger">Delete</a>';
-                    $btn2 = '<a href="' . route('admins.reset-password', $data->id) . '" class="btn btn-default">
+                            <a onclick="deleteUser(' . $data->id . ')" href="javascript:void(0)" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Delete</a>
+                            <a href="' . route('admins.reset-password', $data->id) . '" class="btn btn-default btn-sm">
                                 Reset Password
                             </a>';
                     
-                    return $btn.' '.$btn2;
+                    
+                    return $btn;
                 })
                 ->rawColumns(['action', 'permissions', 'status'])
                 ->make(true);

@@ -206,6 +206,17 @@
                                             </option>
                                         </select>
                                     </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Certificate Image </label>
+                                        <div class="input-group mb-3">
+                                            <div class="custom-file">
+                                                <input type="file" id="certificate_image_url" class="custom-file-input" name="certificate_image_url"
+                                                    accept=".png, .jpg, .jpeg" value="{{ $member->certificate_image_url }}">
+                                                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                            </div>
+                                        </div>
+                                        <img src="{{ asset('storage/app/public/'.$member->certificate_image_url) }}" id="certificate_images_url" class="w-25" />
+                                    </div>
                                     <div class="container row">
                                         <div class="col-md-12">
                                             @if($member->mem_fee_submission_date != null)
@@ -234,6 +245,17 @@
                                                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>Payment Voucher Image </span></label>
+                                                <div class="input-group mb-3">
+                                                    <div class="custom-file">
+                                                        <input type="file" id="payment_voucher_image_url" class="custom-file-input" name="payment_voucher_image_url"
+                                                            accept=".png, .jpg, .jpeg" value="{{ $member->payment_voucher_image_url }}">
+                                                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                                    </div>
+                                                </div>
+                                                <img src="{{ asset('storage/app/public/'.$member->payment_voucher_image_url) }}" id="payment_voucher_images_url" class="w-25" />
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <label>Remarks <span class="required-star">*</span></label>
@@ -321,9 +343,37 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
+    function readURL1(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#certificate_images_url').attr('src', e.target.result);
+                $('#certificate_images_url').removeClass("hidden");
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    function readURL2(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#payment_voucher_images_url').attr('src', e.target.result);
+                $('#payment_voucher_images_url').removeClass("hidden");
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 
     $("#image_url").change(function () {
         readURL(this);
+    });
+    $("#certificate_image_url").change(function () {
+        readURL1(this);
+    });
+    $("#payment_voucher_image_url").change(function () {
+        readURL2(this);
     });
 
     // Get Input File Name

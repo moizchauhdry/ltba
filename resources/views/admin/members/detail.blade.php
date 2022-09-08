@@ -34,11 +34,15 @@
                     <!-- /.card-header -->
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <th>Member #</th>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4" style="text-align:center;">
                                 <td><b>{{ $member->mem_no }}</b></td>
+                            </div>
+                            <div class="col-md-4" style="text-align:center;">
+                                <td> <img class="w-25" src="{{ asset('storage/app/public/'.$member->image_url) }}">
+                                </td>
                             </div>
                         </div>
                         <fieldset class="border p-4 mb-4" id="partner">
@@ -93,23 +97,173 @@
                                         <td>{{ $member->mem_reg_date }}</td>
                                         <th>Membership Fee Paid</th>
                                         @if($member->mem_fee_submission_date != null)
-                                            <td><span class="badge badge-primary">Yes</span></td>
+                                            <td>
+                                                <span class="badge badge-primary">Yes</span>
+                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-lg-{{$member->id}}" style="float:right;">
+                                                    Payment Edit
+                                                </button>
+                                                <div class="modal fade" id="modal-lg-{{$member->id}}" style="display: none;" aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title">Membership Fee</h4>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">×</span>
+                                                                </button>
+                                                            </div>
+                                                            <form action="#" id="member_payment_form" method="POST"> @csrf
+                                                                {{ csrf_field() }}
+                                                                <div class="modal-body">
+                                                                    <div class="row">
+                                                                        <div class="form-group col-md-6">
+                                                                            <label>Certificate Image </label>
+                                                                            <div class="input-group mb-3">
+                                                                                <div class="custom-file">
+                                                                                    <input type="file" id="certificate_image_url" class="custom-file-input" name="certificate_image_url"
+                                                                                        accept=".png, .jpg, .jpeg" value="{{ $member->certificate_image_url }}">
+                                                                                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <img src="{{ asset('storage/app/public/'.$member->certificate_image_url) }}" id="certificate_images_url" class="w-25" />
+                                                                        </div>
+                                                                        <div class="form-group col-md-6">
+                                                                            <label>Payment Voucher Image </span></label>
+                                                                            <div class="input-group mb-3">
+                                                                                <div class="custom-file">
+                                                                                    <input type="file" id="payment_voucher_image_url" class="custom-file-input" name="payment_voucher_image_url"
+                                                                                        accept=".png, .jpg, .jpeg" value="{{ $member->payment_voucher_image_url }}">
+                                                                                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <img src="{{ asset('storage/app/public/'.$member->payment_voucher_image_url) }}" id="payment_voucher_images_url" class="w-25" />
+                                                                        </div>
+                                                                        <div class="form-group col-md-6">
+                                                                            <label>Fee Submission Date <span class="text-danger">*</span></label>
+                                                                            <div class="input-group date" id="mem_fee_submission_date" data-target-input="nearest">
+                                                                                <input type="text" value="{{ $member->mem_fee_submission_date }}"
+                                                                                    class="form-control datetimepicker-input" data-target="#mem_fee_submission_date"
+                                                                                    name="mem_fee_submission_date"  autocomplete="off"
+                                                                                    data-toggle="datetimepicker" />
+                                                                                <div class="input-group-append" data-target="#mem_fee_submission_date"
+                                                                                    data-toggle="datetimepicker">
+                                                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group col-md-6">
+                                                                            <label>Remarks <span class="required-star">*</span></label>
+                                                                            <textarea class="form-control" name="remarks" id="remarks" cols="10"
+                                                                                rows="2">{{ $member->remarks }}</textarea>
+                                                                        </div>
+                                                                    </div>  
+                                                                </div>
+                                                                <div class="modal-footer justify-content-between">
+                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-primary">Update</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
                                         @else
-                                            <td>'<span class="badge badge-danger">No</span></td>
+                                            <td>
+                                                <span class="badge badge-danger">No</span>
+                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-lg-{{$member->id}}" style="float:right;">
+                                                    Payment Create
+                                                </button>
+                                                <div class="modal fade" id="modal-lg-{{$member->id}}" style="display: none;" aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title">Membership Fee</h4>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">×</span>
+                                                                </button>
+                                                            </div>
+                                                            <form action="#" id="member_payment_form" method="POST"> @csrf
+                                                                {{ csrf_field() }}
+                                                                <div class="modal-body">
+                                                                    <div class="row">
+                                                                        <div class="form-group col-md-6">
+                                                                            <label>Certificate Image </label>
+                                                                            <div class="input-group mb-3">
+                                                                                <div class="custom-file">
+                                                                                    <input type="file" id="certificate_image_url" class="custom-file-input" name="certificate_image_url"
+                                                                                        accept=".png, .jpg, .jpeg">
+                                                                                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <img src="" id="certificate_images_url" class="hidden w-25" />
+                                                                        </div>
+                                                                        <div class="form-group col-md-6">
+                                                                            <label>Payment Voucher Image </span></label>
+                                                                            <div class="input-group mb-3">
+                                                                                <div class="custom-file">
+                                                                                    <input type="file" id="payment_voucher_image_url" class="custom-file-input" name="payment_voucher_image_url"
+                                                                                        accept=".png, .jpg, .jpeg">
+                                                                                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <img src="" id="payment_voucher_images_url" class="hidden w-25" />
+                                                                        </div>
+                                                                        <div class="form-group col-md-6">
+                                                                            <label>Fee Submission Date <span class="text-danger">*</span></label>
+                                                                            <div class="input-group date" id="mem_fee_submission_date" data-target-input="nearest">
+                                                                                <input type="text" value="{{ old('mem_fee_submission_date') }}"
+                                                                                    class="form-control datetimepicker-input" data-target="#mem_fee_submission_date"
+                                                                                    name="mem_fee_submission_date" autocomplete="off"
+                                                                                    data-toggle="datetimepicker" />
+                                                                                <div class="input-group-append" data-target="#mem_fee_submission_date"
+                                                                                    data-toggle="datetimepicker">
+                                                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group col-md-6">
+                                                                            <label>Remarks <span class="required-star">*</span></label>
+                                                                            <textarea class="form-control" name="remarks" id="remarks" cols="10"
+                                                                                rows="2"></textarea>
+                                                                        </div>
+                                                                    </div> 
+                                                                </div>
+                                                                <div class="modal-footer justify-content-between">
+                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </td>
                                         @endif
                                     </tr>
-                                    @if($member->mem_fee_submission_date != null)
+                                </table>
+                            </div>
+                        </fieldset>
+                        @if($member->mem_fee_submission_date != null)
+                            <fieldset class="border p-4 mb-4" id="partner">
+                                <legend class="w-auto">Payment Information</legend>
+                                <div class="row">
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <th>Certificate Image</th>
+                                            <td style="text-align:center;"><img class="w-25" src="{{ asset('storage/app/public/'.$member->certificate_image_url) }}"></td>
+                                            <th>Payment Image</th>
+                                            <td style="text-align:center;"><img class="w-25" src="{{ asset('storage/app/public/'.$member->payment_voucher_image_url) }}"></td>
+                                        </tr>
                                         <tr>
                                             <th>Fee Submission Date</th>
                                             <td>{{ $member->mem_fee_submission_date }}</td>
                                             <th>Remarks</th>
                                             <td>{{ $member->remarks }}</td>
                                         </tr>
-                                    @endif
-                                </table>
-
-                            </div>
-                        </fieldset>
+                                    </table>
+                                </div>
+                            </fieldset>
+                        @endif           
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
@@ -130,4 +284,86 @@
     </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
+@endsection
+@section('scripts')
+<script src="{{asset('public/js/app.js')}}"></script>
+<script>
+    $('#mem_fee_submission_date').datetimepicker({
+        size: 'large',
+        format: 'DD-MM-YYYY',
+    });
+
+    function readURL1(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#certificate_images_url').attr('src', e.target.result);
+                $('#certificate_images_url').removeClass("hidden");
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    function readURL2(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#payment_voucher_images_url').attr('src', e.target.result);
+                $('#payment_voucher_images_url').removeClass("hidden");
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $("#certificate_image_url").change(function () {
+        readURL1(this);
+    });
+    $("#payment_voucher_image_url").change(function () {
+        readURL2(this);
+    });
+    $('.custom-file input').change(function (e) {
+        var files = [];
+        for (var i = 0; i < $(this)[0].files.length; i++) {
+            files.push($(this)[0].files[i].name);
+        }
+        $(this).next('.custom-file-label').html(files.join(','));
+    });
+
+    jQuery(document).ready(function () {
+        App.init();
+    });
+
+    $(document).ready(function(){
+        $("#member_payment_form").on("submit", function(event){
+            event.preventDefault();
+            $('span.text-success').remove();
+            $('span.invalid-feedback').remove();
+            $('input.is-invalid').removeClass('is-invalid');
+            var formData = new FormData(this);
+            $.ajax({
+                method: "POST",
+                data: formData,
+                url: '{{route('members.paymentUpdate',$member->id)}}',
+                processData: false,
+                contentType: false,
+                cache: false,
+                beforeSend: function(){
+                    $(".custom-loader").removeClass('hidden');
+                },
+                success: function (response) {
+                    if (response.status == 1) {
+                       location.reload();
+                    }
+                },
+                error : function (errors) {
+                    errorsGet(errors.responseJSON.errors)
+                    $(".custom-loader").addClass('hidden');
+                    $("#error_message").removeClass('hidden');
+                }
+            });
+        });
+    });
+
+
+</script>
 @endsection

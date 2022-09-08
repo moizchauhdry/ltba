@@ -32,12 +32,12 @@
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel=" stylesheet" href="{{asset('public/portal/custom.css')}}">
-
     <!-- daterange picker -->
     <link rel="stylesheet" href="{{asset('public/portal/plugins/daterangepicker/daterangepicker.css')}}">
     <!-- Tempusdominus Bbootstrap 4 -->
     <link rel="stylesheet"
         href="{{asset('public/portal/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+    <link rel=" stylesheet" href="{{asset('public/portal/dist/css/sweetalert.css')}}">
 
     @yield('styles')
 
@@ -131,6 +131,9 @@
             });
     </script>
 
+    <script src="{{asset('public/portal/dist/js/sweetalert.min.js')}}">
+    </script>
+
     <!-- InputMask -->
     <script src="{{asset('public/portal/plugins/moment/moment.min.js')}}"></script>
     <!-- date-range-picker -->
@@ -138,7 +141,8 @@
     <!-- Tempusdominus Bootstrap 4 -->
     <script src="{{asset('public/portal/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}">
     </script>
-
+    
+    
     <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/jquery.inputmask.bundle.js"></script>
     <script>
         $(":input").inputmask();

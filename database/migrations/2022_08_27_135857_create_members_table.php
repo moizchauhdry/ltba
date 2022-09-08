@@ -17,6 +17,7 @@ class CreateMembersTable extends Migration
             $table->id();
             $table->string('mem_no')->nullable()->unique();
             $table->string('name');
+            $table->string('email')->nullable();
             $table->string('image_url')->nullable();
             $table->string('father_name')->nullable();
             $table->string('gender')->nullable();
@@ -28,6 +29,8 @@ class CreateMembersTable extends Migration
             $table->string('office_address')->nullable();
             $table->string('residential_address')->nullable();
             $table->string('membership_based_on')->nullable();
+            $table->string('payment_voucher_image_url')->nullable();
+            $table->string('certificate_image_url')->nullable();
             $table->string('mem')->nullable();
             $table->integer('mem_status')->default(0);
             $table->string('mem_reg_date')->nullable();

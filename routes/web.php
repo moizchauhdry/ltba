@@ -54,6 +54,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                         Route::post('/update/{id}', 'MemberController@update')->name('members.update');
                         Route::post('/destroy', 'MemberController@destroy')->name('members.destroy');
                         Route::post('/status', 'MemberController@status')->name('members.status');
+                        Route::post('/payment/update/{id}', 'MemberController@paymentUpdate')->name('members.paymentUpdate');
                     });
                 });
 

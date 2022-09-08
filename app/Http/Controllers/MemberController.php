@@ -72,6 +72,7 @@ class MemberController extends Controller
         $rules = [
             'mem_no' => 'required|unique:members',
             'name' => 'required|string|max:50',
+            'email' => 'required',
             'image_url' => 'required|image|mimes:jpeg,jpg,png',
             'father_name' => 'required|string|max:50',
             'gender' => 'required',
@@ -100,6 +101,7 @@ class MemberController extends Controller
         $data = [
             'mem_no' => $request->input('mem_no'),
             'name' => $request->input('name'),
+            'email' => $request->input('email'),
             'father_name' => $request->input('father_name'),
             'gender' => $request->input('gender'),
             'cnic_no' => $request->input('cnic_no'),
@@ -129,6 +131,31 @@ class MemberController extends Controller
             }
             $imageUrl = Storage::putFile($memberImageDirectory, new File($request->file('image_url')));
             $member->update(['image_url'=> $imageUrl]);
+        }
+        
+        $memberCertificateImageDirectory = 'memberCertificateImages';
+        if ($request->hasFile('certificate_image_url')) {
+            
+            $fileName = $request->file('certificate_image_url')->getClientOriginalName();
+
+            if(!Storage::exists($memberCertificateImageDirectory)){
+                Storage::makeDirectory($memberCertificateImageDirectory);
+            }
+            $imageUrl = Storage::putFile($memberCertificateImageDirectory, new File($request->file('certificate_image_url')));
+            $member->update(['certificate_image_url'=> $imageUrl]);
+        }
+
+        
+        $memberPaymentVoucherImageDirectory = 'memberPaymentVoucherImages';
+        if ($request->hasFile('payment_voucher_image_url')) {
+            
+            $fileName = $request->file('payment_voucher_image_url')->getClientOriginalName();
+
+            if(!Storage::exists($memberPaymentVoucherImageDirectory)){
+                Storage::makeDirectory($memberPaymentVoucherImageDirectory);
+            }
+            $imageUrl = Storage::putFile($memberPaymentVoucherImageDirectory, new File($request->file('payment_voucher_image_url')));
+            $member->update(['payment_voucher_image_url'=> $imageUrl]);
         }
 
         return response()->json(['status' => 1, 'message' => 'success']);
@@ -228,6 +255,29 @@ class MemberController extends Controller
             $data['image_url'] = $imageUrl;
         }
 
+        $memberCertificateImageDirectory = 'memberCertificateImages';
+        if ($request->hasFile('certificate_image_url')) {
+            
+            if(!Storage::exists($memberCertificateImageDirectory)){
+                Storage::makeDirectory($memberCertificateImageDirectory);
+            }
+            Storage::delete('/'.$member->certificate_image_url);
+            $imageUrl = Storage::putFile($memberCertificateImageDirectory, new File($request->file('certificate_image_url')));
+            $data['certificate_image_url'] = $imageUrl;
+        }
+
+        
+        $memberPaymentVoucherImageDirectory = 'memberPaymentVoucherImages';
+        if ($request->hasFile('payment_voucher_image_url')) {
+            
+            if(!Storage::exists($memberPaymentVoucherImageDirectory)){
+                Storage::makeDirectory($memberPaymentVoucherImageDirectory);
+            }
+            Storage::delete('/'.$member->payment_voucher_image_url);
+            $imageUrl = Storage::putFile($memberPaymentVoucherImageDirectory, new File($request->file('payment_voucher_image_url')));
+            $data['payment_voucher_image_url'] = $imageUrl;
+        }
+
 
         $member->update($data);
 
@@ -253,5 +303,57 @@ class MemberController extends Controller
         }
         $member->update(['mem_status'=> $request->input('mem_status')]);
         return response()->json(['status'=>'1','message'=>'Status Changed Successfully']);
+    }
+
+    public function paymentUpdate(Request $request, $id)
+    {
+        $member = Member::findOrFail($id);
+        $rules =[
+            'mem_fee_submission_date' => 'required',
+            'remarks' => 'required',
+            'certificate_image_url' => 'nullable|image|mimes:jpeg,jpg,png',
+            'payment_voucher_image_url' => 'nullable|image|mimes:jpeg,jpg,png',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ], 400);
+        }
+
+        $data = [
+            'mem_fee_submission_date' => $request->input('mem_fee_submission_date'),
+            'remarks' => $request->input('remarks'),
+        ];
+
+        $memberCertificateImageDirectory = 'memberCertificateImages';
+        if ($request->hasFile('certificate_image_url')) {
+            
+            if(!Storage::exists($memberCertificateImageDirectory)){
+                Storage::makeDirectory($memberCertificateImageDirectory);
+            }
+            Storage::delete('/'.$member->certificate_image_url);
+            $imageUrl = Storage::putFile($memberCertificateImageDirectory, new File($request->file('certificate_image_url')));
+            $data['certificate_image_url'] = $imageUrl;
+        }
+
+        
+        $memberPaymentVoucherImageDirectory = 'memberPaymentVoucherImages';
+        if ($request->hasFile('payment_voucher_image_url')) {
+            
+            if(!Storage::exists($memberPaymentVoucherImageDirectory)){
+                Storage::makeDirectory($memberPaymentVoucherImageDirectory);
+            }
+            Storage::delete('/'.$member->payment_voucher_image_url);
+            $imageUrl = Storage::putFile($memberPaymentVoucherImageDirectory, new File($request->file('payment_voucher_image_url')));
+            $data['payment_voucher_image_url'] = $imageUrl;
+        }
+
+
+        $member->update($data);
+
+        return response()->json(['status' => 1, 'message' => 'success']);
     }
 }

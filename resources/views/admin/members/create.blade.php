@@ -49,6 +49,11 @@
                                             placeholder="Enter Seat Name" value="{{ old('name') }}" required>
                                     </div>
                                     <div class="form-group col-md-4">
+                                    <label>Email <span class="required-star">*</span></label>
+                                    <input type="email" class="form-control " name="email"
+                                        placeholder="Enter Email Address" value="{{ old('email') }}" required>
+                                </div>
+                                    <div class="form-group col-md-4">
                                         <label>Father Name <span class="required-star">*</span></label>
                                         <input type="text" maxlength="100" class="form-control" name="father_name"
                                             placeholder="Enter Father Name" value="{{ old('father_name') }}" required>
@@ -182,6 +187,17 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                        <label>Certificate Image </label>
+                                        <div class="input-group mb-3">
+                                            <div class="custom-file">
+                                                <input type="file" id="certificate_image_url" class="custom-file-input" name="certificate_image_url"
+                                                    accept=".png, .jpg, .jpeg">
+                                                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                            </div>
+                                        </div>
+                                        <img src="" id="certificate_images_url" class="hidden w-25" />
+                                    </div>
                                     <div class="container row">
                                         <div class="col-md-12">
                                             <input type="checkbox" class="member_ship_fee_paid"
@@ -204,6 +220,17 @@
                                                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>Payment Voucher Image </span></label>
+                                                <div class="input-group mb-3">
+                                                    <div class="custom-file">
+                                                        <input type="file" id="payment_voucher_image_url" class="custom-file-input" name="payment_voucher_image_url"
+                                                            accept=".png, .jpg, .jpeg">
+                                                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                                    </div>
+                                                </div>
+                                                <img src="" id="payment_voucher_images_url" class="hidden w-25" />
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <label>Remarks <span class="required-star">*</span></label>
@@ -287,9 +314,37 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
+    function readURL1(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#certificate_images_url').attr('src', e.target.result);
+                $('#certificate_images_url').removeClass("hidden");
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    function readURL2(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#payment_voucher_images_url').attr('src', e.target.result);
+                $('#payment_voucher_images_url').removeClass("hidden");
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 
     $("#image_url").change(function () {
         readURL(this);
+    });
+    $("#certificate_image_url").change(function () {
+        readURL1(this);
+    });
+    $("#payment_voucher_image_url").change(function () {
+        readURL2(this);
     });
 
     // Get Input File Name
