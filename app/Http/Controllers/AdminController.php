@@ -99,7 +99,8 @@ class AdminController extends Controller
         $rules = [
             'name' => 'required|string|max:50',
             'phone' => 'required',
-            'image_url' => 'required|image|mimes:jpeg,jpg,png',
+            'image_url' => 'nullable|image|mimes:jpeg,jpg,png',
+            'current_password' => 'required_if:change_password_checkbox,==,1',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -117,6 +118,12 @@ class AdminController extends Controller
 
         $admin->update($data);
 
+        if (Hash::check($request->current_password,Auth::guard('admin')->user()->password)){
+            if ($request->password == $request->password_confirmation){
+                Admin::where('id',Auth::guard('admin')->user()->id)->update(['password'=>bcrypt($request->password)]);
+            } 
+        }
+
         $profileImageDirectory = 'Admin-Users';
         if ($request->image_url) {
             $fileName = $request->file('image_url')->getClientOriginalName();
@@ -129,5 +136,16 @@ class AdminController extends Controller
         }
 
         return response()->json(['status' => 1, 'message' => 'Your Profile Has Been Update SucessFully!.']);
+    }
+
+    public function checkPassword(Request $request)
+    {
+        $data = $request->all();
+
+        if (Hash::check($data['current_password'],Auth::guard('admin')->user()->password)) {
+            echo "true";
+        } else {
+            echo "false";
+        }
     }
 }

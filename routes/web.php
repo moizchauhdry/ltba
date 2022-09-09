@@ -30,6 +30,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 Route::get('/getDashboardRecord', 'AdminController@mangeDashBoard')->name('admin.manage-dashboard');
                 Route::get('/profile', 'AdminController@profile')->name('admin.profile');
                 Route::post('/profile-update', 'AdminController@profileUpdate')->name('admin.profile.update');
+                Route::post('/password-check', 'AdminController@checkPassword')->name('admin.check-password');
                 Route::get('/logout', 'AdminController@logout')->name('admin.logout');
 
                 Route::group(['middleware' => ['permission:manage_operators']], function () {
@@ -67,6 +68,9 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                         Route::post('/update/{id}', 'ElectionController@update')->name('elections.update');
                         Route::post('/destroy', 'ElectionController@destroy')->name('elections.destroy');
                         Route::post('/status', 'ElectionController@status')->name('elections.status');
+                        Route::get('/assign-seats/{id}', 'ElectionController@assignSeats')->name('elections.assignSeat');
+                        Route::get('/get-member', 'ElectionController@getMember')->name('elections.getMember');
+                        Route::post('/store-assign-member-seat', 'ElectionController@storeAssignMemberSeat')->name('elections.storeAssignMemberSeat');
                     });
                 });
 

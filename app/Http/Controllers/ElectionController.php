@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Election;
+use App\Member;
+use App\Seat;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
@@ -39,7 +41,10 @@ class ElectionController extends Controller
                     return $status;
                 })
                 ->addColumn('action', function (Election $data) {
-                    $btn = '<a href="' . route('elections.edit', $data->id) . '" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Edit </a>';
+                    $btn = '<a href="' . route('elections.edit', $data->id) . '" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i> Edit </a>
+                            <a href="' . route('elections.assignSeat', $data->id) . '" class="btn btn-primary btn-sm">
+                                <i class="fa fa-tasks"></i> Assign Seat
+                            </a>';
                    
                     return $btn;
                 })
@@ -47,7 +52,7 @@ class ElectionController extends Controller
                 ->make(true);
         }
 
-        return view('admin.elections.index');
+        return view('admin.elections.index',compact('election','seats'));
     }
 
     /**
@@ -171,5 +176,36 @@ class ElectionController extends Controller
         }
         $election->update(['status'=> $request->input('status')]);
         return response()->json(['status'=>'1','message'=>'Status Changed Successfully']);
+    }
+
+    public function assignSeats(Request $request,$id)
+    {
+        $election = Election::where('id',$id)->orderBy('id','DESC')->first();
+        $seats = Seat::orderBy('id','DESC')->get();
+
+        return view('admin.elections.assign-seat', compact('election','seats'));
+
+    }
+
+    public function getMember(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Member::orderBy('id', 'DESC')->where('mem_status','!=',5);
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('select', function (Member $data) {
+                    $btn = '<input type="hidden" value="'.$data->id.'" name="member_id">
+                    <button type="submit" class="edit btn btn-primary btn-sm">Select</button>';
+                    return $btn;
+                })
+                ->rawColumns(['select'])
+                ->make(true);
+        }
+        return view('admin.elections.assign-seat');
+    }
+
+    public function storeAssignMemberSeat(Request $request)
+    {
+        dd($request->all());
     }
 }
