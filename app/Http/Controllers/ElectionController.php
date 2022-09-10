@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Election;
+use App\ElectionSeatCandidate;
 use App\Member;
 use App\Seat;
 use Illuminate\Support\Facades\Validator;
@@ -52,7 +53,7 @@ class ElectionController extends Controller
                 ->make(true);
         }
 
-        return view('admin.elections.index',compact('election','seats'));
+        return view('admin.elections.index');
     }
 
     /**
@@ -194,8 +195,9 @@ class ElectionController extends Controller
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('select', function (Member $data) {
-                    $btn = '<input type="hidden" value="'.$data->id.'" name="member_id">
-                    <button type="submit" class="edit btn btn-primary btn-sm">Select</button>';
+                    $btn = '
+                    <a onclick="form(' . $data->id . ')"  href="javascript:void(0)" class="btn btn-sm btn-primary">select</a>
+                    ';
                     return $btn;
                 })
                 ->rawColumns(['select'])
@@ -206,6 +208,41 @@ class ElectionController extends Controller
 
     public function storeAssignMemberSeat(Request $request)
     {
-        dd($request->all());
+        $rules = [
+            'member_id' => 'required',
+            'seat_id' => 'required',
+            'election_id' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ], 400);
+        }
+
+        $data = [
+            'member_id' => $request->member_id,
+            'seat_id' => $request->seat_id,
+            'election_id' => $request->election_id,
+        ];
+
+        ElectionSeatCandidate::create($data);
+
+        return response()->json(['status' => 1, 'message' => 'success']);        
+    }
+
+    public function getCandidates(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = ElectionSeatCandidate::orderBy('id', 'DESC');
+            return Datatables::of($data)
+            ->addIndexColumn()
+            ->rawColumns(['mem_no'])
+                ->make(true);
+
+        }
+        return view('admin.elections.assign-seat');
     }
 }

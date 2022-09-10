@@ -70,6 +70,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                         Route::post('/status', 'ElectionController@status')->name('elections.status');
                         Route::get('/assign-seats/{id}', 'ElectionController@assignSeats')->name('elections.assignSeat');
                         Route::get('/get-member', 'ElectionController@getMember')->name('elections.getMember');
+                        Route::get('/get-candidate', 'ElectionController@getCandidates')->name('elections.getCandidates');
                         Route::post('/store-assign-member-seat', 'ElectionController@storeAssignMemberSeat')->name('elections.storeAssignMemberSeat');
                     });
                 });
