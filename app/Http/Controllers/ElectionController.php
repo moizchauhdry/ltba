@@ -182,7 +182,7 @@ class ElectionController extends Controller
     public function assignSeats(Request $request,$id)
     {
         $election = Election::where('id',$id)->orderBy('id','DESC')->first();
-        $seats = Seat::orderBy('id','DESC')->get();
+        $seats = Seat::orderBy('id','DESC')->where('status',1)->get();
 
         return view('admin.elections.assign-seat', compact('election','seats'));
 
