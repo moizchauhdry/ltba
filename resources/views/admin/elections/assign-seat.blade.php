@@ -18,10 +18,10 @@
     <select name="seat_id" id="seat_id" class="form-control" required>
         <option value="" selected disabled> Select Seat</option>
         @foreach ($seats as $seat)
-            <option {{(old("seat_id") == $seat->id? "selected":"")}} value="{{$seat->id}}">{{$seat->name}}</option>
+        <option {{(old("seat_id")==$seat->id? "selected":"")}} value="{{$seat->id}}">{{$seat->name}}</option>
         @endforeach
     </select>
-</div> 
+</div>
 
 <!-- Main content -->
 <section class="content">
@@ -35,7 +35,7 @@
                         </h3>
                     </div>
                     <div class="card-body">
-                        <table id="get_election_mem" class="table table-bordered table-striped" style="width: 100%;">
+                        <table id="member_table" class="table table-bordered table-striped" style="width: 100%;">
                             <thead>
                                 <tr>
                                     <th></th>
@@ -49,17 +49,11 @@
                             <tbody>
 
                             </tbody>
-                        </table> 
+                        </table>
                     </div>
                 </div>
             </div>
-        </div>  
-    </div>
-</section>
-<input type="hidden" id="election_id" value="{{$election->id}}" name="election_id">
-
-<section class="content">
-    <div class="container-fluid">
+        </div>
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -69,7 +63,7 @@
                         </h3>
                     </div>
                     <div class="card-body">
-                        <table id="get_candidate" class="table table-bordered table-striped" style="width: 100%;">
+                        <table id="candidate_table" class="table table-bordered table-striped" style="width: 100%;">
                             <thead>
                                 <tr>
                                     <th>Voting Image</th>
@@ -83,109 +77,99 @@
                             <tbody>
 
                             </tbody>
-                        </table> 
+                        </table>
                     </div>
                 </div>
             </div>
-        </div>  
+        </div>
     </div>
 </section>
+{{-- <input type="hidden" id="election_id" value="{{$election->id}}" name="election_id"> --}}
+
 <!-- /.content -->
 @endsection
 @section('scripts')
-    <!-- <script src="{{asset('public/js/app.js')}}"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
-    <script>
-        var table;
-       
-            $(document).ready( function () {
-                table = $('#get_election_mem').DataTable({
-                    responsive: true,
-                    processing: true,
-                    serverSide: true,
-                    ajax: "{{route('elections.getMember')}}",
-                    order:[[0,"desc"]],
-                    columns: [
-                        {data: 'select', name: 'select'},
-                        {data: 'mem_no', name: 'mem_no'},
-                        {data: 'name', name: 'name'},
-                        {data: 'cnic_no', name: 'cnic_no'},
-                        {data: 'contact_no', name: 'contact_no'},
-                        {data: 'city', name: 'city', orderable: false, searchable: false},
-                    ],
-                    drawCallback: function (response) {
-                        $('#countTotal').empty();
-                        $('#countTotal').append(response['json'].recordsTotal);
-                    }
-                });
-            });
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-            function form(id,event) {
-                let member_id = id;
-                let seat_id = $("#seat_id").find(":selected").val();
-                let election_id = $("#election_id").val();
-                Swal.fire({
-                    title: "Are you sure Select This Member?",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, Do it!"
-                }).then(result => {
-                    if (result.value) {
-                        $.ajax({
-                            method: "POST",
-                            url: '{{ route('elections.storeAssignMemberSeat') }}',
-                            data: {
-                                _token: $('meta[name="csrf-token"]').attr('content'),
-                                'member_id': member_id,
-                                'seat_id': seat_id,
-                                'election_id': election_id,
-                            },
-                            beforeSend: function(){
-                                $(".custom-loader").removeClass('hidden');
-                            },
-                            success: function (response) {
-                                if(response.status)
-                                {
-                                    Swal.fire("Success!", response.message, "success");
-                                    location.reload();
-                                }
-                            }
-                        });
-                    }
-                });
-            };
-    </script>
-    <script>
+<script>
+    $(document).ready( function () {
         var table1;
-        $(document).ready( function () {
-            table1 = $('#get_candidate').DataTable({
-                responsive: true,
-                processing: true,
-                serverSide: true,
-                ajax: "{{route('elections.getCandidates')}}",
-                order:[[0,"desc"]],
-                columns: [
-                    {data: 'image', name: 'image'},
-                    {data: 'mem_no', name: 'mem_no'},
-                    {data: 'name', name: 'name'},
-                    {data: 'cnic_no', name: 'cnic_no'},
-                    {data: 'contact_no', name: 'contact_no'},
-                    {data: 'seat', name: 'seat'},
-                    {data: 'election', name: 'election', orderable: false, searchable: false},
-                ],
-                drawCallback: function (response) {
-                    $('#countTotal').empty();
-                    $('#countTotal').append(response['json'].recordsTotal);
-                }
-            });
+        table1 = $('#member_table').DataTable({
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            ajax: "{{route('elections.getMember')}}",
+            order:[[0,"desc"]],
+            columns: [
+                {data: 'select', name: 'select'},
+                {data: 'mem_no', name: 'mem_no'},
+                {data: 'name', name: 'name'},
+                {data: 'cnic_no', name: 'cnic_no'},
+                {data: 'contact_no', name: 'contact_no'},
+                {data: 'city', name: 'city', orderable: false, searchable: false},
+            ],
+            drawCallback: function (response) {
+                $('#countTotal').empty();
+                $('#countTotal').append(response['json'].recordsTotal);
+            }
         });
-    </script>
+
+        var table2;
+        table2 = $('#candidate_table').DataTable({
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            ajax: "{{route('elections.getCandidates')}}",
+            order:[[0,"desc"]],
+            columns: [
+                {data: 'id', name: 'id'},
+            ],
+            drawCallback: function (response) {
+                $('#countTotal').empty();
+                $('#countTotal').append(response['json'].recordsTotal);
+            }
+        });
+    });
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    function form(id,event) {
+        let member_id = id;
+        let seat_id = $("#seat_id").find(":selected").val();
+        let election_id = '{{$election->id}}';
+        Swal.fire({
+            title: "Are you sure Select This Member?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, Do it!"
+        }).then(result => {
+            if (result.value) {
+                $.ajax({
+                    method: "POST",
+                    url: '{{ route('elections.storeAssignMemberSeat') }}',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        'member_id': member_id,
+                        'seat_id': seat_id,
+                        'election_id': election_id,
+                    },
+                    beforeSend: function(){
+                        $(".custom-loader").removeClass('hidden');
+                    },
+                    success: function (response) {
+                        if(response.status)
+                        {
+                            Swal.fire("Success!", response.message, "success");
+                            location.reload();
+                        }
+                    }
+                });
+            }
+        });
+    };
+</script>
 @endsection

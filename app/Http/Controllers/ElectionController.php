@@ -27,15 +27,15 @@ class ElectionController extends Controller
                     if ($data->status == 1) {
                         $status = '<div class="form-group">
                                         <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                            <input type="checkbox" class="custom-control-input" id="customSwitch3" onclick="changeStatus(' . $data->id . ',0)" checked>
-                                            <label class="custom-control-label" for="customSwitch3"></label>
+                                            <input type="checkbox" class="custom-control-input" id="customSwitch3-' . $data->id . '" onclick="changeStatus(' . $data->id . ',0)" checked>
+                                            <label class="custom-control-label" for="customSwitch3-' . $data->id . '"></label>
                                         </div>
                                     </div>';
                     } else {
                         $status = '<div class="form-group">
                                         <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                            <input type="checkbox" class="custom-control-input" id="customSwitch3" onclick="changeStatus(' . $data->id . ',1)">
-                                            <label class="custom-control-label" for="customSwitch3"></label>
+                                            <input type="checkbox" class="custom-control-input" id="customSwitch3-' . $data->id . '" onclick="changeStatus(' . $data->id . ',1)">
+                                            <label class="custom-control-label" for="customSwitch3-' . $data->id . '"></label>
                                         </div>
                                     </div>';
                     }
@@ -46,7 +46,7 @@ class ElectionController extends Controller
                             <a href="' . route('elections.assignSeat', $data->id) . '" class="btn btn-primary btn-sm">
                                 <i class="fa fa-tasks"></i> Assign Seat
                             </a>';
-                   
+
                     return $btn;
                 })
                 ->rawColumns(['action', 'status'])
@@ -175,23 +175,22 @@ class ElectionController extends Controller
         if ($election == null) {
             return redirect()->back()->with('error', 'No Record Found');
         }
-        $election->update(['status'=> $request->input('status')]);
-        return response()->json(['status'=>'1','message'=>'Status Changed Successfully']);
+        $election->update(['status' => $request->input('status')]);
+        return response()->json(['status' => '1', 'message' => 'Status Changed Successfully']);
     }
 
-    public function assignSeats(Request $request,$id)
+    public function assignSeats(Request $request, $id)
     {
-        $election = Election::where('id',$id)->orderBy('id','DESC')->first();
-        $seats = Seat::orderBy('id','DESC')->where('status',1)->get();
+        $election = Election::where('id', $id)->orderBy('id', 'DESC')->first();
+        $seats = Seat::orderBy('id', 'DESC')->where('status', 1)->get();
 
-        return view('admin.elections.assign-seat', compact('election','seats'));
-
+        return view('admin.elections.assign-seat', compact('election', 'seats'));
     }
 
     public function getMember(Request $request)
     {
         if ($request->ajax()) {
-            $data = Member::orderBy('id', 'DESC')->where('mem_status','!=',5);
+            $data = Member::orderBy('id', 'DESC')->where('mem_status', '!=', 5);
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('select', function (Member $data) {
@@ -230,7 +229,7 @@ class ElectionController extends Controller
 
         ElectionSeatCandidate::create($data);
 
-        return response()->json(['status' => 1, 'message' => 'success']);        
+        return response()->json(['status' => 1, 'message' => 'success']);
     }
 
     public function getCandidates(Request $request)
@@ -238,11 +237,11 @@ class ElectionController extends Controller
         if ($request->ajax()) {
             $data = ElectionSeatCandidate::orderBy('id', 'DESC');
             return Datatables::of($data)
-            ->addIndexColumn()
-            ->rawColumns(['mem_no'])
+                ->addIndexColumn()
+                ->rawColumns(['mem_no'])
                 ->make(true);
-
         }
+
         return view('admin.elections.assign-seat');
     }
 }

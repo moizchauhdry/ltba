@@ -46,7 +46,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                               
+
                             </tbody>
                         </table>
                     </div>
@@ -65,9 +65,9 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
-    <script>
-        var table;
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+<script>
+    var table;
             $(document).ready( function () {
                 table  = $('#elections').DataTable({
                     responsive: true,
@@ -88,7 +88,7 @@
                     }
                 });
             });
-        
+
         //ELECTION  STATUS CHANGE SCRIPTS
         function changeStatus(id,status) {
             Swal.fire({
@@ -119,5 +119,5 @@
                     }
                 });
             };
-    </script>
+</script>
 @endsection
