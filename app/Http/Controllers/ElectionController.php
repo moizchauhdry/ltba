@@ -194,9 +194,16 @@ class ElectionController extends Controller
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('select', function (Member $data) {
-                    $btn = '
-                    <a onclick="form(' . $data->id . ')"  href="javascript:void(0)" class="btn btn-sm btn-primary">select</a>
-                    ';
+                    $member = $data->electionSeatCandidate ?? '';
+                    $memberCheck = $member->where('member_id',$data->id);
+                    if($memberCheck->count() > 0)
+                    {
+                        $btn = '<a onclick="deleteRecord('.$data->id.')"  href="javascript:void(0)" class="btn btn-sm btn-danger">Un-Select</a>';
+
+                    }else{
+                        $btn = '<a onclick="form(' . $data->id . ')"  href="javascript:void(0)" class="btn btn-sm btn-primary">select</a>';
+                    }
+                   
                     return $btn;
                 })
                 ->rawColumns(['select'])
@@ -238,10 +245,54 @@ class ElectionController extends Controller
             $data = ElectionSeatCandidate::orderBy('id', 'DESC');
             return Datatables::of($data)
                 ->addIndexColumn()
-                ->rawColumns(['mem_no'])
+                ->addColumn('member_image', function (ElectionSeatCandidate $data) {
+                    $member_image = "";
+                    $member_image .=  '<img class="w-25" src="'.asset('storage/app/public/'.$data->member->image_url).'">';
+                    return $member_image;
+                })
+                ->addColumn('mem_no', function (ElectionSeatCandidate $data) {
+                    $memNo = $data->member->mem_no ?? '';
+                    return $memNo;
+                })
+                ->addColumn('mem_name', function (ElectionSeatCandidate $data) {
+                    $name = $data->member->name ?? '';
+                    return $name;
+                })
+                ->addColumn('mem_cnic_no', function (ElectionSeatCandidate $data) {
+                    $cnic = $data->member->cnic_no;
+                    return $cnic;
+                })
+                ->addColumn('mem_seat', function (ElectionSeatCandidate $data) {
+                    $mem_seat = $data->seat->name ?? '';
+                    return $mem_seat;
+
+                })
+                ->addColumn('mem_election', function (ElectionSeatCandidate $data) {
+                    $mem_election = $data->election->name ?? '';
+                    return $mem_election;
+
+                })
+                ->rawColumns(['member_image','mem_no','mem_name','mem_cnic_no','mem_seat','mem_election'])
                 ->make(true);
         }
 
         return view('admin.elections.assign-seat');
+    }
+
+    public function unSelectMemberSeat(Request $request)
+    {
+        try {
+            $member = ElectionSeatCandidate::where('member_id',$request->member_id)->where('election_id',$request->election_id)->first();
+
+            if ($member == null) {
+                return response()->json(['status' => 1, 'message' => 'No Record Found To Unselect.']);
+            }
+
+            $member->delete();
+            return response()->json(['status' => 1, 'message' => 'Record deleted successfully.']);
+
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 1, 'message' => 'The record could not be deleted.']);
+        }
     }
 }

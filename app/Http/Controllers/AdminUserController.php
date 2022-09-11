@@ -37,15 +37,15 @@ class AdminUserController extends Controller
                     if ($data->status == 1) {
                         $status = '<div class="form-group">
                                         <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                            <input type="checkbox" class="custom-control-input" id="customSwitch3" onclick="changeStatus(' . $data->id . ',0)" checked>
-                                            <label class="custom-control-label" for="customSwitch3"></label>
+                                            <input type="checkbox" class="custom-control-input" id="customSwitch3-'.$data->id.'" onclick="changeStatus(' . $data->id . ',0)" checked>
+                                            <label class="custom-control-label" for="customSwitch3-'.$data->id.'"></label>
                                         </div>
                                     </div>';
                     } else {
                         $status = '<div class="form-group">
                                         <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                            <input type="checkbox" class="custom-control-input" id="customSwitch3" onclick="changeStatus(' . $data->id . ',1)">
-                                            <label class="custom-control-label" for="customSwitch3"></label>
+                                            <input type="checkbox" class="custom-control-input" id="customSwitch3-'.$data->id.'" onclick="changeStatus(' . $data->id . ',1)">
+                                            <label class="custom-control-label" for="customSwitch3-'.$data->id.'"></label>
                                         </div>
                                     </div>';
                     }

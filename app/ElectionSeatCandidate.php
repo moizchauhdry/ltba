@@ -10,6 +10,17 @@ class ElectionSeatCandidate extends Model
 
     public function member()
     {
-        return $this->belongsTo(Member::class,'id','member_id');
+        return $this->belongsTo(Member::class,'member_id','id');
     }
+
+    public function seat()
+    {
+        return $this->belongsTo(Seat::class,'seat_id','id');
+    }
+
+    public function election()
+    {
+        return $this->belongsTo(Election::class,'election_id','id');
+    }
+
 }

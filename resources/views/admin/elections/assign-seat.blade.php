@@ -120,7 +120,12 @@
             ajax: "{{route('elections.getCandidates')}}",
             order:[[0,"desc"]],
             columns: [
-                {data: 'id', name: 'id'},
+                {data: 'member_image', name: 'member_image'},
+                {data: 'mem_no', name: 'mem_no'},
+                {data: 'mem_name', name: 'mem_name'},
+                {data: 'mem_cnic_no', name: 'mem_cnic_no'},
+                {data: 'mem_seat', name: 'mem_seat'},
+                {data: 'mem_election', name: 'mem_election'},
             ],
             drawCallback: function (response) {
                 $('#countTotal').empty();
@@ -155,6 +160,41 @@
                         _token: $('meta[name="csrf-token"]').attr('content'),
                         'member_id': member_id,
                         'seat_id': seat_id,
+                        'election_id': election_id,
+                    },
+                    beforeSend: function(){
+                        $(".custom-loader").removeClass('hidden');
+                    },
+                    success: function (response) {
+                        if(response.status)
+                        {
+                            Swal.fire("Success!", response.message, "success");
+                            location.reload();
+                        }
+                    }
+                });
+            }
+        });
+    };
+
+    function deleteRecord(id,event){
+        let member_id = id;
+        let election_id = '{{$election->id}}';
+        Swal.fire({
+            title: "Are you sure Un-select This Member?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, Do it!"
+        }).then(result => {
+            if (result.value) {
+                $.ajax({
+                    method: "POST",
+                    url: '{{ route('elections.unSelectMemberSeat') }}',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        'member_id': member_id,
                         'election_id': election_id,
                     },
                     beforeSend: function(){
