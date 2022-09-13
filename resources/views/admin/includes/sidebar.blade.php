@@ -167,6 +167,17 @@
                     </a>
                 </li>
                 @endif
+                @if (Auth::guard('admin')->user()->hasPermission('manage_voting'))
+                <li class="nav-item">
+                    <a href="{{route('voting.index')}}"
+                        class="nav-link {{(Route::currentRouteName() == 'voting.index') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-cogs"></i>
+                        <p>
+                            Voting
+                        </p>
+                    </a>
+                </li>
+                @endif
 
             </ul>
         </nav>

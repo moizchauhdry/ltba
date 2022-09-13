@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
+use PDF;
 
 class MemberController extends Controller
 {
@@ -42,7 +43,8 @@ class MemberController extends Controller
                 ->addColumn('action', function (Member $data) {
                     $btn = '<a href="' . route('members.edit', $data->id) . '"><i class="fas fa-edit"></i></a>';
                     $dbtn = '<a href="'.route('members.detail', $data->id).'" ><i class="fas fa-eye"></i></a>';
-                    return $btn .' '. $dbtn;
+                    $dbtn1 = '<a href="'.route('members.generatePDF', $data->id).'" ><i class="fas fa-file-pdf"></i></a>';
+                    return $btn .' '. $dbtn .' '.$dbtn1;
                 })
                 ->rawColumns(['action', 'mem_status','image'])
                 ->make(true);
@@ -355,5 +357,13 @@ class MemberController extends Controller
         $member->update($data);
 
         return response()->json(['status' => 1, 'message' => 'success']);
+    }
+
+    public function generatePDF($id)
+    {
+        $member = Member::findOrFail($id);
+        $pdf = PDF::loadView('admin.members.pdf',compact(['member']));
+  
+        return $pdf->stream('Application-'. $member->id .'.pdf');
     }
 }

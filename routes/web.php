@@ -56,6 +56,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                         Route::post('/destroy', 'MemberController@destroy')->name('members.destroy');
                         Route::post('/status', 'MemberController@status')->name('members.status');
                         Route::post('/payment/update/{id}', 'MemberController@paymentUpdate')->name('members.paymentUpdate');
+                        Route::get('/generate-pdf/{id}', 'MemberController@generatePDF')->name('members.generatePDF');
                     });
                 });
 
@@ -94,6 +95,14 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                         Route::get('/', 'InquiryController@index')->name('inquires.index');
                         Route::get('/edit/{id}', 'InquiryController@edit')->name('inquires.edit');
                         Route::post('/update/{id}', 'InquiryController@update')->name('inquires.update');
+                    });
+                });
+
+                Route::group(['middleware' => ['permission:manage_voting']], function (){
+                    Route::group(['prefix' => 'voting'], function (){
+                        Route::get('/','VoteController@index')->name('voting.index');
+                        Route::get('/detail/{id}','VoteController@show')->name('voting.show');
+                        Route::post('/destroy', 'VoteController@destroy')->name('voting.destroy');
                     });
                 });
             });
