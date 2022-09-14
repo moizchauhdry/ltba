@@ -371,7 +371,7 @@ class MemberController extends Controller
 
     public function importData(Request $request)
     {
-        Excel::import(new MemberImport,request()->file('file'));
+        Excel::import(new MemberImport,$request->file);
         return response()->json(['status' => 1, 'message' => 'success']);
     }
 }
