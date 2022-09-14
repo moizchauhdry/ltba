@@ -32,6 +32,11 @@
                         <h3 class="card-title">
                             Members List (Total Members : <span id="countTotal">0</span>)
                         </h3>
+                        <div class="card-title"style="float:right !important;">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#import-member" style="float:right;">
+                                Import Member
+                            </button>
+                        </div>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -59,6 +64,40 @@
                         </table>
                     </div>
                     <!-- /.card-body -->
+                    <div class="modal fade" id="import-member"  aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Import Member</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <form action="#" id="import_excel" method="POST" enctype="multipart/form-data"> @csrf
+                                    {{ csrf_field() }}
+                                    <div class="modal-body">
+                                        <div class="form-group col-md-12">
+                                            <label>Import <span class="required-star">*</span></label>
+                                            <div class="input-group mb-3">
+                                                <div class="custom-file">
+                                                    <input type="file" id="image_url" class="custom-file-input" name="file"
+                                                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                                </div>
+                                            </div>
+                                            <img src="" id="image" class="hidden w-25" />
+                                        </div>
+                                    
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="submit" class="btn btn-primary">Import</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+
+                    </div>
                 </div>
                 <!-- /.card -->
             </div>
@@ -74,6 +113,42 @@
 
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+    <script src="{{asset('public/js/app.js')}}"></script>
+    <script>
+        jQuery(document).ready(function () {
+            App.init();
+        });
+        $(document).ready(function(){
+            $("#import_excel").on("submit", function(event){
+                event.preventDefault();
+                $('span.text-success').remove();
+                $('span.invalid-feedback').remove();
+                $('input.is-invalid').removeClass('is-invalid');
+                var formData = new FormData(this);
+                $.ajax({
+                    method: "POST",
+                    data: formData,
+                    url: '{{route('members.importData')}}',
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    beforeSend: function(){
+                        $(".custom-loader").removeClass('hidden');
+                    },
+                    success: function (response) {
+                        if (response.status == 1) {
+                            window.location.href = '{{route('members.index')}}';
+                        }
+                    },
+                    error : function (errors) {
+                        errorsGet(errors.responseJSON.errors)
+                        $(".custom-loader").addClass('hidden');
+                        $("#error_message").removeClass('hidden');
+                    }
+                });
+            });
+        });
+    </script>
     <script>
         var table;
             $(document).ready( function () {
@@ -128,5 +203,29 @@
                 });
             }
         };
+
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#image').attr('src','{{asset("public/images/excel.png")}}');
+                    $('#image').removeClass("hidden");
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#image_url").change(function () {
+            readURL(this);
+        });
+        // Get Input File Name
+        $('.custom-file input').change(function (e) {
+            var files = [];
+            for (var i = 0; i < $(this)[0].files.length; i++) {
+                files.push($(this)[0].files[i].name);
+            }
+            $(this).next('.custom-file-label').html(files.join(','));
+        });
     </script>
 @endsection

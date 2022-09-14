@@ -9,6 +9,8 @@ use Yajra\DataTables\DataTables;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 use PDF;
+use App\Imports\MemberImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MemberController extends Controller
 {
@@ -365,5 +367,11 @@ class MemberController extends Controller
         $pdf = PDF::loadView('admin.members.pdf',compact(['member']));
   
         return $pdf->stream('Application-'. $member->id .'.pdf');
+    }
+
+    public function importData(Request $request)
+    {
+        Excel::import(new MemberImport,request()->file('file'));
+        return response()->json(['status' => 1, 'message' => 'success']);
     }
 }

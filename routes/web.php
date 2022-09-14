@@ -57,6 +57,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                         Route::post('/status', 'MemberController@status')->name('members.status');
                         Route::post('/payment/update/{id}', 'MemberController@paymentUpdate')->name('members.paymentUpdate');
                         Route::get('/generate-pdf/{id}', 'MemberController@generatePDF')->name('members.generatePDF');
+                        Route::post('/import-data', 'MemberController@importData')->name('members.importData');
                     });
                 });
 
