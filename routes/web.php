@@ -11,7 +11,10 @@ Route::get('/', function (){
 
 });
 Route::post('/search-member', 'GernalController@searchMember')->name('searchMember');
-Route::get('/get-member/{id}', 'GernalController@getMember')->name('getMember');
+Route::get('/get-member', 'GernalController@getMember')->name('getMember');
+Route::get('/edit/{id}', 'GernalController@memberView')->name('editMember');
+Route::post('/update/{id}', 'GernalController@updateMember')->name('updateMember');
+Route::get('/thankyou', 'GernalController@thankyou')->name('thankyou');
 
 /**
  *****************************************************************************

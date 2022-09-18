@@ -1,120 +1,200 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@extends('layouts.frontend')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@section('content')
+<section class="content">
+    <div class="container">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- jquery validation -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Edit Member</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form action="#" id="edit_member_form" method="POST"> @csrf
+                        {{ csrf_field() }}
+                        <div class="card-body">
+                            <fieldset class="border p-4 mb-4" id="partner">
+                                <legend class="w-auto">General Information</legend>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label>MEM # <span class="required-star">*</span></label>
+                                        <input type="text" maxlength="50" class="form-control" name="mem_no" readonly=""
+                                            placeholder="Enter MEM #" value="{{ $member->mem_no }}" required>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Name <span class="required-star">*</span></label>
+                                        <input type="text" maxlength="100" class="form-control" name="name"
+                                            placeholder="Enter Seat Name" value="{{ $member->name }}" required>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Father Name <span class="required-star">*</span></label>
+                                        <input type="text" maxlength="100" class="form-control" name="father_name"
+                                            placeholder="Enter Father Name" value="{{ $member->father_name }}" required>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Gender <span class="required-star">*</span></label>
+                                        <select class="form-control custom-select" name="gender" id="gender">
+                                            <option selected disabled>Select Gender</option>
+                                            <option {{ ($member->gender == "Male"? "selected":"") }} value="Male">Male
+                                            </option>
+                                            <option {{ ($member->gender =="Fe-Male" ? "selected" :"") }}
+                                                value="Fe-Male">Fe-male
+                                            </option>
+                                            <option {{ ($member->gender =="others" ? "selected" :"") }}
+                                                value="others">others
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>CNIC No <span class="required-star">*</span></label>
+                                        <input type="text" class="form-control"
+                                            data-inputmask="'mask': '99999-9999999-9'" placeholder="XXXXX-XXXXXXX-X"
+                                            name="cnic_no" value="{{ $member->cnic_no }}" required>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Contact No <span class="required-star">*</span></label>
+                                        <input type="text" class="form-control" data-inputmask="'mask': '0399-99999999'"
+                                            type="number" maxlength="12" name="contact_no"
+                                            placeholder="Enter Contact No" value="{{ $member->contact_no }}" required>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Date of Birth: <span class="text-danger">*</span></label>
+                                        <div class="input-group date" id="birth_date" data-target-input="nearest">
+                                            <input type="text" value="{{ $member->birth_date }}"
+                                                class="form-control datetimepicker-input" data-target="#birth_date"
+                                                name="birth_date" required autocomplete="off"
+                                                data-toggle="datetimepicker" />
+                                            <div class="input-group-append" data-target="#birth_date"
+                                                data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Image </label>
+                                        <div class="input-group mb-3">
+                                            <div class="custom-file">
+                                                <input type="file" id="image_url" class="custom-file-input" name="image_url"
+                                                    accept=".png, .jpg, .jpeg" value="{{ $member->image_url }}"> <label
+                                                    class="custom-file-label" for="inputGroupFile01">Choose file</>
+                                            </div>
+                                        </div>
+    
+                                        <img src="{{ asset('storage/app/public/'.$member->image_url) }}" id="image"
+                                            class="w-25 mt-2" />
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Qualification <span class="required-star">*</span></label>
+                                        <input type="text" maxlength="100" class="form-control" name="qualification"
+                                            placeholder="Enter Qualification" value="{{ $member->qualification }}" required>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>City <span class="required-star">*</span></label>
+                                        <input type="text" maxlength="50" class="form-control" name="city"
+                                            placeholder="Enter City" value="{{ $member->city }}" required>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Office Address <span class="required-star">*</span></label>
+                                        <textarea class="form-control" name="office_address" id="remarks" cols="10"
+                                        rows="2">{{ $member->office_address }}</textarea>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Residential Address </label>
+                                        <textarea class="form-control" name="residential_address" id="remarks" cols="10"
+                                        rows="2">{{ $member->residential_address }}</textarea>
+                                    </div> 
+                                </div>
+                            </fieldset>
 
-    <title>LTBA PORTAL</title>
 
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="{{asset('public/portal/plugins/fontawesome-free/css/all.min.css')}}">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{{asset('public/portal/dist/css/adminlte.min.css')}}">
-    <!-- overlayScrollbars -->
-    <link rel="stylesheet" href="{{asset('public/portal/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
-    <!-- Google Font: Source Sans Pro -->
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-    <!-- Bootstrap Toggel -->
-    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link rel=" stylesheet" href="{{asset('public/portal/custom.css')}}">
-    <!-- daterange picker -->
-    <link rel="stylesheet" href="{{asset('public/portal/plugins/daterangepicker/daterangepicker.css')}}">
-    <!-- Tempusdominus Bbootstrap 4 -->
-    <link rel="stylesheet"
-        href="{{asset('public/portal/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
-    <link rel=" stylesheet" href="{{asset('public/portal/dist/css/sweetalert.css')}}">
-    <!-- Styles -->
-    <style>
-        html,
-        body {
-            background-color: #fff;
-            color: #636b6f;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 200;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .flex-center {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-        }
-
-        .position-ref {
-            position: relative;
-        }
-
-        .content {
-            text-align: center;
-        }
-
-        .title {
-            font-size: 84px;
-        }
-        .radio-check{
-            text-align: center;
-            margin-top: 40px;
-        }
-        .search-box{
-            text-align: center;
-        }
-        .search-container button {
-            padding: 6px 10px;
-            margin-top: 8px;
-            margin-right: 16px;
-            background: #ddd;
-            font-size: 17px;
-            border: none;
-            cursor: pointer;
-        }
-        .hidden {
-            display: none !important;
-        }
-
-        .custom-loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: white;
-            z-index: 999;
-            opacity: 0.9;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="custom-loader hidden">
-        <img src="{{asset('public/images/loader.gif')}}" style="width:100px;height:100px">
-    </div>
-    <div class="flex-center position-ref">
-        <div class="content">
-            <div class="title">
-                <img src="{{asset('public/images/logo.png')}}" alt="LTBA">
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary float-right">Update</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.card -->
             </div>
+            <!--/.col (left) -->
+            <!-- right column -->
+            <div class="col-md-6">
+
+            </div>
+            <!--/.col (right) -->
         </div>
-    </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+@endsection
+@section('scripts')
+    <script>
+        $('#birth_date').datetimepicker({
+            size: 'large',
+            format: 'DD-MM-YYYY',
+            maxDate: new Date(),
+        });
 
+        jQuery(document).ready(function () {
+            App.init();
+        });
 
-    <!-- jQuery -->
-    <script src="{{asset('public/portal/plugins/jquery/jquery.min.js')}}"></script>
-    <!-- Bootstrap 4 -->
-    <script src="{{asset('public/portal/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-    <!-- overlayScrollbars -->
-    <script src="{{asset('public/portal/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}">
+        $(document).ready(function(){
+            $("#edit_member_form").on("submit", function(event){
+                event.preventDefault();
+                $('span.text-success').remove();
+                $('span.invalid-feedback').remove();
+                $('input.is-invalid').removeClass('is-invalid');
+                var formData = new FormData(this);
+                $.ajax({
+                    method: "POST",
+                    data: formData,
+                    url: '{{route('updateMember',$member->id)}}',
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    beforeSend: function(){
+                        $(".custom-loader").removeClass('hidden');
+                    },
+                    success: function (response) {
+                        if (response.status == 1) {
+                            window.location.href = '{{route('thankyou')}}';
+                        }
+                    },
+                    error : function (errors) {
+                        errorsGet(errors.responseJSON.errors)
+                        $(".custom-loader").addClass('hidden');
+                        $("#error_message").removeClass('hidden');
+                    }
+                });
+            });
+        });
+
+        //IMAGE SCRIPT
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#image').attr('src', e.target.result);
+                    $('#image').removeClass("hidden");
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#image_url").change(function () {
+            readURL(this);
+        });
+        // Get Input File Name
+        $('.custom-file input').change(function (e) {
+            var files = [];
+            for (var i = 0; i < $(this)[0].files.length; i++) {
+                files.push($(this)[0].files[i].name);
+            }
+            $(this).next('.custom-file-label').html(files.join(','));
+        });
     </script>
-    <!-- Admin App-->
-    <script src="{{asset('public/portal/dist/js/adminlte.min.js')}}"></script>
-    <!-- Tempusdominus Bootstrap 4 -->
-    <script src="{{asset('public/portal/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}">
-    </script>
-    <script src="{{asset('public/js/app.js')}}"></script>
-</body>
-</html>
+@endsection

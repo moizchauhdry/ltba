@@ -86,6 +86,7 @@
             <div class="title m-b-md">
                 <img src="{{asset('public/images/logo.png')}}" alt="LTBA">
             </div>
+            <h1>Thank you for update your data!... </h1>
         </div>
     </div>
 </body>
