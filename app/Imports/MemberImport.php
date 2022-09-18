@@ -15,19 +15,21 @@ class MemberImport implements ToModel, WithHeadingRow
     */
     public function model(array $row)
     {  
-        dd($row['Membership']);              
-        return new Member([
-            'mem_no' => $row['Membership'],
-            'name'  => $row['Name'], 
-            'cnic_no'  => $row['CNIC'], 
-            'mem' => $row['Life/ORD'], 
-            'membership_based_on' => $row['QLY'], 
-            'city' => $row['CITY'], 
-            'contact_no' => $row['CELL # '], 
-            'gender' => $row['GENDER'], 
-            'birth_date' => $row['D-O-B'], 
-            'residential_address' => $row['ADDRESS'], 
+        // dd($row);              
+        $member = new Member([
+            'mem_no' => $row['membership'],
+            'name'  => $row['name'], 
+            'cnic_no'  => $row['cnic'], 
+            'mem' => $row['lifeord'], 
+            'membership_based_on' => $row['qly'], 
+            'city' => $row['city'], 
+            'contact_no' => $row['cell'], 
+            'gender' => $row['gender'], 
+            'birth_date' => $row['d_o_b'], 
+            'residential_address' => $row['address'], 
             'mem_status' => 1, 
         ]);
+
+        return $member;
     }
 }

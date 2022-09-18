@@ -21,6 +21,9 @@
                 <div class="small-box bg-info">
                     <div class="inner">
                         <h3 id="total_operators"></h3>
+                        <div class="count tr_amount_image">
+                            <img src="{{url('public/images/card-loader.gif')}}" style="width: 35px;"/>
+                        </div>
                         <p>Total Operators</p>
                     </div>
                     <div class="icon">
@@ -33,6 +36,9 @@
                 <div class="small-box bg-success">
                     <div class="inner">
                         <h3 id="total_elections"></h3>
+                        <div class="count tr_amount_image">
+                            <img src="{{url('public/images/card-loader.gif')}}" style="width: 35px;"/>
+                        </div>
                         <p>Total Elections</p>
                     </div>
                     <div class="icon">
@@ -45,6 +51,9 @@
                 <div class="small-box bg-warning">
                     <div class="inner">
                         <h3 id="total_members"></h3>
+                        <div class="count tr_amount_image">
+                            <img src="{{url('public/images/card-loader.gif')}}" style="width: 35px;"/>
+                        </div>
                         <p>Total Members</p>
                     </div>
                     <div class="icon">
@@ -57,6 +66,9 @@
                 <div class="small-box bg-danger">
                     <div class="inner">
                         <h3 id="total_election_seats"></h3>
+                        <div class="count tr_amount_image">
+                            <img src="{{url('public/images/card-loader.gif')}}" style="width: 35px;"/>
+                        </div>
                         <p>Total Election Seats</p>
                     </div>
                     <div class="icon">
@@ -72,11 +84,15 @@
 @section('scripts')
     <script>
         $(document).ready(function () {
+            function removeImg(class_name) {
+                $('.' + class_name).find('img').remove();
+            }
             $.ajax({
                 method: "GET",
                 url: '{{route('admin.manage-dashboard')}}',
                 success: function (response) {
                     if (response.status) {
+                        removeImg('tr_amount_image');
                         $('#total_operators').html(response.count['total_operators']);
                         $('#total_elections').html(response.count['total_elections']);
                         $('#total_members').html(response.count['total_members']);

@@ -2,9 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', function (){
+    return view('pages.index');
+
 });
+Route::post('/search-member', 'GernalController@searchMember')->name('searchMember');
+Route::get('/get-member/{id}', 'GernalController@getMember')->name('getMember');
 
 /**
  *****************************************************************************

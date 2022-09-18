@@ -21,7 +21,7 @@ class CreateMembersTable extends Migration
             $table->string('image_url')->nullable();
             $table->string('father_name')->nullable();
             $table->string('gender')->nullable();
-            $table->string('cnic_no')->unique();
+            $table->string('cnic_no')->unique()->nullable();
             $table->string('birth_date')->nullable();
             $table->string('city')->nullable();
             $table->string('contact_no')->unique()->nullable();
