@@ -1,5 +1,18 @@
 @extends('layouts.admin')
 
+@section('styles')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
+{{-- <style type="text/css">
+    #results {
+        padding: 20px;
+        border: 1px solid;
+        background: #ccc;
+    }
+</style> --}}
+@endsection
+
+
 @section('content')
 
 <!-- Content Header (Page header) -->
@@ -35,6 +48,11 @@
                     <form action="#" id="store_member_form" method="POST"> @csrf
                         {{ csrf_field() }}
                         <div class="card-body">
+                            <button type="button" class="btn btn-warning mt-2 mb-2" data-toggle="modal"
+                                data-target="#webCamImageModal">
+                                Capture Image Using Webcam
+                            </button>
+
                             <fieldset class="border p-4 mb-4" id="partner">
                                 <legend class="w-auto">General Information</legend>
                                 <div class="row">
@@ -49,10 +67,10 @@
                                             placeholder="Enter Seat Name" value="{{ old('name') }}" required>
                                     </div>
                                     <div class="form-group col-md-4">
-                                    <label>Email <span class="required-star">*</span></label>
-                                    <input type="email" class="form-control " name="email"
-                                        placeholder="Enter Email Address" value="{{ old('email') }}" required>
-                                </div>
+                                        <label>Email <span class="required-star">*</span></label>
+                                        <input type="email" class="form-control " name="email"
+                                            placeholder="Enter Email Address" value="{{ old('email') }}" required>
+                                    </div>
                                     <div class="form-group col-md-4">
                                         <label>Father Name <span class="required-star">*</span></label>
                                         <input type="text" maxlength="100" class="form-control" name="father_name"
@@ -102,9 +120,10 @@
                                         <label>Image <span class="required-star">*</span></label>
                                         <div class="input-group mb-3">
                                             <div class="custom-file">
-                                                <input type="file" id="image_url" class="custom-file-input" name="image_url"
-                                                    accept=".png, .jpg, .jpeg" required>
-                                                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                                <input type="file" id="image_url" class="custom-file-input"
+                                                    name="image_url" accept=".png, .jpg, .jpeg">
+                                                <label class="custom-file-label" for="inputGroupFile01">Choose
+                                                    file</label>
                                             </div>
                                         </div>
                                         <img src="" id="image" class="hidden w-25" />
@@ -113,7 +132,8 @@
                                     <div class="form-group col-md-4">
                                         <label>Qualification <span class="required-star">*</span></label>
                                         <input type="text" maxlength="100" class="form-control" name="qualification"
-                                            placeholder="Enter Qualification" value="{{ old('qualification') }}" required>
+                                            placeholder="Enter Qualification" value="{{ old('qualification') }}"
+                                            required>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>City <span class="required-star">*</span></label>
@@ -123,13 +143,13 @@
                                     <div class="form-group col-md-4">
                                         <label>Office Address <span class="required-star">*</span></label>
                                         <textarea class="form-control" name="office_address" id="remarks" cols="10"
-                                        rows="2"></textarea>
+                                            rows="2"></textarea>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Residential Address </label>
                                         <textarea class="form-control" name="residential_address" id="remarks" cols="10"
-                                        rows="2"></textarea>
-                                    </div>   
+                                            rows="2"></textarea>
+                                    </div>
                                 </div>
                             </fieldset>
                             <fieldset class="border p-4 mb-4" id="partner">
@@ -169,8 +189,8 @@
                                             <option {{ (Request::input("mem")=="member" ? "selected" :"") }}
                                                 value="member">Member
                                             </option>
-                                            <option {{ (Request::input("mem")=="life-time-member" ? "selected"
-                                                :"") }} value="life-time-member">Life Time Member
+                                            <option {{ (Request::input("mem")=="life-time-member" ? "selected" :"") }}
+                                                value="life-time-member">Life Time Member
                                             </option>
                                         </select>
                                     </div>
@@ -191,9 +211,10 @@
                                         <label>Certificate Image </label>
                                         <div class="input-group mb-3">
                                             <div class="custom-file">
-                                                <input type="file" id="certificate_image_url" class="custom-file-input" name="certificate_image_url"
-                                                    accept=".png, .jpg, .jpeg">
-                                                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                                <input type="file" id="certificate_image_url" class="custom-file-input"
+                                                    name="certificate_image_url" accept=".png, .jpg, .jpeg">
+                                                <label class="custom-file-label" for="inputGroupFile01">Choose
+                                                    file</label>
                                             </div>
                                         </div>
                                         <img src="" id="certificate_images_url" class="hidden w-25" />
@@ -210,14 +231,18 @@
                                         <div class="row">
                                             <div class="form-group col-md-6">
                                                 <label>Fee Submission Date <span class="text-danger">*</span></label>
-                                                <div class="input-group date" id="mem_fee_submission_date" data-target-input="nearest">
+                                                <div class="input-group date" id="mem_fee_submission_date"
+                                                    data-target-input="nearest">
                                                     <input type="text" value="{{ old('mem_fee_submission_date') }}"
-                                                        class="form-control datetimepicker-input" data-target="#mem_fee_submission_date"
+                                                        class="form-control datetimepicker-input"
+                                                        data-target="#mem_fee_submission_date"
                                                         name="mem_fee_submission_date" autocomplete="off"
                                                         data-toggle="datetimepicker" />
-                                                    <div class="input-group-append" data-target="#mem_fee_submission_date"
+                                                    <div class="input-group-append"
+                                                        data-target="#mem_fee_submission_date"
                                                         data-toggle="datetimepicker">
-                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                        <div class="input-group-text"><i class="fa fa-calendar"></i>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -225,9 +250,11 @@
                                                 <label>Payment Voucher Image </span></label>
                                                 <div class="input-group mb-3">
                                                     <div class="custom-file">
-                                                        <input type="file" id="payment_voucher_image_url" class="custom-file-input" name="payment_voucher_image_url"
+                                                        <input type="file" id="payment_voucher_image_url"
+                                                            class="custom-file-input" name="payment_voucher_image_url"
                                                             accept=".png, .jpg, .jpeg">
-                                                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                                        <label class="custom-file-label" for="inputGroupFile01">Choose
+                                                            file</label>
                                                     </div>
                                                 </div>
                                                 <img src="" id="payment_voucher_images_url" class="hidden w-25" />
@@ -261,6 +288,9 @@
     </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
+
+@include('admin.members.partials.webcam-image')
+
 @endsection
 
 @section('scripts')
@@ -385,4 +415,54 @@
         }
     }
 </script>
+
+<script language="JavaScript">
+    Webcam.set({
+        width: 380,
+        height: 300,
+        image_format: 'jpeg',
+        jpeg_quality: 90
+    });
+
+    Webcam.attach( '#my_camera' );
+
+    function take_snapshot() {
+        Webcam.snap( function(data_uri) {
+            $(".image-tag").val(data_uri);
+            document.getElementById('results').innerHTML = '<img src="'+data_uri+'"/>';
+        } );
+    }
+
+    $(document).ready(function(){
+        $("#webcam_image_form").on("submit", function(event){
+            event.preventDefault();
+            $('span.text-success').remove();
+            $('span.invalid-feedback').remove();
+            $('input.is-invalid').removeClass('is-invalid');
+            var formData = new FormData(this);
+            $.ajax({
+                method: "POST",
+                data: formData,
+                url: '{{route('members.upload.webcam-image')}}',
+                processData: false,
+                contentType: false,
+                cache: false,
+                beforeSend: function(){
+                    $(".custom-loader").removeClass('hidden');
+                },
+                success: function (response) {
+                    if (response.status == 1) {
+                        $(".custom-loader").addClass('hidden');
+                    }
+                },
+                error : function (errors) {
+                    errorsGet(errors.responseJSON.errors)
+                    $(".custom-loader").addClass('hidden');
+                    $("#error_message").removeClass('hidden');
+                }
+            });
+        });
+    });
+</script>
+
 @endsection

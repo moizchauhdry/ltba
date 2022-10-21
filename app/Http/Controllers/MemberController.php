@@ -10,6 +10,8 @@ use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 use PDF;
 use App\Imports\MemberImport;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
 
 class MemberController extends Controller
@@ -22,33 +24,33 @@ class MemberController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Member::orderBy('id', 'DESC')->where('mem_status','!=',5);
+            $data = Member::orderBy('id', 'DESC')->where('mem_status', '!=', 5);
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('image', function (Member $data) {
                     $printIT = "";
-                    $printIT .=  '<img class="w-25" src="'.asset('storage/app/public/'.$data->image_url).'">';
+                    $printIT .=  '<img class="w-100" src="' . asset('storage/app/public/' . $data->image_url) . '">';
                     return $printIT;
                 })
                 ->addColumn('mem_status', function (Member $data) {
                     if ($data->mem_status == 1) {
                         $status = '<span class="badge badge-success">Active</span>';
-                    } else if($data->mem_status == 2) {
+                    } else if ($data->mem_status == 2) {
                         $status = '<span class="badge badge-danger">In-active</span>';
-                    }else if($data->mem_status == 3) {
+                    } else if ($data->mem_status == 3) {
                         $status = '<span class="badge badge-danger">Suspended</span>';
-                    }else if($data->mem_status == 4) {
+                    } else if ($data->mem_status == 4) {
                         $status = '<span class="badge badge-primary">Late</span>';
                     }
                     return $status;
                 })
                 ->addColumn('action', function (Member $data) {
                     $btn = '<a href="' . route('members.edit', $data->id) . '"><i class="fas fa-edit"></i></a>';
-                    $dbtn = '<a href="'.route('members.detail', $data->id).'" ><i class="fas fa-eye"></i></a>';
-                    $dbtn1 = '<a href="'.route('members.generatePDF', $data->id).'" ><i class="fas fa-file-pdf"></i></a>';
-                    return $btn .' '. $dbtn .' '.$dbtn1;
+                    $dbtn = '<a href="' . route('members.detail', $data->id) . '" ><i class="fas fa-eye"></i></a>';
+                    $dbtn1 = '<a href="' . route('members.generatePDF', $data->id) . '" ><i class="fas fa-file-pdf"></i></a>';
+                    return $btn . ' ' . $dbtn . ' ' . $dbtn1;
                 })
-                ->rawColumns(['action', 'mem_status','image'])
+                ->rawColumns(['action', 'mem_status', 'image'])
                 ->make(true);
         }
 
@@ -62,6 +64,8 @@ class MemberController extends Controller
      */
     public function create()
     {
+        Session::forget('member_webcam_image');
+
         return view('admin.members.create');
     }
 
@@ -73,11 +77,13 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
+        $webcam_image_url = $request->session()->get('member_webcam_image');
+
         $rules = [
             'mem_no' => 'required|unique:members',
             'name' => 'required|string|max:50',
             'email' => 'required',
-            'image_url' => 'required|image|mimes:jpeg,jpg,png',
+            'image_url' => ['image|mimes:jpeg,jpg,png', Rule::requiredIf($webcam_image_url == NULL && $request->image_url == NULL)],
             'father_name' => 'required|string|max:50',
             'gender' => 'required',
             'cnic_no' => 'required|unique:members',
@@ -127,39 +133,43 @@ class MemberController extends Controller
 
         $memberImageDirectory = 'memberImages';
         if ($request->hasFile('image_url')) {
-            
+
             $fileName = $request->file('image_url')->getClientOriginalName();
 
-            if(!Storage::exists($memberImageDirectory)){
+            if (!Storage::exists($memberImageDirectory)) {
                 Storage::makeDirectory($memberImageDirectory);
             }
             $imageUrl = Storage::putFile($memberImageDirectory, new File($request->file('image_url')));
-            $member->update(['image_url'=> $imageUrl]);
+            $member->update(['image_url' => $imageUrl]);
         }
-        
+
         $memberCertificateImageDirectory = 'memberCertificateImages';
         if ($request->hasFile('certificate_image_url')) {
-            
+
             $fileName = $request->file('certificate_image_url')->getClientOriginalName();
 
-            if(!Storage::exists($memberCertificateImageDirectory)){
+            if (!Storage::exists($memberCertificateImageDirectory)) {
                 Storage::makeDirectory($memberCertificateImageDirectory);
             }
             $imageUrl = Storage::putFile($memberCertificateImageDirectory, new File($request->file('certificate_image_url')));
-            $member->update(['certificate_image_url'=> $imageUrl]);
+            $member->update(['certificate_image_url' => $imageUrl]);
         }
 
-        
+
         $memberPaymentVoucherImageDirectory = 'memberPaymentVoucherImages';
         if ($request->hasFile('payment_voucher_image_url')) {
-            
+
             $fileName = $request->file('payment_voucher_image_url')->getClientOriginalName();
 
-            if(!Storage::exists($memberPaymentVoucherImageDirectory)){
+            if (!Storage::exists($memberPaymentVoucherImageDirectory)) {
                 Storage::makeDirectory($memberPaymentVoucherImageDirectory);
             }
             $imageUrl = Storage::putFile($memberPaymentVoucherImageDirectory, new File($request->file('payment_voucher_image_url')));
-            $member->update(['payment_voucher_image_url'=> $imageUrl]);
+            $member->update(['payment_voucher_image_url' => $imageUrl]);
+        }
+
+        if ($webcam_image_url != NULL) {
+            $member->update(['image_url' => $webcam_image_url]);
         }
 
         return response()->json(['status' => 1, 'message' => 'success']);
@@ -174,7 +184,7 @@ class MemberController extends Controller
     public function show($id)
     {
         $member = Member::findOrFail($id);
-        return view('admin.members.detail', compact('member')); 
+        return view('admin.members.detail', compact('member'));
     }
 
     /**
@@ -200,13 +210,13 @@ class MemberController extends Controller
     {
         $member = Member::findOrFail($id);
         $rules = [
-            'mem_no' => 'required|unique:members,mem_no,'. $member->id,
+            'mem_no' => 'required|unique:members,mem_no,' . $member->id,
             'name' => 'required|string|max:50',
             'image_url' => 'nullable|image|mimes:jpeg,jpg,png',
             'father_name' => 'required|string|max:50',
             'gender' => 'required',
-            'cnic_no' => 'required|unique:members,cnic_no,'. $member->id,
-            'contact_no' => 'required|unique:members,contact_no,'. $member->id,
+            'cnic_no' => 'required|unique:members,cnic_no,' . $member->id,
+            'contact_no' => 'required|unique:members,contact_no,' . $member->id,
             'birth_date' => 'required',
             'city' => 'required',
             'qualification' => 'required',
@@ -227,7 +237,7 @@ class MemberController extends Controller
                 'errors' => $validator->errors(),
             ], 400);
         }
-        
+
         $data = [
             'mem_no' => $request->input('mem_no'),
             'name' => $request->input('name'),
@@ -250,34 +260,34 @@ class MemberController extends Controller
 
         $memberImageDirectory = 'memberImages';
         if ($request->hasFile('image_url')) {
-            
-            if(!Storage::exists($memberImageDirectory)){
+
+            if (!Storage::exists($memberImageDirectory)) {
                 Storage::makeDirectory($memberImageDirectory);
             }
-            Storage::delete('/'.$member->image_url);
+            Storage::delete('/' . $member->image_url);
             $imageUrl = Storage::putFile($memberImageDirectory, new File($request->file('image_url')));
             $data['image_url'] = $imageUrl;
         }
 
         $memberCertificateImageDirectory = 'memberCertificateImages';
         if ($request->hasFile('certificate_image_url')) {
-            
-            if(!Storage::exists($memberCertificateImageDirectory)){
+
+            if (!Storage::exists($memberCertificateImageDirectory)) {
                 Storage::makeDirectory($memberCertificateImageDirectory);
             }
-            Storage::delete('/'.$member->certificate_image_url);
+            Storage::delete('/' . $member->certificate_image_url);
             $imageUrl = Storage::putFile($memberCertificateImageDirectory, new File($request->file('certificate_image_url')));
             $data['certificate_image_url'] = $imageUrl;
         }
 
-        
+
         $memberPaymentVoucherImageDirectory = 'memberPaymentVoucherImages';
         if ($request->hasFile('payment_voucher_image_url')) {
-            
-            if(!Storage::exists($memberPaymentVoucherImageDirectory)){
+
+            if (!Storage::exists($memberPaymentVoucherImageDirectory)) {
                 Storage::makeDirectory($memberPaymentVoucherImageDirectory);
             }
-            Storage::delete('/'.$member->payment_voucher_image_url);
+            Storage::delete('/' . $member->payment_voucher_image_url);
             $imageUrl = Storage::putFile($memberPaymentVoucherImageDirectory, new File($request->file('payment_voucher_image_url')));
             $data['payment_voucher_image_url'] = $imageUrl;
         }
@@ -305,14 +315,14 @@ class MemberController extends Controller
         if ($member == null) {
             return redirect()->back()->with('error', 'No Record Found');
         }
-        $member->update(['mem_status'=> $request->input('mem_status')]);
-        return response()->json(['status'=>'1','message'=>'Status Changed Successfully']);
+        $member->update(['mem_status' => $request->input('mem_status')]);
+        return response()->json(['status' => '1', 'message' => 'Status Changed Successfully']);
     }
 
     public function paymentUpdate(Request $request, $id)
     {
         $member = Member::findOrFail($id);
-        $rules =[
+        $rules = [
             'mem_fee_submission_date' => 'required',
             'remarks' => 'required',
             'certificate_image_url' => 'nullable|image|mimes:jpeg,jpg,png',
@@ -334,23 +344,23 @@ class MemberController extends Controller
 
         $memberCertificateImageDirectory = 'memberCertificateImages';
         if ($request->hasFile('certificate_image_url')) {
-            
-            if(!Storage::exists($memberCertificateImageDirectory)){
+
+            if (!Storage::exists($memberCertificateImageDirectory)) {
                 Storage::makeDirectory($memberCertificateImageDirectory);
             }
-            Storage::delete('/'.$member->certificate_image_url);
+            Storage::delete('/' . $member->certificate_image_url);
             $imageUrl = Storage::putFile($memberCertificateImageDirectory, new File($request->file('certificate_image_url')));
             $data['certificate_image_url'] = $imageUrl;
         }
 
-        
+
         $memberPaymentVoucherImageDirectory = 'memberPaymentVoucherImages';
         if ($request->hasFile('payment_voucher_image_url')) {
-            
-            if(!Storage::exists($memberPaymentVoucherImageDirectory)){
+
+            if (!Storage::exists($memberPaymentVoucherImageDirectory)) {
                 Storage::makeDirectory($memberPaymentVoucherImageDirectory);
             }
-            Storage::delete('/'.$member->payment_voucher_image_url);
+            Storage::delete('/' . $member->payment_voucher_image_url);
             $imageUrl = Storage::putFile($memberPaymentVoucherImageDirectory, new File($request->file('payment_voucher_image_url')));
             $data['payment_voucher_image_url'] = $imageUrl;
         }
@@ -364,14 +374,40 @@ class MemberController extends Controller
     public function generatePDF($id)
     {
         $member = Member::findOrFail($id);
-        $pdf = PDF::loadView('admin.members.pdf',compact(['member']));
-  
-        return $pdf->stream('Application-'. $member->id .'.pdf');
+        $pdf = PDF::loadView('admin.members.pdf', compact(['member']));
+
+        return $pdf->stream('Application-' . $member->id . '.pdf');
     }
 
     public function importData(Request $request)
     {
-        Excel::import(new MemberImport,$request->file);
+        Excel::import(new MemberImport, $request->file);
+        return response()->json(['status' => 1, 'message' => 'success']);
+    }
+
+    public function uploadWebcamImage(Request $request)
+    {
+        // dd($request->all());
+        $img = $request->image;
+        $folderPath = "MemberWebcamImages/";
+
+        $image_parts = explode(";base64,", $img);
+        $image_type_aux = explode("image/", $image_parts[0]);
+        $image_type = $image_type_aux[1];
+
+        $image_base64 = base64_decode($image_parts[1]);
+        $fileName = uniqid() . '.png';
+
+        $file = $folderPath . $fileName;
+        Storage::put($file, $image_base64);
+
+        // dd('Image uploaded successfully: ' . $fileName);
+
+        $url = $folderPath . '/' . $fileName;
+        $request->session()->forget('member_webcam_image');
+        $request->session()->put('member_webcam_image', $url);
+        // $value = $request->session()->get('member_webcam_image');
+
         return response()->json(['status' => 1, 'message' => 'success']);
     }
 }

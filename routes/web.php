@@ -1,14 +1,14 @@
 <?php
 
+use App\Http\Controllers\WebcamController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
 //     return view('welcome');
 // });
 
-Route::get('/', function (){
+Route::get('/', function () {
     return view('pages.index');
-
 });
 Route::post('/search-member', 'GernalController@searchMember')->name('searchMember');
 Route::get('/get-member', 'GernalController@getMember')->name('getMember');
@@ -68,6 +68,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                         Route::post('/payment/update/{id}', 'MemberController@paymentUpdate')->name('members.paymentUpdate');
                         Route::get('/generate-pdf/{id}', 'MemberController@generatePDF')->name('members.generatePDF');
                         Route::post('/import-data', 'MemberController@importData')->name('members.importData');
+                        Route::post('/upload/webcam-image', 'MemberController@uploadWebcamImage')->name('members.upload.webcam-image');
                     });
                 });
 
@@ -109,10 +110,10 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                     });
                 });
 
-                Route::group(['middleware' => ['permission:manage_voting']], function (){
-                    Route::group(['prefix' => 'voting'], function (){
-                        Route::get('/','VoteController@index')->name('voting.index');
-                        Route::get('/detail/{id}','VoteController@show')->name('voting.show');
+                Route::group(['middleware' => ['permission:manage_voting']], function () {
+                    Route::group(['prefix' => 'voting'], function () {
+                        Route::get('/', 'VoteController@index')->name('voting.index');
+                        Route::get('/detail/{id}', 'VoteController@show')->name('voting.show');
                         Route::post('/destroy', 'VoteController@destroy')->name('voting.destroy');
                     });
                 });
@@ -123,3 +124,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
 // Auth::routes();
 // Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::get('webcam', [WebcamController::class, 'index']);
+Route::post('webcam', [WebcamController::class, 'store'])->name('webcam.capture');
