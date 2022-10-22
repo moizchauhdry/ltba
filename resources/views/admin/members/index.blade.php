@@ -32,8 +32,9 @@
                         <h3 class="card-title">
                             Members List (Total Members : <span id="countTotal">0</span>)
                         </h3>
-                        <div class="card-title"style="float:right !important;">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#import-member" style="float:right;">
+                        <div class="card-title" style="float:right !important;">
+                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#import-member" style="float:right;">
                                 Import Member
                             </button>
                         </div>
@@ -43,34 +44,28 @@
                         <table id="members" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Action</th>
-                                    <th>MEM No#</th>
+                                    <th>MEM #</th>
                                     <th>Name</th>
-                                    <th>Image</th>
                                     <th>CNIC No</th>
                                     <th>Contact No</th>
-                                    <th>MEM Status</th>
-                                    <th>Gender</th>
-                                    <th>DOB</th>
-                                    <th>MEM Reg Date</th>
-                                    <th>MEM Submission Date</th>
-                                    <th>City</th>
-                                    <th>Office Address</th>
+                                    <th>Status</th>
+                                    <th>Image</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                               
+
                             </tbody>
                         </table>
                     </div>
                     <!-- /.card-body -->
-                    <div class="modal fade" id="import-member"  aria-hidden="true">
+                    <div class="modal fade" id="import-member" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h4 class="modal-title">Import Member</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
+                                        <span aria-hidden="true">×</span>
                                     </button>
                                 </div>
                                 <form action="#" id="import_excel" method="POST" enctype="multipart/form-data"> @csrf
@@ -80,14 +75,16 @@
                                             <label>Import <span class="required-star">*</span></label>
                                             <div class="input-group mb-3">
                                                 <div class="custom-file">
-                                                    <input type="file" id="image_url" class="custom-file-input" name="file"
+                                                    <input type="file" id="image_url" class="custom-file-input"
+                                                        name="file"
                                                         accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-                                                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                                    <label class="custom-file-label" for="inputGroupFile01">Choose
+                                                        file</label>
                                                 </div>
                                             </div>
                                             <img src="" id="image" class="hidden w-25" />
                                         </div>
-                                    
+
                                     </div>
                                     <div class="modal-footer justify-content-between">
                                         <button type="submit" class="btn btn-primary">Import</button>
@@ -112,10 +109,10 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
-    <script src="{{asset('public/js/app.js')}}"></script>
-    <script>
-        jQuery(document).ready(function () {
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+<script src="{{asset('public/js/app.js')}}"></script>
+<script>
+    jQuery(document).ready(function () {
             App.init();
         });
         $(document).ready(function(){
@@ -148,9 +145,9 @@
                 });
             });
         });
-    </script>
-    <script>
-        var table;
+</script>
+<script>
+    var table;
             $(document).ready( function () {
                 table  = $('#members').DataTable({
                     responsive: true,
@@ -159,19 +156,13 @@
                     ajax: "{{ route('members.index') }}",
                     order:[[0,"desc"]],
                     columns: [
-                        {data: 'action', name: 'action'},
                         {data: 'mem_no', name: 'mem_no'},
                         {data: 'name', name: 'name'},
-                        {data: 'image', name: 'image'},
                         {data: 'cnic_no', name: 'cnic_no'},
                         {data: 'contact_no', name: 'contact_no'},
                         {data: 'mem_status', name: 'mem_status'},
-                        {data: 'gender', name: 'gender'},
-                        {data: 'birth_date', name: 'birth_date'},
-                        {data: 'mem_reg_date', name: 'mem_reg_date'},
-                        {data: 'mem_fee_submission_date', name: 'mem_fee_submission_date'},
-                        {data: 'city', name: 'city'},
-                        {data: 'office_address', name: 'office_address', orderable: false, searchable: false},
+                        {data: 'image', name: 'image'},
+                        {data: 'action', name: 'action'},
                     ],
                     drawCallback: function (response) {
                         $('#countTotal').empty();
@@ -227,5 +218,5 @@
             }
             $(this).next('.custom-file-label').html(files.join(','));
         });
-    </script>
+</script>
 @endsection

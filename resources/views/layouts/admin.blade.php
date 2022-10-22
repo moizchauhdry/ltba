@@ -59,6 +59,13 @@
             z-index: 999;
             opacity: 0.9;
         }
+
+        .custom-image-preview {
+            width: 100px;
+            border-radius: 5px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
     </style>
 
 </head>
@@ -141,12 +148,15 @@
     <!-- Tempusdominus Bootstrap 4 -->
     <script src="{{asset('public/portal/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}">
     </script>
-    
-    
+
+
     <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/jquery.inputmask.bundle.js"></script>
     <script>
         $(":input").inputmask();
     </script>
+
+    @component('components.image-view')@endcomponent
+
     @yield('scripts')
 
 </body>

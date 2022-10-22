@@ -124,7 +124,3 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
 // Auth::routes();
 // Route::get('/home', 'HomeController@index')->name('home');
-
-
-Route::get('webcam', [WebcamController::class, 'index']);
-Route::post('webcam', [WebcamController::class, 'store'])->name('webcam.capture');

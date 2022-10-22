@@ -32,23 +32,19 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <th>Member #</th>
-                            </div>
-                            <div class="col-md-4" style="text-align:center;">
-                                <td><b>{{ $member->mem_no }}</b></td>
-                            </div>
-                            <div class="col-md-4" style="text-align:center;">
-                                <td>
-                                    <img class="w-100" src="{{ asset('storage/app/public/'.$member->image_url) }}">
-                                </td>
-                            </div>
-                        </div>
                         <fieldset class="border p-4 mb-4" id="partner">
-                            <legend class="w-auto">General Information</legend>
+                            <legend class="w-auto">Personal Information</legend>
                             <div class="row">
                                 <table class="table table-bordered">
+                                    <tr>
+                                        <th>Member #</th>
+                                        <td><b>{{ $member->mem_no }}</b></td>
+                                        <th>Member Image</th>
+                                        <td>
+                                            <img class="custom-image-preview"
+                                                src="{{ asset('storage/app/public/'.$member->image_url) }}">
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <th>Name</th>
                                         <td>{{ $member->name }}</td>
@@ -308,11 +304,11 @@
                                 <table class="table table-bordered">
                                     <tr>
                                         <th>Certificate Image</th>
-                                        <td style="text-align:center;"><img class="w-25"
+                                        <td><img class="w-25"
                                                 src="{{ asset('storage/app/public/'.$member->certificate_image_url) }}">
                                         </td>
                                         <th>Payment Image</th>
-                                        <td style="text-align:center;"><img class="w-25"
+                                        <td><img class="w-25"
                                                 src="{{ asset('storage/app/public/'.$member->payment_voucher_image_url) }}">
                                         </td>
                                     </tr>

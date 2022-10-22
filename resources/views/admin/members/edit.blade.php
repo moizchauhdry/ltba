@@ -1,5 +1,10 @@
 @extends('layouts.admin')
 
+@section('styles')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
+@endsection
+
 @section('content')
 
 <!-- Content Header (Page header) -->
@@ -33,8 +38,38 @@
                     <!-- /.card-header -->
                     <!-- form start -->
                     <form action="#" id="edit_member_form" method="POST"> @csrf
-                        {{ csrf_field() }}
                         <div class="card-body">
+
+                            <fieldset class="border p-4 mb-4" id="partner">
+                                <legend class="w-auto">Image Section</legend>
+                                <div class="row">
+                                    <div class="form-group col-md-5">
+                                        <button type="button" class="btn btn-warning" data-toggle="modal"
+                                            data-target="#webCamImageModal">
+                                            Capture Image Using Webcam
+                                        </button>
+                                        <div id="results" class="mt-4"></div>
+                                    </div>
+
+                                    <span class="mr-5">OR</span>
+
+                                    <div class="form-group col-md-5">
+                                        <label>Image </label>
+                                        <div class="input-group mb-3">
+                                            <div class="custom-file">
+                                                <input type="file" id="image_url" class="custom-file-input"
+                                                    name="image_url" accept=".png, .jpg, .jpeg"
+                                                    value="{{ $member->image_url }}"> <label class="custom-file-label"
+                                                    for="inputGroupFile01">Choose file</>
+                                            </div>
+                                        </div>
+
+                                        <img src="{{ asset('storage/app/public/'.$member->image_url) }}" id="image"
+                                            class="w-25 mt-2" />
+                                    </div>
+                                </div>
+                            </fieldset>
+
                             <fieldset class="border p-4 mb-4" id="partner">
                                 <legend class="w-auto">General Information</legend>
                                 <div class="row">
@@ -93,22 +128,10 @@
                                         </div>
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label>Image </label>
-                                        <div class="input-group mb-3">
-                                            <div class="custom-file">
-                                                <input type="file" id="image_url" class="custom-file-input" name="image_url"
-                                                    accept=".png, .jpg, .jpeg" value="{{ $member->image_url }}"> <label
-                                                    class="custom-file-label" for="inputGroupFile01">Choose file</>
-                                            </div>
-                                        </div>
-    
-                                        <img src="{{ asset('storage/app/public/'.$member->image_url) }}" id="image"
-                                            class="w-25 mt-2" />
-                                    </div>
-                                    <div class="form-group col-md-4">
                                         <label>Qualification <span class="required-star">*</span></label>
                                         <input type="text" maxlength="100" class="form-control" name="qualification"
-                                            placeholder="Enter Qualification" value="{{ $member->qualification }}" required>
+                                            placeholder="Enter Qualification" value="{{ $member->qualification }}"
+                                            required>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>City <span class="required-star">*</span></label>
@@ -118,13 +141,15 @@
                                     <div class="form-group col-md-4">
                                         <label>Office Address <span class="required-star">*</span></label>
                                         <input type="text" maxlength="100" class="form-control" name="office_address"
-                                            placeholder="Enter Office Address" value="{{ $member->office_address }}" required>
+                                            placeholder="Enter Office Address" value="{{ $member->office_address }}"
+                                            required>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Residential Address </label>
-                                        <input type="text" maxlength="100" class="form-control" name="residential_address"
-                                            placeholder="Enter Residential Address" value="{{ $member->residential_address }}">
-                                    </div> 
+                                        <input type="text" maxlength="100" class="form-control"
+                                            name="residential_address" placeholder="Enter Residential Address"
+                                            value="{{ $member->residential_address }}">
+                                    </div>
                                 </div>
                             </fieldset>
 
@@ -185,8 +210,7 @@
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Membership Status <span class="required-star">*</span></label>
-                                        <select class="form-control custom-select" name="mem_status"
-                                            id="mem_status">
+                                        <select class="form-control custom-select" name="mem_status" id="mem_status">
                                             <option selected disabled>Select Membership Status</option>
                                             <option {{ ($member->mem_status =="1" ? "selected" :"") }}
                                                 value="1">Active
@@ -210,23 +234,26 @@
                                         <label>Certificate Image </label>
                                         <div class="input-group mb-3">
                                             <div class="custom-file">
-                                                <input type="file" id="certificate_image_url" class="custom-file-input" name="certificate_image_url"
-                                                    accept=".png, .jpg, .jpeg" value="{{ $member->certificate_image_url }}">
-                                                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                                <input type="file" id="certificate_image_url" class="custom-file-input"
+                                                    name="certificate_image_url" accept=".png, .jpg, .jpeg"
+                                                    value="{{ $member->certificate_image_url }}">
+                                                <label class="custom-file-label" for="inputGroupFile01">Choose
+                                                    file</label>
                                             </div>
                                         </div>
-                                        <img src="{{ asset('storage/app/public/'.$member->certificate_image_url) }}" id="certificate_images_url" class="w-25" />
+                                        <img src="{{ asset('storage/app/public/'.$member->certificate_image_url) }}"
+                                            id="certificate_images_url" class="w-25" />
                                     </div>
                                     <div class="container row">
                                         <div class="col-md-12">
                                             @if($member->mem_fee_submission_date != null)
-                                                <input type="checkbox" class="member_ship_fee_paid" checked
-                                                    name="member_ship_fee_paid" id="member_ship_fee_paid_checkbox" value="1"
-                                                    onchange="memberShipFee()">
+                                            <input type="checkbox" class="member_ship_fee_paid" checked
+                                                name="member_ship_fee_paid" id="member_ship_fee_paid_checkbox" value="1"
+                                                onchange="memberShipFee()">
                                             @else
-                                                <input type="checkbox" class="member_ship_fee_paid"
-                                                    name="member_ship_fee_paid" id="member_ship_fee_paid_checkbox" value="0"
-                                                    onchange="memberShipFee()">
+                                            <input type="checkbox" class="member_ship_fee_paid"
+                                                name="member_ship_fee_paid" id="member_ship_fee_paid_checkbox" value="0"
+                                                onchange="memberShipFee()">
                                             @endif
                                             <label class="create-group">Membership Fee Paid</label>
                                         </div>
@@ -235,14 +262,18 @@
                                         <div class="row">
                                             <div class="form-group col-md-6">
                                                 <label>Fee Submission Date <span class="text-danger">*</span></label>
-                                                <div class="input-group date" id="mem_fee_submission_date" data-target-input="nearest">
+                                                <div class="input-group date" id="mem_fee_submission_date"
+                                                    data-target-input="nearest">
                                                     <input type="text" value="{{ $member->mem_fee_submission_date }}"
-                                                        class="form-control datetimepicker-input" data-target="#mem_fee_submission_date"
-                                                        name="mem_fee_submission_date"  autocomplete="off"
+                                                        class="form-control datetimepicker-input"
+                                                        data-target="#mem_fee_submission_date"
+                                                        name="mem_fee_submission_date" autocomplete="off"
                                                         data-toggle="datetimepicker" />
-                                                    <div class="input-group-append" data-target="#mem_fee_submission_date"
+                                                    <div class="input-group-append"
+                                                        data-target="#mem_fee_submission_date"
                                                         data-toggle="datetimepicker">
-                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                        <div class="input-group-text"><i class="fa fa-calendar"></i>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -250,12 +281,16 @@
                                                 <label>Payment Voucher Image </span></label>
                                                 <div class="input-group mb-3">
                                                     <div class="custom-file">
-                                                        <input type="file" id="payment_voucher_image_url" class="custom-file-input" name="payment_voucher_image_url"
-                                                            accept=".png, .jpg, .jpeg" value="{{ $member->payment_voucher_image_url }}">
-                                                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                                        <input type="file" id="payment_voucher_image_url"
+                                                            class="custom-file-input" name="payment_voucher_image_url"
+                                                            accept=".png, .jpg, .jpeg"
+                                                            value="{{ $member->payment_voucher_image_url }}">
+                                                        <label class="custom-file-label" for="inputGroupFile01">Choose
+                                                            file</label>
                                                     </div>
                                                 </div>
-                                                <img src="{{ asset('storage/app/public/'.$member->payment_voucher_image_url) }}" id="payment_voucher_images_url" class="w-25" />
+                                                <img src="{{ asset('storage/app/public/'.$member->payment_voucher_image_url) }}"
+                                                    id="payment_voucher_images_url" class="w-25" />
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <label>Remarks <span class="required-star">*</span></label>
@@ -287,6 +322,9 @@
     </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
+
+@include('admin.members.partials.webcam-image')
+
 @endsection
 
 @section('scripts')
@@ -411,5 +449,56 @@
             $('#mem_fee_submission_date').prop('required',false);
         }
     }
+</script>
+
+<script language="JavaScript">
+    Webcam.set({
+        width: 450,
+        height: 300,
+        image_format: 'jpeg',
+        jpeg_quality: 90
+    });
+
+    Webcam.attach( '#my_camera' );
+
+    function take_snapshot() {
+        Webcam.snap( function(data_uri) {
+            $(".image-tag").val(data_uri);
+            document.getElementById('results').innerHTML = '<img src="'+data_uri+'"/>';
+        } );
+
+        $('#webCamImageModal').modal('toggle');
+    }
+
+    $(document).ready(function(){
+        $("#webcam_image_form").on("submit", function(event){
+            event.preventDefault();
+            $('span.text-success').remove();
+            $('span.invalid-feedback').remove();
+            $('input.is-invalid').removeClass('is-invalid');
+            var formData = new FormData(this);
+            $.ajax({
+                method: "POST",
+                data: formData,
+                url: '{{route('members.upload.webcam-image')}}',
+                processData: false,
+                contentType: false,
+                cache: false,
+                beforeSend: function(){
+                    $(".custom-loader").removeClass('hidden');
+                },
+                success: function (response) {
+                    if (response.status == 1) {
+                        $(".custom-loader").addClass('hidden');
+                    }
+                },
+                error : function (errors) {
+                    errorsGet(errors.responseJSON.errors)
+                    $(".custom-loader").addClass('hidden');
+                    $("#error_message").removeClass('hidden');
+                }
+            });
+        });
+    });
 </script>
 @endsection

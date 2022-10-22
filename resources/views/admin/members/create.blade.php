@@ -3,13 +3,6 @@
 @section('styles')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
-{{-- <style type="text/css">
-    #results {
-        padding: 20px;
-        border: 1px solid;
-        background: #ccc;
-    }
-</style> --}}
 @endsection
 
 
@@ -46,12 +39,35 @@
                     <!-- /.card-header -->
                     <!-- form start -->
                     <form action="#" id="store_member_form" method="POST"> @csrf
-                        {{ csrf_field() }}
                         <div class="card-body">
-                            <button type="button" class="btn btn-warning mt-2 mb-2" data-toggle="modal"
-                                data-target="#webCamImageModal">
-                                Capture Image Using Webcam
-                            </button>
+
+                            <fieldset class="border p-4 mb-4" id="partner">
+                                <legend class="w-auto">Image Section</legend>
+                                <div class="row">
+                                    <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                                        <button type="button" class="btn btn-warning" data-toggle="modal"
+                                            data-target="#webCamImageModal">
+                                            Capture Image Using Webcam
+                                        </button>
+                                        <div id="results" class="mt-4"></div>
+                                    </div>
+
+                                    <span class="mr-5">OR</span>
+
+                                    <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                                        <div class="input-group mb-3">
+                                            <div class="custom-file">
+                                                <input type="file" id="image_url" class="custom-file-input"
+                                                    name="image_url" accept=".png, .jpg, .jpeg">
+                                                <label class="custom-file-label" for="inputGroupFile01">Choose
+                                                    file</label>
+                                            </div>
+                                        </div>
+                                        <img src="" id="image" class="hidden w-25" />
+                                    </div>
+                                </div>
+                            </fieldset>
+
 
                             <fieldset class="border p-4 mb-4" id="partner">
                                 <legend class="w-auto">General Information</legend>
@@ -116,19 +132,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-4 col-sm-6 col-xs-12">
-                                        <label>Image <span class="required-star">*</span></label>
-                                        <div class="input-group mb-3">
-                                            <div class="custom-file">
-                                                <input type="file" id="image_url" class="custom-file-input"
-                                                    name="image_url" accept=".png, .jpg, .jpeg">
-                                                <label class="custom-file-label" for="inputGroupFile01">Choose
-                                                    file</label>
-                                            </div>
-                                        </div>
-                                        <img src="" id="image" class="hidden w-25" />
-                                    </div>
-
                                     <div class="form-group col-md-4">
                                         <label>Qualification <span class="required-star">*</span></label>
                                         <input type="text" maxlength="100" class="form-control" name="qualification"
@@ -418,7 +421,7 @@
 
 <script language="JavaScript">
     Webcam.set({
-        width: 380,
+        width: 450,
         height: 300,
         image_format: 'jpeg',
         jpeg_quality: 90
@@ -431,6 +434,8 @@
             $(".image-tag").val(data_uri);
             document.getElementById('results').innerHTML = '<img src="'+data_uri+'"/>';
         } );
+
+        $('#webCamImageModal').modal('toggle');
     }
 
     $(document).ready(function(){

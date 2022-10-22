@@ -29,7 +29,7 @@ class MemberController extends Controller
                 ->addIndexColumn()
                 ->addColumn('image', function (Member $data) {
                     $printIT = "";
-                    $printIT .=  '<img class="w-100" src="' . asset('storage/app/public/' . $data->image_url) . '">';
+                    $printIT .=  '<img class="custom-image-preview" src="' . asset('storage/app/public/' . $data->image_url) . '">';
                     return $printIT;
                 })
                 ->addColumn('mem_status', function (Member $data) {
@@ -45,9 +45,9 @@ class MemberController extends Controller
                     return $status;
                 })
                 ->addColumn('action', function (Member $data) {
-                    $btn = '<a href="' . route('members.edit', $data->id) . '"><i class="fas fa-edit"></i></a>';
-                    $dbtn = '<a href="' . route('members.detail', $data->id) . '" ><i class="fas fa-eye"></i></a>';
-                    $dbtn1 = '<a href="' . route('members.generatePDF', $data->id) . '" ><i class="fas fa-file-pdf"></i></a>';
+                    $btn = '<a class="btn btn-primary btn-sm" href="' . route('members.edit', $data->id) . '"><i class="fas fa-edit"></i> Edit</a>';
+                    $dbtn = '<a class="btn btn-primary btn-sm"  href="' . route('members.detail', $data->id) . '" ><i class="fas fa-file"></i> Detail</a>';
+                    $dbtn1 = '<a class="btn btn-primary btn-sm"  href="' . route('members.generatePDF', $data->id) . '" ><i class="fas fa-file-pdf"></i> Print</a>';
                     return $btn . ' ' . $dbtn . ' ' . $dbtn1;
                 })
                 ->rawColumns(['action', 'mem_status', 'image'])
@@ -83,7 +83,7 @@ class MemberController extends Controller
             'mem_no' => 'required|unique:members',
             'name' => 'required|string|max:50',
             'email' => 'required',
-            'image_url' => ['image|mimes:jpeg,jpg,png', Rule::requiredIf($webcam_image_url == NULL && $request->image_url == NULL)],
+            'image_url' => [Rule::requiredIf($webcam_image_url == NULL && $request->image_url == NULL)],
             'father_name' => 'required|string|max:50',
             'gender' => 'required',
             'cnic_no' => 'required|unique:members',
@@ -196,6 +196,8 @@ class MemberController extends Controller
     public function edit($id)
     {
         $member = Member::findOrFail($id);
+        Session::forget('member_webcam_image');
+
         return view('admin.members.edit', compact('member'));
     }
 
@@ -209,6 +211,9 @@ class MemberController extends Controller
     public function update(Request $request, $id)
     {
         $member = Member::findOrFail($id);
+
+        $webcam_image_url = $request->session()->get('member_webcam_image');
+
         $rules = [
             'mem_no' => 'required|unique:members,mem_no,' . $member->id,
             'name' => 'required|string|max:50',
@@ -292,8 +297,11 @@ class MemberController extends Controller
             $data['payment_voucher_image_url'] = $imageUrl;
         }
 
-
         $member->update($data);
+
+        if ($webcam_image_url != NULL) {
+            $member->update(['image_url' => $webcam_image_url]);
+        }
 
         return response()->json(['status' => 1, 'message' => 'success']);
     }
