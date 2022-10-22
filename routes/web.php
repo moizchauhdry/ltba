@@ -1,20 +1,19 @@
 <?php
 
-use App\Http\Controllers\WebcamController;
 use Illuminate\Support\Facades\Route;
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 
 Route::get('/', function () {
     return view('pages.index');
 });
-Route::post('/search-member', 'GernalController@searchMember')->name('searchMember');
-Route::get('/get-member', 'GernalController@getMember')->name('getMember');
-Route::get('/edit/{id}', 'GernalController@memberView')->name('editMember');
-Route::post('/update/{id}', 'GernalController@updateMember')->name('updateMember');
-Route::get('/thankyou', 'GernalController@thankyou')->name('thankyou');
+
+Route::group(['prefix' => 'members'], function () {
+    Route::post('/search', 'Frontend\MemberController@searchMember')->name('searchMember');
+    Route::get('/find', 'Frontend\MemberController@getMember')->name('getMember');
+    Route::get('/edit/{id}', 'Frontend\MemberController@memberView')->name('editMember');
+    Route::post('/update/{id}', 'Frontend\MemberController@updateMember')->name('updateMember');
+    Route::get('/thankyou', 'Frontend\MemberController@thankyou')->name('thankyou');
+});
+
 
 /**
  *****************************************************************************

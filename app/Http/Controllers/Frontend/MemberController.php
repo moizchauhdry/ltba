@@ -1,59 +1,53 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Frontend;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Member;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 
-class GernalController extends Controller
+class MemberController extends Controller
 {
     public function searchMember(Request $request)
     {
+        if ($request->search_member == 1) {
+            $member = Member::where('mem_no', $request->search_mem)->first();
+        } elseif ($request->search_member == 2) {
+            $member = Member::where('cnic_no', $request->search_mem)->first();
+        }
 
-        if($request->search_type_mem_no == 1){
-            $member = Member::where('mem_no',$request->search_mem)->first();
-            return response()->json(['status' => 1, 'member' => $member]);
-        }
-        elseif($request->search_type_cnic_no == 2){
-            $member = Member::where('cnic_no',$request->search_mem)->first();
-            return response()->json(['status' => 1,'member' => $member]);
-        }else{
-            return response()->json([
-                'error' => 'Please Enter Member No OR Cnic No',
-            ], 400);
-        }
+        return response()->json(['status' => 1, 'member' => $member]);
     }
 
     public function memberView($id)
     {
         $member = Member::find($id);
-       
 
-        return view('pages.member',compact('member'));
 
+        return view('pages.member', compact('member'));
     }
 
     public function getMember(Request $request)
     {
         $member = Member::find($request->mem_id);
 
-        return response()->json(['status' => 1,'id' => $member->id]);
+        return response()->json(['status' => 1, 'id' => $member->id]);
     }
 
     public function updateMember(Request $request, $id)
     {
         $member = Member::findOrFail($id);
         $rules = [
-            'mem_no' => 'required|unique:members,mem_no,'. $member->id,
+            'mem_no' => 'required|unique:members,mem_no,' . $member->id,
             'name' => 'required|string|max:50',
             'image_url' => 'nullable|image|mimes:jpeg,jpg,png',
             'father_name' => 'required|string|max:50',
             'gender' => 'required',
-            'cnic_no' => 'required|unique:members,cnic_no,'. $member->id,
-            'contact_no' => 'required|unique:members,contact_no,'. $member->id,
+            'cnic_no' => 'required|unique:members,cnic_no,' . $member->id,
+            'contact_no' => 'required|unique:members,contact_no,' . $member->id,
             'birth_date' => 'required',
             'city' => 'required',
             'qualification' => 'required',
@@ -68,7 +62,7 @@ class GernalController extends Controller
                 'errors' => $validator->errors(),
             ], 400);
         }
-        
+
         $data = [
             'mem_no' => $request->input('mem_no'),
             'name' => $request->input('name'),
@@ -86,11 +80,11 @@ class GernalController extends Controller
 
         $memberImageDirectory = 'memberImages';
         if ($request->hasFile('image_url')) {
-            
-            if(!Storage::exists($memberImageDirectory)){
+
+            if (!Storage::exists($memberImageDirectory)) {
                 Storage::makeDirectory($memberImageDirectory);
             }
-            Storage::delete('/'.$member->image_url);
+            Storage::delete('/' . $member->image_url);
             $imageUrl = Storage::putFile($memberImageDirectory, new File($request->file('image_url')));
             $data['image_url'] = $imageUrl;
         }
@@ -105,7 +99,4 @@ class GernalController extends Controller
     {
         return view('thankyou');
     }
-
-    
-    
 }
