@@ -12,9 +12,10 @@
             <div class="image">
                 {{-- {{ dd(Auth::guard('admin')->user()->image_url) }}; --}}
                 @if(Auth::guard('admin')->user()->image_url != null)
-                    <img src="{{ asset('storage/app/public/'.Auth::guard('admin')->user()->image_url) }}" class="img-circle elevation-2">
+                <img src="{{ asset('storage/app/public/'.Auth::guard('admin')->user()->image_url) }}"
+                    class="img-circle elevation-2">
                 @else
-                    <img src="{{asset('public/portal/dist/img/AdminLTELogo.png')}}" class="img-circle elevation-2">
+                <img src="{{asset('public/portal/dist/img/AdminLTELogo.png')}}" class="img-circle elevation-2">
                 @endif
             </div>
             <div class="info">
@@ -71,7 +72,7 @@
                     class="nav-item has-treeview {{(Route::currentRouteName() == 'members.create' || Route::currentRouteName() == 'members.index'|| Route::currentRouteName() == 'members.edit' ) ? 'menu-open' : ''}}">
                     <a href="#"
                         class="nav-link {{(Route::currentRouteName() == 'members.create' || Route::currentRouteName() == 'members.index' || Route::currentRouteName() == 'members.edit' ) ? 'active' : ''}}">
-                        <i class="fas fa-users"></i>
+                        <i class="nav-icon fas fa-users"></i>
                         <p>
                             Manage Members
                             <i class="right fas fa-angle-left"></i>
