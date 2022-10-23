@@ -24,7 +24,7 @@ class MemberController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Member::orderBy('id', 'DESC')->where('mem_status', '!=', 5);
+            $data = Member::orderBy('id', 'DESC')->where('mem_status', 1);
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('image', function (Member $data) {
@@ -41,6 +41,8 @@ class MemberController extends Controller
                         $status = '<span class="badge badge-danger">Suspended</span>';
                     } else if ($data->mem_status == 4) {
                         $status = '<span class="badge badge-primary">Late</span>';
+                    } else {
+                        $status = '<span class="badge badge-primary">Pending</span>';
                     }
                     return $status;
                 })

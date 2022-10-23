@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Inquiry;
 use Illuminate\Http\Request;
 use App\Member;
 use Illuminate\Support\Facades\Validator;
@@ -25,15 +26,12 @@ class MemberController extends Controller
     public function memberView($id)
     {
         $member = Member::find($id);
-
-
         return view('pages.member', compact('member'));
     }
 
     public function getMember(Request $request)
     {
         $member = Member::find($request->mem_id);
-
         return response()->json(['status' => 1, 'id' => $member->id]);
     }
 
@@ -90,7 +88,8 @@ class MemberController extends Controller
         }
 
 
-        $member->update($data);
+        // $member->update($data);
+        Inquiry::updateOrCreate(['mem_no' => $member->mem_no], $data);
 
         return response()->json(['status' => 1, 'message' => 'success']);
     }

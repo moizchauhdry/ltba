@@ -27,21 +27,19 @@
                     <!-- /.card-header -->
                     <div class="card-body">
                         <table id="inquiries" class="table table-bordered table-striped">
-                            <thead>
+                            <thead class="text-uppercase">
                                 <tr>
-                                    <th>Action</th>
-                                    <th>Image</th>
+                                    <th>Mem No.</th>
                                     <th>Name</th>
                                     <th>CNIC No</th>
                                     <th>DOB</th>
-                                    <th>Office Address</th>
-                                    <th>Residential Address</th>
-                                    <th>Is Approved</th>
-                                   
+                                    <th>Status</th>
+                                    <th>Image</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                               
+
                             </tbody>
                         </table>
                     </div>
@@ -60,9 +58,9 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
-    <script>
-        var table;
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+<script>
+    var table;
             $(document).ready( function () {
                 table  = $('#inquiries').DataTable({
                     responsive: true,
@@ -71,14 +69,13 @@
                     ajax: "{{ route('inquires.index') }}",
                     order:[[0,"desc"]],
                     columns: [
-                        {data: 'action', name: 'action'},
-                        {data: 'image', name: 'image'},
+                        {data: 'mem_no', name: 'mem_no'},
                         {data: 'name', name: 'name'},
                         {data: 'cnic_no', name: 'cnic_no'},
                         {data: 'birth_date', name: 'birth_date'},
-                        {data: 'office_address', name: 'office_address'},
-                        {data: 'residential_address', name: 'residential_address'},
                         {data: 'mem_status', name: 'mem_status',orderable: false, searchable: false},
+                        {data: 'image', name: 'image'},
+                        {data: 'action', name: 'action'},
                     ],
                     drawCallback: function (response) {
                         $('#countTotal').empty();
@@ -109,5 +106,5 @@
                 });
             }
         };
-    </script>
+</script>
 @endsection

@@ -28,7 +28,7 @@
                 <!-- jquery validation -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Edit Member</h3>
+                        <h3 class="card-title">Edit Inquiry</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
@@ -36,31 +36,30 @@
                         {{ csrf_field() }}
                         <div class="card-body">
                             <fieldset class="border p-4 mb-4" id="partner">
-                                <legend class="w-auto">General Information</legend>
+                                <legend class="w-auto">Personal Information</legend>
                                 <div class="row">
-                                    <div class="form-group col-md-2">
+                                    <div class="form-group col-md-6">
                                         <label>MEM # <span class="required-star">*</span></label>
                                         <input type="text" maxlength="50" class="form-control" name="mem_no"
-                                            placeholder="Enter MEM #" value="{{ $member->mem_no }}" required>
+                                            placeholder="Enter MEM #" value="{{ $inquiry->mem_no }}" readonly>
                                     </div>
-                                    <div class="form-group col-md-5">
+                                    <div class="form-group col-md-6">
                                         <label>Name <span class="required-star">*</span></label>
                                         <input type="text" maxlength="100" class="form-control" name="name"
-                                            placeholder="Enter Seat Name" value="{{ $member->name }}" required>
+                                            placeholder="Enter Seat Name" value="{{ $inquiry->name }}" required>
                                     </div>
-                                    
-                                  
-                                    <div class="form-group col-md-5">
+
+                                    <div class="form-group col-md-6">
                                         <label>CNIC No <span class="required-star">*</span></label>
                                         <input type="text" class="form-control"
                                             data-inputmask="'mask': '99999-9999999-9'" placeholder="XXXXX-XXXXXXX-X"
-                                            name="cnic_no" value="{{ $member->cnic_no }}" required>
+                                            name="cnic_no" value="{{ $inquiry->cnic_no }}" required>
                                     </div>
-                                    
-                                    <div class="form-group col-md-4">
+
+                                    <div class="form-group col-md-6">
                                         <label>Date of Birth: <span class="text-danger">*</span></label>
                                         <div class="input-group date" id="birth_date" data-target-input="nearest">
-                                            <input type="text" value="{{ $member->birth_date }}"
+                                            <input type="text" value="{{ $inquiry->birth_date }}"
                                                 class="form-control datetimepicker-input" data-target="#birth_date"
                                                 name="birth_date" required autocomplete="off"
                                                 data-toggle="datetimepicker" />
@@ -70,61 +69,86 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-4">
-                                        <label>Image </label>
-                                        <div class="input-group mb-3">
-                                            <div class="custom-file">
-                                                <input type="file" id="image_url" class="custom-file-input" name="image_url"
-                                                    accept=".png, .jpg, .jpeg" value="{{ $member->image_url }}"> <label
-                                                    class="custom-file-label" for="inputGroupFile01">Choose file</>
-                                            </div>
-                                        </div>
-    
-                                        <img src="{{ asset('storage/app/public/'.$member->image_url) }}" id="image"
-                                            class="w-25 mt-2" />
-                                    </div>
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-6">
                                         <label>Qualification <span class="required-star">*</span></label>
                                         <input type="text" maxlength="100" class="form-control" name="qualification"
-                                            placeholder="Enter Qualification" value="{{ $member->qualification }}" required>
+                                            placeholder="Enter Qualification" value="{{ $inquiry->qualification }}"
+                                            required>
                                     </div>
-                                   
+
                                     <div class="form-group col-md-6">
                                         <label>Office Address <span class="required-star">*</span></label>
                                         <input type="text" maxlength="100" class="form-control" name="office_address"
-                                            placeholder="Enter Office Address" value="{{ $member->office_address }}" required>
+                                            placeholder="Enter Office Address" value="{{ $inquiry->office_address }}"
+                                            required>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>Residential Address </label>
-                                        <input type="text" maxlength="100" class="form-control" name="residential_address"
-                                            placeholder="Enter Residential Address" value="{{ $member->residential_address }}">
-                                    </div> 
+                                        <input type="text" maxlength="100" class="form-control"
+                                            name="residential_address" placeholder="Enter Residential Address"
+                                            value="{{ $inquiry->residential_address }}">
+                                    </div>
                                     <div class="form-group col-md-6">
                                         <label>Membership Based-on<span class="required-star">*</span></label>
                                         <select class="form-control custom-select" name="membership_based_on"
                                             id="membership_based_on">
                                             <option selected disabled>Select Membership Based-on</option>
-                                            <option {{ ($member->membership_based_on =="adv" ? "selected" :"")
+                                            <option {{ ($inquiry->membership_based_on =="adv" ? "selected" :"")
                                                 }} value="adv">ADV</option>
-                                            <option {{ ($member->membership_based_on =="ca" ? "selected" :"") }}
+                                            <option {{ ($inquiry->membership_based_on =="ca" ? "selected" :"") }}
                                                 value="ca">CA</option>
-                                            <option {{ ($member->membership_based_on =="itp" ? "selected" :"")
+                                            <option {{ ($inquiry->membership_based_on =="itp" ? "selected" :"")
                                                 }} value="itp">ITP</option>
-                                            <option {{ ($member->membership_based_on =="aca" ? "selected" :"")
+                                            <option {{ ($inquiry->membership_based_on =="aca" ? "selected" :"")
                                                 }} value="aca">ACA</option>
-                                            <option {{ ($member->membership_based_on =="fca" ? "selected" :"")
+                                            <option {{ ($inquiry->membership_based_on =="fca" ? "selected" :"")
                                                 }} value="fca">FCA</option>
-                                            <option {{ ($member->membership_based_on =="cma" ? "selected" :"")
+                                            <option {{ ($inquiry->membership_based_on =="cma" ? "selected" :"")
                                                 }} value="cma">CMA</option>
-                                            <option {{ ($member->membership_based_on =="acca" ? "selected" :"")
+                                            <option {{ ($inquiry->membership_based_on =="acca" ? "selected" :"")
                                                 }} value="acca">ACCA</option>
-                                            <option {{ ($member->membership_based_on =="acma" ? "selected" :"")
+                                            <option {{ ($inquiry->membership_based_on =="acma" ? "selected" :"")
                                                 }} value="acma">ACMA</option>
-                                            <option {{ ($member->membership_based_on =="cma" ? "selected" :"")
+                                            <option {{ ($inquiry->membership_based_on =="cma" ? "selected" :"")
                                                 }} value="cma">CMA</option>
-                                            <option {{ ($member->membership_based_on =="fcma" ? "selected" :"")
+                                            <option {{ ($inquiry->membership_based_on =="fcma" ? "selected" :"")
                                                 }} value="fcma">FCMA</option>
                                         </select>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Membership Status <span class="required-star">*</span></label>
+                                        <select class="form-control custom-select" name="mem_status" id="mem_status">
+                                            <option selected disabled>Select Membership Status</option>
+                                            <option {{ ($inquiry->mem_status =="1" ? "selected" :"") }}
+                                                value="1">Active
+                                            </option>
+                                            <option {{ ($inquiry->mem_status=="2" ? "selected" :"") }}
+                                                value="2">In-Active
+                                            </option>
+                                            <option {{ ($inquiry->mem_status=="3" ? "selected" :"") }}
+                                                value="3">Suspended
+                                            </option>
+                                            <option {{ ($inquiry->mem_status=="4" ? "selected" :"") }}
+                                                value="4">Late
+                                            </option>
+                                            <option {{ ($inquiry->mem_status=="5" ? "selected" :"") }}
+                                                value="5">Pending
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Image </label>
+                                        <div class="input-group mb-3">
+                                            <div class="custom-file">
+                                                <input type="file" id="image_url" class="custom-file-input"
+                                                    name="image_url" accept=".png, .jpg, .jpeg"
+                                                    value="{{ $inquiry->image_url }}"> <label class="custom-file-label"
+                                                    for="inputGroupFile01">Choose file</>
+                                            </div>
+                                        </div>
+
+                                        <img src="{{ asset('storage/app/public/'.$inquiry->image_url) }}" id="image"
+                                            class="w-25 mt-2" />
                                     </div>
                                 </div>
                             </fieldset>
@@ -159,9 +183,6 @@
     });
 
     $(document).ready(function(){
-        // if($('.member_ship_fee_paid').is(":checked")){
-        //     $("#member_ship_section").show();
-        // }
         $("#edit_inquiry_form").on("submit", function(event){
             event.preventDefault();
             $('span.text-success').remove();
@@ -171,7 +192,7 @@
             $.ajax({
                 method: "POST",
                 data: formData,
-                url: '{{route('inquires.update',$member->id)}}',
+                url: '{{route('inquires.update',$inquiry->id)}}',
                 processData: false,
                 contentType: false,
                 cache: false,
