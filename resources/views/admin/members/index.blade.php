@@ -41,22 +41,26 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="members" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>MEM #</th>
-                                    <th>Name</th>
-                                    <th>CNIC No</th>
-                                    <th>Contact No</th>
-                                    <th>Status</th>
-                                    <th>Image</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                        <div class="table-responsive">
+                            <table id="members" class="table table-bordered table-striped table-sm text-uppercase"
+                                style="width: 100%">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>MEM #</th>
+                                        <th>MEMBER Name</th>
+                                        <th>CNIC No</th>
+                                        <th>Contact No</th>
+                                        <th>Status</th>
+                                        <th>Image</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <!-- /.card-body -->
                     <div class="modal fade" id="import-member" aria-hidden="true">
@@ -156,6 +160,7 @@
                     ajax: "{{ route('members.index') }}",
                     order:[[0,"desc"]],
                     columns: [
+                        {data: 'id', name: 'id'},
                         {data: 'mem_no', name: 'mem_no'},
                         {data: 'name', name: 'name'},
                         {data: 'cnic_no', name: 'cnic_no'},

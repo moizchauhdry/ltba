@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Biometric;
 use Illuminate\Http\Request;
 use App\Member;
 use Illuminate\Support\Facades\Validator;
@@ -26,33 +27,49 @@ class MemberController extends Controller
         if ($request->ajax()) {
             $data = Member::orderBy('id', 'DESC')->where('mem_status', 1);
             return Datatables::of($data)
-                ->addIndexColumn()
                 ->addColumn('image', function (Member $data) {
-                    $printIT = "";
-                    $printIT .=  '<img class="custom-image-preview" src="' . asset('storage/app/public/' . $data->image_url) . '">';
-                    return $printIT;
+                    if ($data->image_url) {
+                        $res =  '<img class="custom-image-preview" src="' . asset('storage/app/public/' . $data->image_url) . '">';
+                    } else {
+                        $res =  '<img class="custom-image-preview" src="' . asset('public/images/dummy-image.png') . '">';
+                    }
+
+                    return $res;
                 })
                 ->addColumn('mem_status', function (Member $data) {
                     if ($data->mem_status == 1) {
-                        $status = '<span class="badge badge-success">Active</span>';
+                        $status = '<span class="badge badge-success mr-1">Active</span>';
                     } else if ($data->mem_status == 2) {
-                        $status = '<span class="badge badge-danger">In-active</span>';
+                        $status = '<span class="badge badge-danger mr-1">In-active</span>';
                     } else if ($data->mem_status == 3) {
-                        $status = '<span class="badge badge-danger">Suspended</span>';
+                        $status = '<span class="badge badge-danger mr-1">Suspended</span>';
                     } else if ($data->mem_status == 4) {
-                        $status = '<span class="badge badge-primary">Late</span>';
+                        $status = '<span class="badge badge-primary mr-1">Late</span>';
                     } else {
-                        $status = '<span class="badge badge-primary">Pending</span>';
+                        $status = '<span class="badge badge-primary mr-1">Pending</span>';
                     }
+
+                    $biometric = Biometric::where('member_no', $data->mem_no)->first();
+                    if (isset($biometric)) {
+                        $status .= '<span class="badge badge-success mr-1">Biometric Done</span>';
+                        if ($biometric->veri == 'Y') {
+                            $status .= '<span class="badge badge-success mr-1">Biometric Verified</span>';
+                        } else {
+                            $status .= '<span class="badge badge-danger mr-1">Biometric Not Verified</span>';
+                        }
+                    } else {
+                        $status .= '<span class="badge badge-primary mr-1">Biometric Pending</span>';
+                    }
+
                     return $status;
                 })
                 ->addColumn('action', function (Member $data) {
-                    $btn = '<a class="btn btn-primary btn-sm" href="' . route('members.edit', $data->id) . '"><i class="fas fa-edit"></i> Edit</a>';
-                    $dbtn = '<a class="btn btn-primary btn-sm"  href="' . route('members.detail', $data->id) . '" ><i class="fas fa-file"></i> Detail</a>';
-                    $dbtn1 = '<a class="btn btn-primary btn-sm"  href="' . route('members.generatePDF', $data->id) . '" ><i class="fas fa-file-pdf"></i> Print</a>';
+                    $btn = '<a class="btn btn-primary btn-xs" href="' . route('members.edit', $data->id) . '"><i class="fas fa-edit"></i> Edit</a>';
+                    $dbtn = '<a class="btn btn-primary btn-xs"  href="' . route('members.detail', $data->id) . '" ><i class="fas fa-file"></i> Detail</a>';
+                    $dbtn1 = '<a class="btn btn-primary btn-xs"  href="' . route('members.generatePDF', $data->id) . '" ><i class="fas fa-file-pdf"></i> Print</a>';
                     return $btn . ' ' . $dbtn . ' ' . $dbtn1;
                 })
-                ->rawColumns(['action', 'mem_status', 'image'])
+                ->rawColumns(['action', 'mem_status', 'image', 'bio_status'])
                 ->make(true);
         }
 
