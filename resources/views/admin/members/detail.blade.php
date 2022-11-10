@@ -32,17 +32,28 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="{{route('members.edit', $member->id)}}" class="btn btn-primary float-right"><i
+                                        class="fas fa-edit"></i>Edit</a>
+                            </div>
+                        </div>
                         <fieldset class="border p-4 mb-4" id="partner">
-                            <legend class="w-auto">Personal Information</legend>
+                            <legend class="w-auto text-uppercase"><small>Basic Information</small></legend>
                             <div class="row">
-                                <table class="table table-bordered">
+                                <table class="table table-bordered text-uppercase">
                                     <tr>
                                         <th>Member #</th>
                                         <td><b>{{ $member->mem_no }}</b></td>
                                         <th>Member Image</th>
                                         <td>
+                                            @if (isset($member->image_url))
                                             <img class="custom-image-preview"
                                                 src="{{ asset('storage/app/public/'.$member->image_url) }}">
+                                            @else
+                                            <img class="custom-image-preview"
+                                                src="{{ asset('public/images/dummy-image.png') }}">
+                                            @endif
                                         </td>
                                     </tr>
                                     <tr>
@@ -75,13 +86,17 @@
                                         <th>Residential Address</th>
                                         <td>{{ $member->residential_address }}</td>
                                     </tr>
+                                    <tr>
+                                        <th>Status</th>
+                                        <td>{!! getMemberStatus($member) !!}</td>
+                                    </tr>
                                 </table>
                             </div>
                         </fieldset>
                         <fieldset class="border p-4 mb-4" id="partner">
-                            <legend class="w-auto">Member Information</legend>
+                            <legend class="w-auto text-uppercase"><small>Membership Information</small></legend>
                             <div class="row">
-                                <table class="table table-bordered">
+                                <table class="table table-bordered text-uppercase">
                                     <tr>
                                         <th>Membership Based-on</th>
                                         <td>{{ $member->membership_based_on }}</td>
