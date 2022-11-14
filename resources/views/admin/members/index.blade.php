@@ -81,7 +81,8 @@
                                                 <div class="custom-file">
                                                     <input type="file" id="image_url" class="custom-file-input"
                                                         name="file"
-                                                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                                                        required>
                                                     <label class="custom-file-label" for="inputGroupFile01">Choose
                                                         file</label>
                                                 </div>
@@ -92,6 +93,7 @@
                                     </div>
                                     <div class="modal-footer justify-content-between">
                                         <button type="submit" class="btn btn-primary">Import</button>
+                                        <a href="{{route('members.index')}}">Refresh</a>
                                     </div>
                                 </form>
                             </div>
@@ -135,13 +137,18 @@
                     cache: false,
                     beforeSend: function(){
                         $(".custom-loader").removeClass('hidden');
+                        $(".btn").removeClass('hidden');
+                        $(".btn").attr('disabled', true);
+                        $(".btn").html('Loading ... ');
                     },
                     success: function (response) {
                         if (response.status == 1) {
+                            alert(response.message);
                             window.location.href = '{{route('members.index')}}';
                         }
                     },
                     error : function (errors) {
+                        alert(errors.responseJSON.message);
                         errorsGet(errors.responseJSON.errors)
                         $(".custom-loader").addClass('hidden');
                         $("#error_message").removeClass('hidden');

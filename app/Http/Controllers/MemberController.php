@@ -384,8 +384,12 @@ class MemberController extends Controller
 
     public function importData(Request $request)
     {
-        Excel::import(new MemberImport, $request->file);
-        return response()->json(['status' => 1, 'message' => 'success']);
+        try {
+            Excel::import(new MemberImport, $request->file);
+            return response()->json(['status' => 1, 'message' => 'The record have been import successfully.'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 1, 'message' => 'Operation failed to perform. Please try again later.'], 400);
+        }
     }
 
     public function uploadWebcamImage(Request $request)
