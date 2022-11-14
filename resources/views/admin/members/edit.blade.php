@@ -64,8 +64,13 @@
                                             </div>
                                         </div>
 
+                                        @if ($member->image_url)
                                         <img src="{{ asset('storage/app/public/'.$member->image_url) }}" id="image"
                                             class="w-25 mt-2" />
+                                        @else
+                                        <img src="{{ asset('public/images/dummy-image.png') }}" id="image"
+                                            class="w-25 mt-2" />
+                                        @endif
                                     </div>
                                 </div>
                             </fieldset>
@@ -76,17 +81,17 @@
                                     <div class="form-group col-md-4">
                                         <label>MEM # <span class="required-star">*</span></label>
                                         <input type="text" maxlength="50" class="form-control" name="mem_no"
-                                            placeholder="Enter MEM #" value="{{ $member->mem_no }}" required>
+                                            placeholder="Enter MEM #" value="{{ $member->mem_no }}" disabled>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Name <span class="required-star">*</span></label>
                                         <input type="text" maxlength="100" class="form-control" name="name"
-                                            placeholder="Enter Seat Name" value="{{ $member->name }}" required>
+                                            placeholder="Enter Seat Name" value="{{ $member->name }}">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Father Name <span class="required-star">*</span></label>
                                         <input type="text" maxlength="100" class="form-control" name="father_name"
-                                            placeholder="Enter Father Name" value="{{ $member->father_name }}" required>
+                                            placeholder="Enter Father Name" value="{{ $member->father_name }}">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Gender <span class="required-star">*</span></label>
@@ -106,13 +111,13 @@
                                         <label>CNIC No <span class="required-star">*</span></label>
                                         <input type="text" class="form-control"
                                             data-inputmask="'mask': '99999-9999999-9'" placeholder="XXXXX-XXXXXXX-X"
-                                            name="cnic_no" value="{{ $member->cnic_no }}" required>
+                                            name="cnic_no" value="{{ $member->cnic_no }}">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Contact No <span class="required-star">*</span></label>
                                         <input type="text" class="form-control" data-inputmask="'mask': '0399-99999999'"
                                             type="number" maxlength="12" name="contact_no"
-                                            placeholder="Enter Contact No" value="{{ $member->contact_no }}" required>
+                                            placeholder="Enter Contact No" value="{{ $member->contact_no }}">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Date of Birth: <span class="text-danger">*</span></label>
@@ -130,19 +135,17 @@
                                     <div class="form-group col-md-4">
                                         <label>Qualification <span class="required-star">*</span></label>
                                         <input type="text" maxlength="100" class="form-control" name="qualification"
-                                            placeholder="Enter Qualification" value="{{ $member->qualification }}"
-                                            required>
+                                            placeholder="Enter Qualification" value="{{ $member->qualification }}">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>City <span class="required-star">*</span></label>
                                         <input type="text" maxlength="50" class="form-control" name="city"
-                                            placeholder="Enter City" value="{{ $member->city }}" required>
+                                            placeholder="Enter City" value="{{ $member->city }}">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Office Address <span class="required-star">*</span></label>
                                         <input type="text" maxlength="100" class="form-control" name="office_address"
-                                            placeholder="Enter Office Address" value="{{ $member->office_address }}"
-                                            required>
+                                            placeholder="Enter Office Address" value="{{ $member->office_address }}">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Residential Address </label>
@@ -200,8 +203,7 @@
                                         <div class="input-group date" id="mem_reg_date" data-target-input="nearest">
                                             <input type="text" value="{{ $member->mem_reg_date }}"
                                                 class="form-control datetimepicker-input" data-target="#mem_reg_date"
-                                                name="mem_reg_date" required autocomplete="off"
-                                                data-toggle="datetimepicker" />
+                                                name="mem_reg_date" autocomplete="off" data-toggle="datetimepicker" />
                                             <div class="input-group-append" data-target="#mem_reg_date"
                                                 data-toggle="datetimepicker">
                                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
@@ -241,8 +243,13 @@
                                                     file</label>
                                             </div>
                                         </div>
+                                        @if ($member->certificate_image_url)
                                         <img src="{{ asset('storage/app/public/'.$member->certificate_image_url) }}"
                                             id="certificate_images_url" class="w-25" />
+                                        @else
+                                        <img src="{{ asset('public/images/dummy-image.png') }}" id="image"
+                                            class="w-25 mt-2" />
+                                        @endif
                                     </div>
                                     <div class="container row">
                                         <div class="col-md-12">
@@ -260,7 +267,7 @@
                                     </div>
                                     <div class="col-md-12" id="member_ship_section" style="display:none">
                                         <div class="row">
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-4">
                                                 <label>Fee Submission Date <span class="text-danger">*</span></label>
                                                 <div class="input-group date" id="mem_fee_submission_date"
                                                     data-target-input="nearest">
@@ -277,7 +284,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-4">
                                                 <label>Payment Voucher Image </span></label>
                                                 <div class="input-group mb-3">
                                                     <div class="custom-file">
@@ -289,13 +296,18 @@
                                                             file</label>
                                                     </div>
                                                 </div>
+                                                @if ($member->payment_voucher_image_url)
                                                 <img src="{{ asset('storage/app/public/'.$member->payment_voucher_image_url) }}"
                                                     id="payment_voucher_images_url" class="w-25" />
+                                                @else
+                                                <img src="{{ asset('public/images/dummy-image.png') }}" id="image"
+                                                    class="w-25 mt-2" />
+                                                @endif
                                             </div>
-                                            <div class="form-group col-md-12">
+                                            <div class="form-group col-md-4">
                                                 <label>Remarks <span class="required-star">*</span></label>
                                                 <textarea class="form-control" name="remarks" id="remarks" cols="10"
-                                                    rows="2">{{ $member->remarks }}</textarea>
+                                                    rows="5">{{ $member->remarks }}</textarea>
                                             </div>
                                         </div>
                                     </div>

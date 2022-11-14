@@ -68,7 +68,6 @@
                                 </div>
                             </fieldset>
 
-
                             <fieldset class="border p-4 mb-4" id="partner">
                                 <legend class="w-auto">General Information</legend>
                                 <div class="row">
@@ -80,17 +79,17 @@
                                     <div class="form-group col-md-4">
                                         <label>Name <span class="required-star">*</span></label>
                                         <input type="text" maxlength="100" class="form-control" name="name"
-                                            placeholder="Enter Seat Name" value="{{ old('name') }}" required>
+                                            placeholder="Enter Seat Name" value="{{ old('name') }}">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Email <span class="required-star">*</span></label>
                                         <input type="email" class="form-control " name="email"
-                                            placeholder="Enter Email Address" value="{{ old('email') }}" required>
+                                            placeholder="Enter Email Address" value="{{ old('email') }}">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Father Name <span class="required-star">*</span></label>
                                         <input type="text" maxlength="100" class="form-control" name="father_name"
-                                            placeholder="Enter Father Name" value="{{ old('father_name') }}" required>
+                                            placeholder="Enter Father Name" value="{{ old('father_name') }}">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Gender <span class="required-star">*</span></label>
@@ -111,21 +110,20 @@
                                         <label>CNIC No <span class="required-star">*</span></label>
                                         <input type="text" class="form-control"
                                             data-inputmask="'mask': '99999-9999999-9'" placeholder="XXXXX-XXXXXXX-X"
-                                            name="cnic_no" value="{{ old('cnic_no') }}" required>
+                                            name="cnic_no" value="{{ old('cnic_no') }}">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Contact No <span class="required-star">*</span></label>
                                         <input type="text" class="form-control" data-inputmask="'mask': '0399-99999999'"
                                             type="number" maxlength="12" name="contact_no"
-                                            placeholder="Enter Contact No" value="{{ old('contact_no') }}" required>
+                                            placeholder="Enter Contact No" value="{{ old('contact_no') }}">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Date of Birth: <span class="text-danger">*</span></label>
                                         <div class="input-group date" id="birth_date" data-target-input="nearest">
                                             <input type="text" value="{{ old('birth_date') }}"
                                                 class="form-control datetimepicker-input" data-target="#birth_date"
-                                                name="birth_date" required autocomplete="off"
-                                                data-toggle="datetimepicker" />
+                                                name="birth_date" autocomplete="off" data-toggle="datetimepicker" />
                                             <div class="input-group-append" data-target="#birth_date"
                                                 data-toggle="datetimepicker">
                                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
@@ -135,13 +133,12 @@
                                     <div class="form-group col-md-4">
                                         <label>Qualification <span class="required-star">*</span></label>
                                         <input type="text" maxlength="100" class="form-control" name="qualification"
-                                            placeholder="Enter Qualification" value="{{ old('qualification') }}"
-                                            required>
+                                            placeholder="Enter Qualification" value="{{ old('qualification') }}">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>City <span class="required-star">*</span></label>
                                         <input type="text" maxlength="50" class="form-control" name="city"
-                                            placeholder="Enter City" value="{{ old('City') }}" required>
+                                            placeholder="Enter City" value="{{ old('City') }}">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Office Address <span class="required-star">*</span></label>
@@ -202,8 +199,7 @@
                                         <div class="input-group date" id="mem_reg_date" data-target-input="nearest">
                                             <input type="text" value="{{ old('mem_reg_date') }}"
                                                 class="form-control datetimepicker-input" data-target="#mem_reg_date"
-                                                name="mem_reg_date" required autocomplete="off"
-                                                data-toggle="datetimepicker" />
+                                                name="mem_reg_date" autocomplete="off" data-toggle="datetimepicker" />
                                             <div class="input-group-append" data-target="#mem_reg_date"
                                                 data-toggle="datetimepicker">
                                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
