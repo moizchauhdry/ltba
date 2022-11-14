@@ -62,7 +62,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                         Route::get('/edit/{id}', 'MemberController@edit')->name('members.edit');
                         Route::get('/detail/{id}', 'MemberController@show')->name('members.detail');
                         Route::post('/update/{id}', 'MemberController@update')->name('members.update');
-                        Route::post('/destroy', 'MemberController@destroy')->name('members.destroy');
+                        Route::get('/destroy/{id}', 'MemberController@destroy')->name('members.destroy')->middleware('permission:delete_members');
                         Route::post('/status', 'MemberController@status')->name('members.status');
                         Route::post('/payment/update/{id}', 'MemberController@paymentUpdate')->name('members.paymentUpdate');
                         Route::get('/generate-pdf/{id}', 'MemberController@generatePDF')->name('members.generatePDF');
@@ -99,7 +99,6 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                         Route::post('/status', 'SeatController@status')->name('seats.status');
                     });
                 });
-
 
                 Route::group(['middleware' => ['permission:manage_inquires']], function () {
                     Route::group(['prefix' => 'inquires'], function () {

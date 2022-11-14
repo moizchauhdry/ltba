@@ -34,8 +34,15 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <a href="{{route('members.edit', $member->id)}}" class="btn btn-primary float-right"><i
-                                        class="fas fa-edit"></i>Edit</a>
+                                <a href="{{route('members.edit', $member->id)}}"
+                                    class="btn btn-primary btn-sm mr-1 float-right"><i class="fas fa-edit"></i>Edit</a>
+
+                                @if (permission('delete_members'))
+                                <a href="{{route('members.destroy', $member->id)}}"
+                                    class="btn btn-danger btn-sm mr-1 float-right"
+                                    onclick="return confirm('Are you sure you want to delete it? This action cannot not be changed.')">
+                                    <i class="fas fa-trash mr-1"></i>Permanent Delete</a>
+                                @endif
                             </div>
                         </div>
                         <fieldset class="border p-4 mb-4" id="partner">

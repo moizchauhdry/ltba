@@ -32,3 +32,14 @@ if (!function_exists('getMemberStatus')) {
         return $status;
     }
 }
+
+if (!function_exists('permission')) {
+    function permission($permission)
+    {
+        if (auth()->guard('admin')->user()) {
+            return  auth()->guard('admin')->user()->hasPermission($permission);
+        } else {
+            return false;
+        }
+    }
+}

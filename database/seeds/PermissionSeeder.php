@@ -25,6 +25,11 @@ class PermissionSeeder extends Seeder
                 'order' => 2,
             ],
             [
+                'name' => 'delete_members',
+                'type' => 'child',
+                'order' => 2,
+            ],
+            [
                 'name' => 'manage_elections',
                 'type' => 'parent',
                 'order' => 3,
