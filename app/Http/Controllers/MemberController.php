@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Biometric;
+use App\City;
 use Illuminate\Http\Request;
 use App\Member;
 use Illuminate\Support\Facades\Validator;
@@ -50,8 +51,9 @@ class MemberController extends Controller
     public function create()
     {
         Session::forget('member_webcam_image');
+        $cities = City::orderBy('name', 'asc')->get();
 
-        return view('admin.members.create');
+        return view('admin.members.create', compact('cities'));
     }
 
     public function store(Request $request)
@@ -164,8 +166,9 @@ class MemberController extends Controller
     {
         $member = Member::findOrFail($id);
         Session::forget('member_webcam_image');
+        $cities = City::orderBy('name', 'asc')->get();
 
-        return view('admin.members.edit', compact('member'));
+        return view('admin.members.edit', compact('member', 'cities'));
     }
 
     public function update(Request $request, $id)
@@ -177,6 +180,7 @@ class MemberController extends Controller
         $rules = [
             // 'mem_no' => 'required|unique:members,mem_no,' . $member->id,
             'name' => 'nullable|string|max:50',
+            'email' => 'nullable|email|string|max:50',
             'image_url' => 'nullable|image|mimes:jpeg,jpg,png',
             'father_name' => 'nullable|string|max:50',
             'gender' => 'nullable',
@@ -206,6 +210,7 @@ class MemberController extends Controller
         $data = [
             // 'mem_no' => $request->input('mem_no'),
             'name' => $request->input('name'),
+            'email' => $request->input('email'),
             'father_name' => $request->input('father_name'),
             'gender' => $request->input('gender'),
             'cnic_no' => $request->input('cnic_no'),

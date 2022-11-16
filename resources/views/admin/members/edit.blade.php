@@ -79,22 +79,27 @@
                                 <legend class="w-auto">General Information</legend>
                                 <div class="row">
                                     <div class="form-group col-md-4">
-                                        <label>MEM # <span class="required-star">*</span></label>
+                                        <label>MEM # <span class="text-danger">*</span></label>
                                         <input type="text" maxlength="50" class="form-control" name="mem_no"
                                             placeholder="Enter MEM #" value="{{ $member->mem_no }}" disabled>
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label>Name <span class="required-star">*</span></label>
+                                        <label>Name</label>
                                         <input type="text" maxlength="100" class="form-control" name="name"
                                             placeholder="Enter Seat Name" value="{{ $member->name }}">
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label>Father Name <span class="required-star">*</span></label>
+                                        <label>Email</label>
+                                        <input type="email" class="form-control " name="email"
+                                            placeholder="Enter Email Address" value="{{ $member->email }}">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Father Name</label>
                                         <input type="text" maxlength="100" class="form-control" name="father_name"
                                             placeholder="Enter Father Name" value="{{ $member->father_name }}">
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label>Gender <span class="required-star">*</span></label>
+                                        <label>Gender</label>
                                         <select class="form-control custom-select" name="gender" id="gender">
                                             <option selected disabled>Select Gender</option>
                                             <option {{ ($member->gender == "Male"? "selected":"") }} value="Male">Male
@@ -108,13 +113,13 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label>CNIC No <span class="required-star">*</span></label>
+                                        <label>CNIC No</label>
                                         <input type="text" class="form-control"
                                             data-inputmask="'mask': '99999-9999999-9'" placeholder="XXXXX-XXXXXXX-X"
                                             name="cnic_no" value="{{ $member->cnic_no }}">
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label>Contact No <span class="required-star">*</span></label>
+                                        <label>Contact No</label>
                                         <input type="text" class="form-control" data-inputmask="'mask': '0399-99999999'"
                                             type="number" maxlength="12" name="contact_no"
                                             placeholder="Enter Contact No" value="{{ $member->contact_no }}">
@@ -133,17 +138,22 @@
                                         </div>
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label>Qualification <span class="required-star">*</span></label>
+                                        <label>Qualification</label>
                                         <input type="text" maxlength="100" class="form-control" name="qualification"
                                             placeholder="Enter Qualification" value="{{ $member->qualification }}">
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label>City <span class="required-star">*</span></label>
-                                        <input type="text" maxlength="50" class="form-control" name="city"
-                                            placeholder="Enter City" value="{{ $member->city }}">
+                                        <label>City</label>
+                                        <select name="city" id="city" class="form-control custom-select">
+                                            <option value="" selected>--Select City--</option>
+                                            @foreach ($cities as $city)
+                                            <option value="{{$city->id}}" @if ($city->id == $member->city) selected
+                                                @endif>{{$city->name}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label>Office Address <span class="required-star">*</span></label>
+                                        <label>Office Address</label>
                                         <input type="text" maxlength="100" class="form-control" name="office_address"
                                             placeholder="Enter Office Address" value="{{ $member->office_address }}">
                                     </div>
@@ -160,7 +170,7 @@
                                 <legend class="w-auto">Member Information</legend>
                                 <div class="row">
                                     <div class="form-group col-md-4">
-                                        <label>Membership Based-on<span class="required-star">*</span></label>
+                                        <label>Membership Based-o</label>
                                         <select class="form-control custom-select" name="membership_based_on"
                                             id="membership_based_on">
                                             <option selected disabled>Select Membership Based-on</option>
@@ -187,7 +197,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label>Select Membership <span class="required-star">*</span></label>
+                                        <label>Select Membership</label>
                                         <select class="form-control custom-select" name="mem" id="mem">
                                             <option selected disabled>Select Membership</option>
                                             <option {{ ($member->mem =="member" ? "selected" :"") }}
@@ -211,7 +221,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label>Membership Status <span class="required-star">*</span></label>
+                                        <label>Membership Status</label>
                                         <select class="form-control custom-select" name="mem_status" id="mem_status">
                                             <option selected disabled>Select Membership Status</option>
                                             <option {{ ($member->mem_status =="1" ? "selected" :"") }}
@@ -243,13 +253,8 @@
                                                     file</label>
                                             </div>
                                         </div>
-                                        @if ($member->certificate_image_url)
                                         <img src="{{ asset('storage/app/public/'.$member->certificate_image_url) }}"
-                                            id="certificate_images_url" class="w-25" />
-                                        @else
-                                        <img src="{{ asset('public/images/dummy-image.png') }}" id="image"
-                                            class="w-25 mt-2" />
-                                        @endif
+                                            id="certificate_images_url" class="custom-image-preview" />
                                     </div>
                                     <div class="container row">
                                         <div class="col-md-12">
@@ -296,16 +301,11 @@
                                                             file</label>
                                                     </div>
                                                 </div>
-                                                @if ($member->payment_voucher_image_url)
                                                 <img src="{{ asset('storage/app/public/'.$member->payment_voucher_image_url) }}"
-                                                    id="payment_voucher_images_url" class="w-25" />
-                                                @else
-                                                <img src="{{ asset('public/images/dummy-image.png') }}" id="image"
-                                                    class="w-25 mt-2" />
-                                                @endif
+                                                    id="payment_voucher_images_url" class="custom-image-preview" />
                                             </div>
                                             <div class="form-group col-md-4">
-                                                <label>Remarks <span class="required-star">*</span></label>
+                                                <label>Remarks</label>
                                                 <textarea class="form-control" name="remarks" id="remarks" cols="10"
                                                     rows="5">{{ $member->remarks }}</textarea>
                                             </div>

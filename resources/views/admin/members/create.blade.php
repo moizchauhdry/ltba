@@ -136,19 +136,23 @@
                                             placeholder="Enter Qualification" value="{{ old('qualification') }}">
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label>City <span class="required-star">*</span></label>
-                                        <input type="text" maxlength="50" class="form-control" name="city"
-                                            placeholder="Enter City" value="{{ old('City') }}">
+                                        <label>City</label>
+                                        <select name="city" id="city" class="form-control custom-select">
+                                            <option value="" selected>--Select City--</option>
+                                            @foreach ($cities as $city)
+                                            <option value="{{$city->id}}">{{$city->name}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Office Address <span class="required-star">*</span></label>
                                         <textarea class="form-control" name="office_address" id="remarks" cols="10"
-                                            rows="2"></textarea>
+                                            rows="5"></textarea>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Residential Address </label>
                                         <textarea class="form-control" name="residential_address" id="remarks" cols="10"
-                                            rows="2"></textarea>
+                                            rows="5"></textarea>
                                     </div>
                                 </div>
                             </fieldset>
@@ -258,10 +262,10 @@
                                                 </div>
                                                 <img src="" id="payment_voucher_images_url" class="hidden w-25" />
                                             </div>
-                                            <div class="form-group col-md-12">
+                                            <div class="form-group col-md-6">
                                                 <label>Remarks <span class="required-star">*</span></label>
                                                 <textarea class="form-control" name="remarks" id="remarks" cols="10"
-                                                    rows="2"></textarea>
+                                                    rows="5"></textarea>
                                             </div>
                                         </div>
                                     </div>
