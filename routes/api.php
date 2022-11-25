@@ -19,4 +19,30 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::post('inquiry','API\InquiryController@inquiry');
+Route::post('inquiry', 'API\InquiryController@inquiry');
+
+
+Route::get('fingerprint/service', function () {
+    $data = [
+        'service' => true,
+    ];
+    return response()->json(['status' => true, 'data' => $data, 'message' => 'success']);
+});
+
+Route::post('fingerprint/capture', function (Request $request) {
+    $data = [
+        'sync_id' => $request->sync_id,
+        'template_xml' => $request->template_xml,
+        'template_binary' => $request->template_binary,
+    ];
+    return response()->json(['status' => true, 'data' => $data, 'message' => 'success']);
+});
+
+Route::post('fingerprint/verification', function (Request $request) {
+    $data = [
+        'emp_no' => $request->emp_no,
+    ];
+
+
+    return response()->json(['status' => true, 'data' => $data, 'message' => 'success']);
+});
