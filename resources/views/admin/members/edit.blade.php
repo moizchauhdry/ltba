@@ -107,8 +107,8 @@
                                             <option {{ ($member->gender =="Fe-Male" ? "selected" :"") }}
                                                 value="Fe-Male">Fe-male
                                             </option>
-                                            <option {{ ($member->gender =="others" ? "selected" :"") }}
-                                                value="others">others
+                                            <option {{ ($member->gender =="others" ? "selected" :"") }} value="others">
+                                                others
                                             </option>
                                         </select>
                                     </div>
@@ -200,8 +200,8 @@
                                         <label>Select Membership</label>
                                         <select class="form-control custom-select" name="mem" id="mem">
                                             <option selected disabled>Select Membership</option>
-                                            <option {{ ($member->mem =="member" ? "selected" :"") }}
-                                                value="member">Member
+                                            <option {{ ($member->mem =="member" ? "selected" :"") }} value="member">
+                                                Member
                                             </option>
                                             <option {{ ($member->mem =="life-time-member" ? "selected"
                                                 :"") }} value="life-time-member">Life Time Member
@@ -224,21 +224,17 @@
                                         <label>Membership Status</label>
                                         <select class="form-control custom-select" name="mem_status" id="mem_status">
                                             <option selected disabled>Select Membership Status</option>
-                                            <option {{ ($member->mem_status =="1" ? "selected" :"") }}
-                                                value="1">Active
+                                            <option {{ ($member->mem_status =="1" ? "selected" :"") }} value="1">Active
                                             </option>
-                                            <option {{ ($member->mem_status=="2" ? "selected" :"") }}
-                                                value="2">In-
+                                            <option {{ ($member->mem_status=="2" ? "selected" :"") }} value="2">In-
                                                 Active
                                             </option>
-                                            <option {{ ($member->mem_status=="3" ? "selected" :"") }}
-                                                value="3">Suspended
+                                            <option {{ ($member->mem_status=="3" ? "selected" :"") }} value="3">
+                                                Suspended
                                             </option>
-                                            <option {{ ($member->mem_status=="4" ? "selected" :"") }}
-                                                value="4">Late
+                                            <option {{ ($member->mem_status=="4" ? "selected" :"") }} value="4">Late
                                             </option>
-                                            <option {{ ($member->mem_status=="5" ? "selected" :"") }}
-                                                value="5">Pending
+                                            <option {{ ($member->mem_status=="5" ? "selected" :"") }} value="5">Pending
                                             </option>
                                         </select>
                                     </div>
@@ -436,18 +432,14 @@
     });
 
     $('#birth_date').datetimepicker({
-        size: 'large',
         format: 'DD-MM-YYYY',
-        maxDate: new Date(),
     });
 
     $('#mem_reg_date').datetimepicker({
-        size: 'large',
         format: 'DD-MM-YYYY',
     });
 
     $('#mem_fee_submission_date').datetimepicker({
-        size: 'large',
         format: 'DD-MM-YYYY',
     });
 

@@ -36,8 +36,8 @@ class MemberController extends Controller
                     return getMemberStatus($data);
                 })
                 ->addColumn('action', function (Member $data) {
-                    $btn = '<a class="btn btn-primary btn-xs" href="' . route('members.edit', $data->id) . '"><i class="fas fa-edit"></i> Edit</a>';
-                    $dbtn = '<a class="btn btn-primary btn-xs"  href="' . route('members.detail', $data->id) . '" ><i class="fas fa-file"></i> Detail</a>';
+                    $btn = '<a class="btn btn-warning btn-xs" href="' . route('members.edit', $data->id) . '"><i class="fas fa-edit"></i> Edit</a>';
+                    $dbtn = '<a class="btn btn-info btn-xs"  href="' . route('members.detail', $data->id) . '" ><i class="fas fa-file"></i> Detail</a>';
                     $dbtn1 = '<a class="btn btn-primary btn-xs"  href="' . route('members.generatePDF', $data->id) . '" ><i class="fas fa-file-pdf"></i> Print</a>';
                     return $btn . ' ' . $dbtn . ' ' . $dbtn1;
                 })
@@ -178,7 +178,6 @@ class MemberController extends Controller
         $webcam_image_url = $request->session()->get('member_webcam_image');
 
         $rules = [
-            // 'mem_no' => 'required|unique:members,mem_no,' . $member->id,
             'name' => 'nullable|string|max:50',
             'email' => 'nullable|email|string|max:50',
             'image_url' => 'nullable|image|mimes:jpeg,jpg,png',
@@ -208,7 +207,6 @@ class MemberController extends Controller
         }
 
         $data = [
-            // 'mem_no' => $request->input('mem_no'),
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'father_name' => $request->input('father_name'),

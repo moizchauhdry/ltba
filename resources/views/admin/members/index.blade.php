@@ -42,18 +42,19 @@
                     <!-- /.card-header -->
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="members" class="table table-bordered table-striped table-sm text-uppercase"
+                            <table id="members"
+                                class="table table-bordered table-striped table-sm text-uppercase text-center"
                                 style="width: 100%">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>MEM #</th>
-                                        <th>MEMBER Name</th>
-                                        <th>CNIC No</th>
-                                        <th>Contact No</th>
-                                        <th>Status</th>
-                                        <th>Image</th>
-                                        <th>Action</th>
+                                        <th style="width:3%">ID</th>
+                                        <th style="width:7%">MEM #</th>
+                                        <th style="width:15%">MEMBER</th>
+                                        <th style="width:10%">CNIC</th>
+                                        <th style="width:7%">Contact</th>
+                                        <th style="width:7%">Status</th>
+                                        <th style="width:7%">Image</th>
+                                        <th style="width:12%">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>

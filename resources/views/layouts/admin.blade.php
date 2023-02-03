@@ -61,7 +61,7 @@
         }
 
         .custom-image-preview {
-            width: 100px;
+            width: 60px;
             border-radius: 5px;
             margin-top: 5px;
             margin-bottom: 5px;
@@ -81,7 +81,7 @@
             @yield('content')
 
             <div class="custom-loader hidden">
-                <img src="{{asset('public/images/loader.gif')}}" style="width:100px;height:100px">
+                <img src="{{asset('public/images/loader.gif')}}" style="width:50px;height:50px">
             </div>
         </div>
 
