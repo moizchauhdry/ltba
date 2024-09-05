@@ -149,6 +149,52 @@ class MemberController extends Controller
             $member->update(['payment_voucher_image_url' => $imageUrl]);
         }
 
+
+        $memberLicenseImageDirectory = 'memberLicenseImages';
+        if ($request->hasFile('pbc_license_image_front_url')) {
+
+            $fileName = $request->file('pbc_license_image_front_url')->getClientOriginalName();
+
+            if (!Storage::exists($memberLicenseImageDirectory)) {
+                Storage::makeDirectory($memberLicenseImageDirectory);
+            }
+            $imageUrl = Storage::putFile($memberLicenseImageDirectory, new File($request->file('pbc_license_image_front_url')));
+            $member->update(['license_front' => $imageUrl]);
+        }
+        if ($request->hasFile('pbc_license_image_back_url')) {
+
+            $fileName = $request->file('pbc_license_image_back_url')->getClientOriginalName();
+
+            if (!Storage::exists($memberLicenseImageDirectory)) {
+                Storage::makeDirectory($memberLicenseImageDirectory);
+            }
+            $imageUrl = Storage::putFile($memberLicenseImageDirectory, new File($request->file('pbc_license_image_back_url')));
+            $member->update(['license_back' => $imageUrl]);
+        }
+
+
+        $memberCNICImageDirectory = 'memberCNICImages';
+        if ($request->hasFile('cnic_image_front_url')) {
+
+            $fileName = $request->file('cnic_image_front_url')->getClientOriginalName();
+
+            if (!Storage::exists($memberCNICImageDirectory)) {
+                Storage::makeDirectory($memberCNICImageDirectory);
+            }
+            $imageUrl = Storage::putFile($memberCNICImageDirectory, new File($request->file('cnic_image_front_url')));
+            $member->update(['cnic_front' => $imageUrl]);
+        }
+        if ($request->hasFile('cnic_image_back_url')) {
+
+            $fileName = $request->file('cnic_image_back_url')->getClientOriginalName();
+
+            if (!Storage::exists($memberCNICImageDirectory)) {
+                Storage::makeDirectory($memberCNICImageDirectory);
+            }
+            $imageUrl = Storage::putFile($memberCNICImageDirectory, new File($request->file('cnic_image_back_url')));
+            $member->update(['cnic_back' => $imageUrl]);
+        }
+
         if ($webcam_image_url != NULL) {
             $member->update(['image_url' => $webcam_image_url]);
         }
@@ -258,6 +304,48 @@ class MemberController extends Controller
             Storage::delete('/' . $member->payment_voucher_image_url);
             $imageUrl = Storage::putFile($memberPaymentVoucherImageDirectory, new File($request->file('payment_voucher_image_url')));
             $data['payment_voucher_image_url'] = $imageUrl;
+        }
+
+
+        $memberLicenseImageDirectory = 'memberLicenseImages';
+        if ($request->hasFile('pbc_license_image_front_url')) {
+
+            if (!Storage::exists($memberLicenseImageDirectory)) {
+                Storage::makeDirectory($memberLicenseImageDirectory);
+            }
+            Storage::delete('/' . $member->license_front);
+            $imageUrl = Storage::putFile($memberLicenseImageDirectory, new File($request->file('pbc_license_image_front_url')));
+            $data['license_front'] = $imageUrl;
+        }
+        if ($request->hasFile('pbc_license_image_back_url')) {
+
+            if (!Storage::exists($memberLicenseImageDirectory)) {
+                Storage::makeDirectory($memberLicenseImageDirectory);
+            }
+            Storage::delete('/' . $member->license_back);
+            $imageUrl = Storage::putFile($memberLicenseImageDirectory, new File($request->file('pbc_license_image_back_url')));
+            $data['license_back'] = $imageUrl;
+        }
+
+
+        $memberCNICImageDirectory = 'memberCNICImages';
+        if ($request->hasFile('cnic_image_front_url')) {
+
+            if (!Storage::exists($memberCNICImageDirectory)) {
+                Storage::makeDirectory($memberCNICImageDirectory);
+            }
+            Storage::delete('/' . $member->cnic_front);
+            $imageUrl = Storage::putFile($memberCNICImageDirectory, new File($request->file('cnic_image_front_url')));
+            $data['cnic_front'] = $imageUrl;
+        }
+        if ($request->hasFile('cnic_image_back_url')) {
+
+            if (!Storage::exists($memberCNICImageDirectory)) {
+                Storage::makeDirectory($memberCNICImageDirectory);
+            }
+            Storage::delete('/' . $member->cnic_back);
+            $imageUrl = Storage::putFile($memberCNICImageDirectory, new File($request->file('cnic_image_back_url')));
+            $data['cnic_back'] = $imageUrl;
         }
 
         $member->update($data);

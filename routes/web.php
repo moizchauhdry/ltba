@@ -12,6 +12,9 @@ Route::group(['prefix' => 'members'], function () {
     Route::get('/edit/{id}', 'Frontend\MemberController@memberView')->name('editMember');
     Route::post('/update/{id}', 'Frontend\MemberController@updateMember')->name('updateMember');
     Route::get('/thankyou', 'Frontend\MemberController@thankyou')->name('thankyou');
+    Route::get('/create', 'Frontend\MemberController@create')->name('createMember');
+    Route::post('/upload/webcam-image', 'MemberController@uploadWebcamImage')->name('members.upload.webcam-image');
+    Route::post('/store', 'Frontend\MemberController@store')->name('memberStore');
 });
 
 
@@ -67,7 +70,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                         Route::post('/payment/update/{id}', 'MemberController@paymentUpdate')->name('members.paymentUpdate');
                         Route::get('/generate-pdf/{id}', 'MemberController@generatePDF')->name('members.generatePDF');
                         Route::post('/import-data', 'MemberController@importData')->name('members.importData');
-                        Route::post('/upload/webcam-image', 'MemberController@uploadWebcamImage')->name('members.upload.webcam-image');
+                        // Route::post('/upload/webcam-image', 'MemberController@uploadWebcamImage')->name('members.upload.webcam-image');
                     });
                 });
 

@@ -1,31 +1,10 @@
-@extends('layouts.admin')
-
+@extends('layouts.frontend')
 @section('styles')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
 @endsection
-
-
 @section('content')
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <div class="container">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>{{ __('Manage Members') }}</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('members.index') }}" class="btn btn-dark">Back</a>
-                        </li>
-                    </ol>
-                </div>
-            </div>
-        </div><!-- /.container -->
-    </section>
-
-    <!-- Main content -->
-    <section class="content">
+    <section class="">
         <div class="container">
             <div class="row">
                 <!-- left column -->
@@ -33,13 +12,13 @@
                     <!-- jquery validation -->
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h3 class="card-title">Create Member</h3>
+                            <h3 class="card-title">Membership Form</h3>
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
                         <form action="#" id="store_member_form" method="POST"> @csrf
+                            {{ csrf_field() }}
                             <div class="card-body">
-
                                 <fieldset class="border p-4 mb-4" id="partner">
                                     <legend class="w-auto">Image Section</legend>
                                     <div class="row">
@@ -56,25 +35,21 @@
                                         <div class="form-group col-md-4 col-sm-6 col-xs-12">
                                             <div class="input-group mb-3">
                                                 <div class="custom-file">
-                                                    <input type="file" id="image_url" class="custom-file-input"
+                                                    <input type="file" id="image_url"
+                                                        class="custom-file-input image-input" data-preview="image_view"
                                                         name="image_url" accept=".png, .jpg, .jpeg">
                                                     <label class="custom-file-label" for="inputGroupFile01">Choose
                                                         file</label>
                                                 </div>
                                             </div>
-                                            <img src="" id="image" class="hidden w-25" />
+                                            <img src="" id="image_view" class="hidden w-25" />
                                         </div>
                                     </div>
                                 </fieldset>
-
                                 <fieldset class="border p-4 mb-4" id="partner">
                                     <legend class="w-auto">General Information</legend>
                                     <div class="row">
-                                        <div class="form-group col-md-4">
-                                            <label>MEM # <span class="required-star">*</span></label>
-                                            <input type="text" maxlength="50" class="form-control" name="mem_no"
-                                                placeholder="Enter MEM #" value="{{ old('mem_no') }}" required>
-                                        </div>
+
                                         <div class="form-group col-md-4">
                                             <label>Name <span class="required-star">*</span></label>
                                             <input type="text" maxlength="100" class="form-control" name="name"
@@ -156,134 +131,6 @@
                                     </div>
                                 </fieldset>
                                 <fieldset class="border p-4 mb-4" id="partner">
-                                    <legend class="w-auto">Member Information</legend>
-                                    <div class="row">
-                                        <div class="form-group col-md-4">
-                                            <label>Membership Based-on <span class="required-star">*</span></label>
-                                            <select class="form-control custom-select" name="membership_based_on"
-                                                id="membership_based_on">
-                                                <option selected disabled>Select Membership Based-on</option>
-                                                <option
-                                                    {{ Request::input('membership_based_on') == 'adv' ? 'selected' : '' }}
-                                                    value="adv">ADV</option>
-                                                <option
-                                                    {{ Request::input('membership_based_on') == 'ca' ? 'selected' : '' }}
-                                                    value="ca">CA</option>
-                                                <option
-                                                    {{ Request::input('membership_based_on') == 'itp' ? 'selected' : '' }}
-                                                    value="itp">ITP</option>
-                                                <option
-                                                    {{ Request::input('membership_based_on') == 'aca' ? 'selected' : '' }}
-                                                    value="aca">ACA</option>
-                                                <option
-                                                    {{ Request::input('membership_based_on') == 'fca' ? 'selected' : '' }}
-                                                    value="fca">FCA</option>
-                                                <option
-                                                    {{ Request::input('membership_based_on') == 'cma' ? 'selected' : '' }}
-                                                    value="cma">CMA</option>
-                                                <option
-                                                    {{ Request::input('membership_based_on') == 'acca' ? 'selected' : '' }}
-                                                    value="acca">ACCA</option>
-                                                <option
-                                                    {{ Request::input('membership_based_on') == 'acma' ? 'selected' : '' }}
-                                                    value="acma">ACMA</option>
-                                                <option
-                                                    {{ Request::input('membership_based_on') == 'cma' ? 'selected' : '' }}
-                                                    value="cma">CMA</option>
-                                                <option
-                                                    {{ Request::input('membership_based_on') == 'fcma' ? 'selected' : '' }}
-                                                    value="fcma">FCMA</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label>Select Membership <span class="required-star">*</span></label>
-                                            <select class="form-control custom-select" name="mem" id="mem">
-                                                <option selected disabled>Select Membership</option>
-                                                <option {{ Request::input('mem') == 'member' ? 'selected' : '' }}
-                                                    value="member">Member
-                                                </option>
-                                                <option {{ Request::input('mem') == 'life-time-member' ? 'selected' : '' }}
-                                                    value="life-time-member">Life Time Member
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label>Membership Reg Date <span class="text-danger">*</span></label>
-                                            <div class="input-group date" id="mem_reg_date" data-target-input="nearest">
-                                                <input type="text" value="{{ old('mem_reg_date') }}"
-                                                    class="form-control datetimepicker-input" data-target="#mem_reg_date"
-                                                    name="mem_reg_date" autocomplete="off"
-                                                    data-toggle="datetimepicker" />
-                                                <div class="input-group-append" data-target="#mem_reg_date"
-                                                    data-toggle="datetimepicker">
-                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                                            <label>Certificate Image </label>
-                                            <div class="input-group mb-3">
-                                                <div class="custom-file">
-                                                    <input type="file" id="certificate_image_url"
-                                                        class="custom-file-input" name="certificate_image_url"
-                                                        accept=".png, .jpg, .jpeg">
-                                                    <label class="custom-file-label" for="inputGroupFile01">Choose
-                                                        file</label>
-                                                </div>
-                                            </div>
-                                            <img src="" id="certificate_images_url" class="hidden w-25" />
-                                        </div>
-                                        <div class="container row">
-                                            <div class="col-md-12">
-                                                <input type="checkbox" class="member_ship_fee_paid"
-                                                    name="member_ship_fee_paid" id="member_ship_fee_paid_checkbox"
-                                                    value="1" onchange="memberShipFee()">
-                                                <label class="create-group">Membership Fee Paid </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12" id="member_ship_section" style="display:none">
-                                            <div class="row">
-                                                <div class="form-group col-md-6">
-                                                    <label>Fee Submission Date <span class="text-danger">*</span></label>
-                                                    <div class="input-group date" id="mem_fee_submission_date"
-                                                        data-target-input="nearest">
-                                                        <input type="text"
-                                                            value="{{ old('mem_fee_submission_date') }}"
-                                                            class="form-control datetimepicker-input"
-                                                            data-target="#mem_fee_submission_date"
-                                                            name="mem_fee_submission_date" autocomplete="off"
-                                                            data-toggle="datetimepicker" />
-                                                        <div class="input-group-append"
-                                                            data-target="#mem_fee_submission_date"
-                                                            data-toggle="datetimepicker">
-                                                            <div class="input-group-text"><i class="fa fa-calendar"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label>Payment Voucher Image </span></label>
-                                                    <div class="input-group mb-3">
-                                                        <div class="custom-file">
-                                                            <input type="file" id="payment_voucher_image_url"
-                                                                class="custom-file-input" name="payment_voucher_image_url"
-                                                                accept=".png, .jpg, .jpeg">
-                                                            <label class="custom-file-label" for="inputGroupFile01">Choose
-                                                                file</label>
-                                                        </div>
-                                                    </div>
-                                                    <img src="" id="payment_voucher_images_url"
-                                                        class="hidden w-25" />
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label>Remarks <span class="required-star">*</span></label>
-                                                    <textarea class="form-control" name="remarks" id="remarks" cols="10" rows="5"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                                <fieldset class="border p-4 mb-4" id="partner">
                                     <legend class="w-auto">Attachments</legend>
                                     <div class="row">
 
@@ -349,10 +196,11 @@
                                         </div>
                                     </div>
                                 </fieldset>
+
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-success float-right">Save & Submit</button>
+                                <button type="submit" class="btn btn-primary float-right">Submit</button>
                             </div>
                         </form>
                     </div>
@@ -368,13 +216,9 @@
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     </section>
-    <!-- /.content -->
-
-    @include('admin.members.partials.webcam-image')
+    @include('frontend.partials.webcam-image-form')
 @endsection
-
 @section('scripts')
-    <script src="{{ asset('public/js/app.js') }}"></script>
     <script>
         jQuery(document).ready(function() {
             App.init();
@@ -390,7 +234,7 @@
                 $.ajax({
                     method: "POST",
                     data: formData,
-                    url: '{{ route('members.store') }}',
+                    url: '{{ route('memberStore') }}',
                     processData: false,
                     contentType: false,
                     cache: false,
@@ -399,7 +243,7 @@
                     },
                     success: function(response) {
                         if (response.status == 1) {
-                            window.location.href = '{{ route('members.index') }}';
+                            window.location.href = '{{ route('thankyou') }}';
                         }
                     },
                     error: function(errors) {
@@ -409,53 +253,6 @@
                     }
                 });
             });
-        });
-
-        //IMAGE SCRIPT
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function(e) {
-                    $('#image').attr('src', e.target.result);
-                    $('#image').removeClass("hidden");
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function readURL1(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function(e) {
-                    $('#certificate_images_url').attr('src', e.target.result);
-                    $('#certificate_images_url').removeClass("hidden");
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function readURL2(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function(e) {
-                    $('#payment_voucher_images_url').attr('src', e.target.result);
-                    $('#payment_voucher_images_url').removeClass("hidden");
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        $("#image_url").change(function() {
-            readURL(this);
-        });
-        $("#certificate_image_url").change(function() {
-            readURL1(this);
-        });
-        $("#payment_voucher_image_url").change(function() {
-            readURL2(this);
         });
 
         function readImageURL(input, previewId) {
@@ -510,6 +307,22 @@
             } else {
                 $("#member_ship_section").hide();
                 $('#mem_fee_submission_date').prop('required', false);
+            }
+        }
+
+        function errorsGet(errors) {
+            for (x in errors) {
+                console.log(x)
+                // $('input[name="' + x + '"]').css("border-color", "red");
+                var formGroup = $('.errors[data-id="' + x + '"],input[name="' + x + '"],select[name="' + x +
+                    '"],textarea[name="' + x + '"]').parent();
+                for (item in errors[x]) {
+                    formGroup.append(' <span class="invalid-feedback d-block" role="alert"><strong>' + errors[x][item] +
+                        '</strong></span>');
+                    // $(".alert").show();
+                    // $(".alert #error_list").append(' <span class="invalid-feedback d-block" role="alert"><strong>' + errors[x][item] + '</strong></span>');
+
+                }
             }
         }
     </script>
