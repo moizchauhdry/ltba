@@ -12,9 +12,13 @@ Route::group(['prefix' => 'members'], function () {
     Route::get('/edit/{id}', 'Frontend\MemberController@memberView')->name('editMember');
     Route::post('/update/{id}', 'Frontend\MemberController@updateMember')->name('updateMember');
     Route::get('/thankyou', 'Frontend\MemberController@thankyou')->name('thankyou');
+    
+    //v2
     Route::get('/create', 'Frontend\MemberController@create')->name('createMember');
     Route::post('/upload/webcam-image', 'MemberController@uploadWebcamImage')->name('members.upload.webcam-image');
     Route::post('/store', 'Frontend\MemberController@store')->name('memberStore');
+    Route::get('/thankyou/{id}', 'Frontend\MemberController@memberThankyou')->name('members.thankyou');
+    Route::get('/bank-voucher', 'Frontend\MemberController@printBankVoucher')->name('members.bank-voucher');
 });
 
 

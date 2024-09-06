@@ -242,7 +242,7 @@
                     },
                     success: function(response) {
                         if (response.status == 1) {
-                            window.location.href = '{{ route('thankyou') }}';
+                            window.location.href = "{{ route('members.thankyou', ':member_id') }}".replace(':member_id', response.data.member_id);
                         }
                     },
                     error: function(errors) {
