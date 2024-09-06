@@ -17,7 +17,7 @@ class AddPbcToMembersTable extends Migration
             $table->text('license_front')->nullable();
             $table->text('license_back')->nullable();
             $table->text('cnic_front')->nullable();
-            $table->text('cnic_front')->nullable();
+            $table->text('cnic_back')->nullable();
         });
     }
 
