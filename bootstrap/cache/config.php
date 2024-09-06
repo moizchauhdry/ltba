@@ -10,7 +10,7 @@
     'locale' => 'en',
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
-    'key' => 'base64:wGGijIK9YKGgn0cc2SiHGSklAIGq779mO72x+h8wBYk=',
+    'key' => 'base64:FFLPaj8agXXZZJ4vfy6yEYU8AonvyYsaGrHEN5yxseY=',
     'cipher' => 'AES-256-CBC',
     'providers' => 
     array (
@@ -193,7 +193,7 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'D:\\laragon\\www\\ltba\\storage\\framework/cache/data',
+        'path' => 'D:\\xampp\\htdocs\\ltba\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -270,7 +270,7 @@
       array (
         'driver' => 'sqlite',
         'url' => NULL,
-        'database' => 'pbbarcou_ltba',
+        'database' => 'ltba',
         'prefix' => '',
         'foreign_key_constraints' => true,
       ),
@@ -280,7 +280,7 @@
         'url' => NULL,
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'pbbarcou_ltba',
+        'database' => 'ltba',
         'username' => 'root',
         'password' => '',
         'unix_socket' => '',
@@ -300,7 +300,7 @@
         'url' => NULL,
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'pbbarcou_ltba',
+        'database' => 'ltba',
         'username' => 'root',
         'password' => '',
         'charset' => 'utf8',
@@ -315,7 +315,7 @@
         'url' => NULL,
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'pbbarcou_ltba',
+        'database' => 'ltba',
         'username' => 'root',
         'password' => '',
         'charset' => 'utf8',
@@ -409,12 +409,12 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'D:\\laragon\\www\\ltba\\storage\\app/public',
+        'root' => 'D:\\xampp\\htdocs\\ltba\\storage\\app/public',
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'D:\\laragon\\www\\ltba\\storage\\app/public',
+        'root' => 'D:\\xampp\\htdocs\\ltba\\storage\\app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
       ),
@@ -431,7 +431,7 @@
     ),
     'links' => 
     array (
-      'D:\\laragon\\www\\ltba\\public\\storage' => 'D:\\laragon\\www\\ltba\\storage\\app/public',
+      'D:\\xampp\\htdocs\\ltba\\public\\storage' => 'D:\\xampp\\htdocs\\ltba\\storage\\app/public',
     ),
   ),
   'hashing' => 
@@ -465,13 +465,13 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'D:\\laragon\\www\\ltba\\storage\\logs/laravel.log',
+        'path' => 'D:\\xampp\\htdocs\\ltba\\storage\\logs/laravel.log',
         'level' => 'debug',
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'D:\\laragon\\www\\ltba\\storage\\logs/laravel.log',
+        'path' => 'D:\\xampp\\htdocs\\ltba\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
       ),
@@ -521,7 +521,7 @@
       ),
       'emergency' => 
       array (
-        'path' => 'D:\\laragon\\www\\ltba\\storage\\logs/laravel.log',
+        'path' => 'D:\\xampp\\htdocs\\ltba\\storage\\logs/laravel.log',
       ),
     ),
   ),
@@ -578,7 +578,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'D:\\laragon\\www\\ltba\\resources\\views/vendor/mail',
+        0 => 'D:\\xampp\\htdocs\\ltba\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -657,7 +657,7 @@
     'lifetime' => '120',
     'expire_on_close' => true,
     'encrypt' => false,
-    'files' => 'D:\\laragon\\www\\ltba\\storage\\framework/sessions',
+    'files' => 'D:\\xampp\\htdocs\\ltba\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -677,9 +677,9 @@
   array (
     'paths' => 
     array (
-      0 => 'D:\\laragon\\www\\ltba\\resources\\views',
+      0 => 'D:\\xampp\\htdocs\\ltba\\resources\\views',
     ),
-    'compiled' => 'D:\\laragon\\www\\ltba\\storage\\framework\\views',
+    'compiled' => 'D:\\xampp\\htdocs\\ltba\\storage\\framework\\views',
   ),
   'dompdf' => 
   array (
@@ -688,10 +688,10 @@
     'convert_entities' => true,
     'options' => 
     array (
-      'font_dir' => 'D:\\laragon\\www\\ltba\\storage\\fonts',
-      'font_cache' => 'D:\\laragon\\www\\ltba\\storage\\fonts',
-      'temp_dir' => 'C:\\Users\\SYEDHU~1\\AppData\\Local\\Temp',
-      'chroot' => 'D:\\laragon\\www\\ltba',
+      'font_dir' => 'D:\\xampp\\htdocs\\ltba\\storage\\fonts',
+      'font_cache' => 'D:\\xampp\\htdocs\\ltba\\storage\\fonts',
+      'temp_dir' => 'D:\\xampp\\tmp',
+      'chroot' => 'D:\\xampp\\htdocs\\ltba',
       'allowed_protocols' => 
       array (
         'file://' => 
@@ -881,7 +881,7 @@
     ),
     'temporary_files' => 
     array (
-      'local_path' => 'D:\\laragon\\www\\ltba\\storage\\framework/cache/laravel-excel',
+      'local_path' => 'D:\\xampp\\htdocs\\ltba\\storage\\framework/cache/laravel-excel',
       'local_permissions' => 
       array (
       ),
