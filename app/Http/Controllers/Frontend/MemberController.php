@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use PDF;
 
 class MemberController extends Controller
 {
@@ -221,6 +222,37 @@ class MemberController extends Controller
             $member->update(['image_url' => $webcam_image_url]);
         }
 
-        return response()->json(['status' => 1, 'message' => 'success']);
+        return response()->json([
+            'status' => 1,
+            'message' => 'success',
+            'data' => [
+                'member_id' => $member->id
+            ]
+        ]);
+    }
+
+    public function memberThankyou($id)
+    {
+        $member = Member::find($id);
+        return view('frontend.members.thankyou', compact('member'));
+    }
+
+    public function printBankVoucher(Request $request)
+    {
+        // dd($request->all());
+
+        $member = Member::find($request->member_id);
+
+        view()->share([
+            'member' => $member,
+        ]);
+
+        if ($request->has('download')) {
+            $pdf = PDF::loadView('frontend.members.voucher');
+            $pdf->setPaper('A4', 'landscape');
+            return $pdf->stream('MCB-' . $member->id . '.pdf', array("Attachment" => false));
+        }
+
+        return back()->with('error', 'No Payment To Download');
     }
 }
