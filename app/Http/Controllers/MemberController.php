@@ -79,6 +79,10 @@ class MemberController extends Controller
             'mem_reg_date' => 'nullable',
             'mem_fee_submission_date' => 'required_if:member_ship_fee_paid,==,1',
             'remarks' => 'required_if:member_ship_fee_paid,==,1',
+            'pbc_license_image_front_url' => 'required|image|mimes:jpeg,jpg,png',
+            'pbc_license_image_back_url'  => 'required|image|mimes:jpeg,jpg,png',
+            'cnic_image_front_url'        => 'required|image|mimes:jpeg,jpg,png',
+            'cnic_image_back_url'         => 'required|image|mimes:jpeg,jpg,png',
         ];
 
         $validator = Validator::make($request->all(), $rules);

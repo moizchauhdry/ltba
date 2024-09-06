@@ -242,7 +242,9 @@
                     },
                     success: function(response) {
                         if (response.status == 1) {
-                            window.location.href = "{{ route('members.thankyou', ':member_id') }}".replace(':member_id', response.data.member_id);
+                            window.location.href =
+                                "{{ route('members.thankyou', ':member_id') }}".replace(
+                                    ':member_id', response.data.member_id);
                         }
                     },
                     error: function(errors) {
@@ -311,19 +313,6 @@
 
         function errorsGet(errors) {
             for (x in errors) {
-                // console.log(x)
-                // // $('input[name="' + x + '"]').css("border-color", "red");
-                // var formGroup = $('.errors[data-id="' + x + '"],input[name="' + x + '"],select[name="' + x +
-                //     '"],textarea[name="' + x + '"]').parent();
-                // for (item in errors[x]) {
-                //     formGroup.append(' <span class="invalid-feedback d-block" role="alert"><strong>' + errors[x][item] +
-                //         '</strong></span>');
-                //     // $(".alert").show();
-                //     // $(".alert #error_list").append(' <span class="invalid-feedback d-block" role="alert"><strong>' + errors[x][item] + '</strong></span>');
-
-                // }
-
-
                 // Find the form group, but handle file inputs separately
                 var formGroup;
                 if ($('input[name="' + x + '"]').attr('type') === 'file') {

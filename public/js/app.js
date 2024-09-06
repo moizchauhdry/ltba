@@ -19,14 +19,30 @@ var App = (function () {
 
 function errorsGet(errors) {
     for (x in errors) {
-        console.log(x)
-        // $('input[name="' + x + '"]').css("border-color", "red");
-        var formGroup = $('.errors[data-id="' + x + '"],input[name="' + x + '"],select[name="' + x + '"],textarea[name="' + x + '"]').parent();
-        for (item in errors[x]) {
-            formGroup.append(' <span class="invalid-feedback d-block" role="alert"><strong>' + errors[x][item] + '</strong></span>');
-            // $(".alert").show();
-            // $(".alert #error_list").append(' <span class="invalid-feedback d-block" role="alert"><strong>' + errors[x][item] + '</strong></span>');
+        // console.log(x)
+        // // $('input[name="' + x + '"]').css("border-color", "red");
+        // var formGroup = $('.errors[data-id="' + x + '"],input[name="' + x + '"],select[name="' + x + '"],textarea[name="' + x + '"]').parent();
+        // for (item in errors[x]) {
+        //     formGroup.append(' <span class="invalid-feedback d-block" role="alert"><strong>' + errors[x][item] + '</strong></span>');
+        //     // $(".alert").show();
+        //     // $(".alert #error_list").append(' <span class="invalid-feedback d-block" role="alert"><strong>' + errors[x][item] + '</strong></span>');
 
+        // }
+
+        var formGroup;
+        if ($('input[name="' + x + '"]').attr('type') === 'file') {
+            // For file inputs, append error to the parent div containing both the input and the label
+            formGroup = $('input[name="' + x + '"]').closest('.input-group');
+        } else {
+            // For other inputs, append error to the immediate parent
+            formGroup = $('.errors[data-id="' + x + '"],input[name="' + x + '"],select[name="' + x +
+                '"],textarea[name="' + x + '"]').parent();
+        }
+
+        // Now append the error message to the correct formGroup
+        for (item in errors[x]) {
+            formGroup.append('<span class="invalid-feedback d-block" role="alert"><strong>' + errors[x][item] +
+                '</strong></span>');
         }
     }
 }
